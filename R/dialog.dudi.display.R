@@ -1,0 +1,1486 @@
+################################
+# Function to display a dudi
+################################
+"dialog.dudi.display" <- function(showCom, histCom, dudiname)
+{
+	tf=tktoplevel()
+	tkwm.title(tf, dudiname)
+	done <- tclVar(0)
+	
+#
+# Local Tk variables
+#
+	nfvar <- tclVar()
+	chvar <- tclVar()
+	chvar2 <- tclVar()
+	
+	xaxvar <- tclVar(1)
+	yaxvar <- tclVar(2)
+
+#
+# intermediate functions to draw graphics
+#
+	"scatterfunc" <- function()
+	{
+		scatter(eval(parse(text=dudiname)), parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("scatter(", parse(text=dudiname), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]], ")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+
+	"scorefunc" <- function()
+	{
+		score(eval(parse(text=dudiname)), parse(text=tclvalue(xaxvar))[[1]])
+		cmd <- paste("score(", parse(text=dudiname), ",", parse(text=tclvalue(xaxvar))[[1]], ")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"plotfunc" <- function()
+	{
+		plot(eval(parse(text=dudiname)), parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("plot(", parse(text=dudiname), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]], ")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"tabvalue" <- function()
+	{
+		cmd <- paste("ngr <- sqrt(nrow(", dudiname, "$co))+1; par(mfrow=c(ngr,ngr)); for(i in 1:nrow(",dudiname,
+			"$co)) s.value(",dudiname, "$li,", dudiname, "$tab[,i],", parse(text=tclvalue(xaxvar))[[1]], ",",
+			parse(text=tclvalue(yaxvar))[[1]], ", sub=names(",dudiname, "$tab[i]), csub=2, clegend=2, cgrid=2); par(mfrow=c(1,1))", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+		ngr <- sqrt(eval(parse(text=paste("nrow(",dudiname, "$co)", sep=""))))+1
+		par(mfrow=c(ngr,ngr))
+		for (i in 1:eval(parse(text=paste("nrow(",dudiname, "$co)", sep=""))))
+		s.value(eval(parse(text=paste(dudiname, "$li", sep=""))), eval(parse(text=paste(dudiname, "$tab[,i]", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]],
+			sub=eval(parse(text=paste("names(",dudiname, "$tab[i])", sep=""))),
+			csub=2, clegend=2, cgrid=2)
+		par(mfrow=c(1,1))
+	}
+
+	"labelli" <- function()
+	{
+		s.label(eval(parse(text=paste(dudiname, "$li", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.label(",parse(text=paste(dudiname, "$li", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labell1" <- function()
+	{
+		s.arrow(eval(parse(text=paste(dudiname, "$l1", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.arrow(",parse(text=paste(dudiname, "$l1", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labell1dpcoa" <- function()
+	{
+		s.label(eval(parse(text=paste(dudiname, "$l1", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.label(",parse(text=paste(dudiname, "$l2", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labell2dpcoa" <- function()
+	{
+		s.label(eval(parse(text=paste(dudiname, "$l2", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.label(",parse(text=paste(dudiname, "$l2", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labelco" <- function()
+	{
+		if (dclass[1] == "pca") {
+			ncp <- names(dcall)
+			nf1 <- names(formals(dudi.pca))
+			matchres <- pmatch(ncp,nf1)
+			for (i in 1:length(matchres)) {
+				resi <- matchres[i]
+				if (!is.na(resi) && resi == 5) k <- i
+			}
+			if (k != 0) {
+				res1 <- pmatch(encodeString(dcall)[k], "FALSE")
+			} else {
+				res1 <- NA
+			}
+			if (!is.na(res1) && res1 == 1) {
+				s.label(eval(parse(text=paste(dudiname, "$co", sep=""))),
+					parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+				cmd <- paste("s.label(",parse(text=paste(dudiname, "$co", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+				# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+				if (showCom) {
+					pr1 <- substr(options("prompt")$prompt, 1,2)
+					cat(cmd, "\n", pr1, sep="")
+				}
+				if (histCom) rewriteHistory(cmd)
+			} else {
+				s.corcircle(eval(parse(text=paste(dudiname, "$co", sep=""))),
+					parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+				cmd <- paste("s.corcircle(",parse(text=paste(dudiname, "$co", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+				if (showCom) {
+					pr1 <- substr(options("prompt")$prompt, 1,2)
+					cat(cmd, "\n", pr1, sep="")
+				}
+				if (histCom) rewriteHistory(cmd)
+			}
+		} else {
+			s.label(eval(parse(text=paste(dudiname, "$co", sep=""))),
+				parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+			cmd <- paste("s.label(",parse(text=paste(dudiname, "$co", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+			# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+			if (showCom) {
+					pr1 <- substr(options("prompt")$prompt, 1,2)
+					cat(cmd, "\n", pr1, sep="")
+			}
+			if (histCom) rewriteHistory(cmd)
+		}
+	}
+
+	"labelc1" <- function()
+	{
+		s.arrow(eval(parse(text=paste(dudiname, "$c1", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.arrow(",parse(text=paste(dudiname, "$c1", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"corcirclefunc" <- function()
+	{
+		s.corcircle(eval(parse(text=paste(dudiname, "$co", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.corcircle(", parse(text=paste(dudiname, "$co", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labelc1dpcoa" <- function()
+	{
+		s.corcircle(eval(parse(text=paste(dudiname, "$c1", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.corcircle(", parse(text=paste(dudiname, "$c1", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"w1plotfunc" <- function()
+	{
+		dotchart(eval(parse(text=paste(dudiname, "$w1", sep=""))))
+		cmd <- paste("dotchart(", parse(text=paste(dudiname, "$w1", sep="")),")",sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"w2plotfunc" <- function()
+	{
+		dotchart(eval(parse(text=paste(dudiname, "$w2", sep=""))))
+		cmd <- paste("dotchart(", parse(text=paste(dudiname, "$w2", sep="")),")",sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"RaoDivplotfunc" <- function()
+	{
+		#dotchart(eval(parse(text=paste(dudiname, "$RaoDiv", sep=""))))
+		s.value(dfxy = eval(parse(text=paste(dudiname, "$l2", sep=""))),
+			z = eval(parse(text=paste(dudiname, "$RaoDiv", sep=""))),
+			xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]],
+			csize = 2, sub = "Rao Divcs", possub = "topright", csub = 1.5)
+		cmd <- paste("s.value(dfxy = ",parse(text=paste(dudiname, "$l2", sep="")), ", z = ",
+			parse(text=paste(dudiname, "$RaoDiv", sep="")),
+			", xax = ", parse(text=tclvalue(xaxvar))[[1]],
+			", yax = ", parse(text=tclvalue(yaxvar))[[1]],
+			", csize = 2, sub = \"Rao Divcs\", possub = \"topright\", csub = 1.5)", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+	
+	"cwplotfunc" <- function()
+	{
+		dotchart(eval(parse(text=paste(dudiname, "$cw", sep=""))))
+		cmd <- paste("dotchart(", parse(text=paste(dudiname, "$cw", sep="")),")",sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"lwplotfunc" <- function()
+	{
+		dotchart(eval(parse(text=paste(dudiname, "$lw", sep=""))))
+		cmd <- paste("dotchart(", parse(text=paste(dudiname, "$lw", sep="")),")",sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"eigplotfunc" <- function()
+	{
+		rank1 <- eval(parse(text=paste(dudiname,"$rank",sep="")))	
+		barplot(eval(parse(text=paste(dudiname, "$eig[1:", rank1, "]", sep=""))))
+		cmd <- paste("barplot(", parse(text=paste(dudiname, "$eig[1:", rank1, "]", sep="")),")",sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"dpcoaeigplotfunc" <- function()
+	{
+		rank1 <- eval(parse(text=paste(dudiname,"$rank",sep="")))	
+		barplot(eval(parse(text=paste(dudiname, "$eig", sep=""))))
+		cmd <- paste("barplot(", parse(text=paste(dudiname, "$eig", sep="")),")",sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labells" <- function()
+	{
+		s.class(dfxy=eval(parse(text=paste(dudiname, "$ls", sep=""))), fac=eval(parse(text=dcall[3])),
+			xax=parse(text=tclvalue(xaxvar))[[1]], yax=parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.class(dfxy=",parse(text=paste(dudiname, "$ls", sep="")), ", fac=", parse(text=dcall[3]),
+			", xax=", parse(text=tclvalue(xaxvar))[[1]], ", yax=", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labelas" <- function()
+	{
+		s.arrow(eval(parse(text=paste(dudiname, "$as", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.arrow(",parse(text=paste(dudiname, "$as", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labelfa" <- function()
+	{
+		s.arrow(eval(parse(text=paste(dudiname, "$fa", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.arrow(",parse(text=paste(dudiname, "$fa", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labellid" <- function()
+	{
+		s.class(dfxy=eval(parse(text=paste(dudiname, "$li", sep=""))), fac=eval(parse(text=dcall[3])),
+			xax=parse(text=tclvalue(xaxvar))[[1]], yax=parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.class(dfxy=",parse(text=paste(dudiname, "$li", sep="")), ", fac=", parse(text=dcall[3]),
+			", xax=", parse(text=tclvalue(xaxvar))[[1]], ", yax=", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labelva" <- function()
+	{
+		s.corcircle(eval(parse(text=paste(dudiname, "$va", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.corcircle(",parse(text=paste(dudiname, "$va", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labelcp" <- function()
+	{
+		s.corcircle(eval(parse(text=paste(dudiname, "$cp", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.corcircle(",parse(text=paste(dudiname, "$cp", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labelgc" <- function()
+	{
+		s.label(eval(parse(text=paste(dudiname, "$gc", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.label(",parse(text=paste(dudiname, "$gc", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labelaX" <- function()
+	{
+		s.corcircle(eval(parse(text=paste(dudiname, "$aX", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.corcircle(",parse(text=paste(dudiname, "$aX", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labelaY" <- function()
+	{
+		s.corcircle(eval(parse(text=paste(dudiname, "$aY", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.corcircle(",parse(text=paste(dudiname, "$aY", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labell1Y" <- function()
+	{
+		s.arrow(eval(parse(text=paste(dudiname, "$l1", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.arrow(",parse(text=paste(dudiname, "$l1", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labelc1X" <- function()
+	{
+		s.arrow(eval(parse(text=paste(dudiname, "$c1", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.arrow(",parse(text=paste(dudiname, "$c1", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labellX" <- function()
+	{
+		s.label(eval(parse(text=paste(dudiname, "$lX", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.label(",parse(text=paste(dudiname, "$lX", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labellY" <- function()
+	{
+		s.label(eval(parse(text=paste(dudiname, "$lY", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.label(",parse(text=paste(dudiname, "$lY", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labelmX" <- function()
+	{
+		s.match(eval(parse(text=paste(dudiname, "$mX", sep=""))), eval(parse(text=paste(dudiname, "$mY", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.match(",parse(text=paste(dudiname, "$mX", sep="")), ",",parse(text=paste(dudiname, "$mY", sep="")),
+			",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labelmY" <- function()
+	{
+		s.match(eval(parse(text=paste(dudiname, "$mY", sep=""))), eval(parse(text=paste(dudiname, "$mX", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.match(",parse(text=paste(dudiname, "$mY", sep="")), ",",parse(text=paste(dudiname, "$mX", sep="")),
+			",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"tabvalueCA" <- function()
+	{
+		table.value(eval(parse(text=paste(dudiname, "$tab", sep=""))))
+		cmd <- paste("table.value(", parse(text=paste(dudiname, "$tab", sep="")), ")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"tabvalueX" <- function()
+	{
+		table.value(eval(parse(text=paste(dudiname, "$X", sep=""))))
+		cmd <- paste("table.value(", parse(text=paste(dudiname, "$X", sep="")), ")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"tabvalueY" <- function()
+	{
+		table.value(eval(parse(text=paste(dudiname, "$Y", sep=""))))
+		cmd <- paste("table.value(", parse(text=paste(dudiname, "$Y", sep="")), ")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"tabvalueRaoDecodiv" <- function()
+	{
+		table.value(eval(parse(text=paste(dudiname, "$RaoDecodiv", sep=""))))
+		cmd <- paste("table.value(", parse(text=paste(dudiname, "$RaoDecodiv", sep="")), ")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+	
+	"tabvalueRaoDis" <- function()
+	{
+		#table.value(as.matrix(eval(parse(text=paste(dudiname, "$RaoDis", sep="")))))
+		
+		table.dist(eval(parse(text=paste(dudiname, "$RaoDis", sep=""))), labels=
+			eval(parse(text=paste("attributes(", dudiname, "$RaoDis)$Lab", sep=""))))
+		cmd <- paste("table.dist(",parse(text=paste(dudiname, "$RaoDis", sep="")), ", labels=", parse(text=paste("attributes(", dudiname, "$RaoDis)$Lab", sep="")), ")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+	
+	"labellicca" <- function()
+	{
+		s.match(eval(parse(text=paste(dudiname, "$li", sep=""))), eval(parse(text=paste(dudiname, "$ls", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		s.label(eval(parse(text=paste(dudiname, "$co", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]], clab=0, cpoi=2, add.plot=TRUE)
+		cmd <- paste("s.match(",parse(text=paste(dudiname, "$li", sep="")), ",", parse(text=paste(dudiname, "$ls", sep="")), ",",
+			parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],"); s.label(", parse(text=paste(dudiname, "$co", sep="")),
+			",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]], ", clab=0, cpoi=2, add.plot=TRUE)", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labellic" <- function()
+	{
+		s.match(eval(parse(text=paste(dudiname, "$li", sep=""))), eval(parse(text=paste(dudiname, "$ls", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.match(", parse(text=paste(dudiname, "$li", sep="")), ",", parse(text=paste(dudiname, "$ls", sep="")),
+			",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]], ")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labellscca" <- function()
+	{
+		s.match(eval(parse(text=paste(dudiname, "$ls", sep=""))), eval(parse(text=paste(dudiname, "$li", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		s.label(eval(parse(text=paste(dudiname, "$co", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]], clab=0, cpoi=2, add.plot=TRUE)
+		cmd <- paste("s.match(",parse(text=paste(dudiname, "$ls", sep="")), ",", parse(text=paste(dudiname, "$li", sep="")), ",",
+			parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],"); s.label(", parse(text=paste(dudiname, "$co", sep="")),
+			",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]], ", clab=0, cpoi=2, add.plot=TRUE)", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labellsc" <- function()
+	{
+		s.match(eval(parse(text=paste(dudiname, "$ls", sep=""))), eval(parse(text=paste(dudiname, "$li", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.match(", parse(text=paste(dudiname, "$ls", sep="")), ",", parse(text=paste(dudiname, "$li", sep="")),
+			",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]], ")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labelcor" <- function()
+	{
+		s.arrow(eval(parse(text=paste(dudiname, "$cor", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.arrow(",parse(text=paste(dudiname, "$cor", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labelasc" <- function()
+	{
+		s.corcircle(eval(parse(text=paste(dudiname, "$as", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.corcircle(",parse(text=paste(dudiname, "$as", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labelcoc" <- function()
+	{
+		s.label(eval(parse(text=paste(dudiname, "$co", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.label(",parse(text=paste(dudiname, "$co", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+	"labell1c" <- function()
+	{
+		s.label(eval(parse(text=paste(dudiname, "$l1", sep=""))),
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
+		cmd <- paste("s.label(",parse(text=paste(dudiname, "$l1", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+		# cmdlist <<- c(cmdlist, cmd)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+		if (showCom) {
+			pr1 <- substr(options("prompt")$prompt, 1,2)
+			cat(cmd, "\n", pr1, sep="")
+		}
+		if (histCom) rewriteHistory(cmd)
+	}
+
+#
+# Frame 1 : Window title
+#
+	frame1 <- tkframe(tf, relief="groove", borderwidth=2)	
+	labh <- tklabel(frame1, bitmap="questhead")
+	tkbind(labh, "<Button-1>", function() print(help("dudi")))
+	tkgrid(tklabel(frame1,text="Duality diagram : summary and graphics", font="Times 18", foreground="red"), labh, columnspan=2)
+	tkpack(frame1, fill = "x")
+#
+# Frame 2 : global dudi properties
+#
+	frame2 <- tkframe(tf, relief="groove", borderwidth=2)	
+	
+	dclass <- eval(parse(text=paste("class(",dudiname,")",sep="")))	
+
+	#tclvalue(chvar) <- dudiname
+	#tkgrid(tklabel(frame2,text="Object name:"), tklabel(frame2,text=tclvalue(chvar)), sticky="w")
+
+	if (dclass[1] == "cca") {
+		tkgrid(tklabel(frame2,text="Canonical correspondence analysis", font="Times 16", foreground="blue"), columnspan=2)
+	} else if (dclass[1] == "pcaiv") {
+		tkgrid(tklabel(frame2,text="Principal components analysis", font="Times 16", foreground="blue"), columnspan=2)
+		tkgrid(tklabel(frame2,text="with respect to instrumental variables", font="Times 16", foreground="blue"), columnspan=2)
+	} else if (dclass[1] == "pcaivortho") {
+		tkgrid(tklabel(frame2,text="Principal components analysis", font="Times 16", foreground="blue"), columnspan=2)
+		tkgrid(tklabel(frame2,text="with respect to orthogonal instrumental variables", font="Times 16", foreground="blue"), columnspan=2)
+	} else if (dclass[1] == "coinertia") {
+		tkgrid(tklabel(frame2,text="Coinertia analysis", font="Times 16", foreground="blue"), columnspan=2)
+	} else if (dclass[1] == "discrimin") {
+		tkgrid(tklabel(frame2,text="Discriminant analysis", font="Times 16", foreground="blue"), columnspan=2)
+	} else if (dclass[1] == "between") {
+		tkgrid(tklabel(frame2,text="Between-class analysis", font="Times 16", foreground="blue"), columnspan=2)
+	} else if (dclass[1] == "within") {
+		tkgrid(tklabel(frame2,text="Within-class analysis", font="Times 16", foreground="blue"), columnspan=2)
+	} else if (dclass[1] == "pca") {
+		tkgrid(tklabel(frame2,text="Principal components analysis", font="Times 16", foreground="blue"), columnspan=2)
+	} else if (dclass[1] == "coa") {
+		tkgrid(tklabel(frame2,text="Correspondence analysis", font="Times 16", foreground="blue"), columnspan=2)
+	} else if (dclass[1] == "acm") {
+		tkgrid(tklabel(frame2,text="Multiple correspondence analysis", font="Times 16", foreground="blue"), columnspan=2)
+	} else if (dclass[1] == "pco") {
+		tkgrid(tklabel(frame2,text="Principal coordinate analysis", font="Times 16", foreground="blue"), columnspan=2)
+	} else if (dclass[1] == "fca") {
+		tkgrid(tklabel(frame2,text="Fuzzy correspondence analysis", font="Times 16", foreground="blue"), columnspan=2)
+	} else if (dclass[1] == "fpca") {
+		tkgrid(tklabel(frame2,text="Fuzzy principal components analysis", font="Times 16", foreground="blue"), columnspan=2)
+	} else if (dclass[1] == "mix") {
+		tkgrid(tklabel(frame2,text="Mixed variables analysis", font="Times 16", foreground="blue"), columnspan=2)
+	} else if (dclass[1] == "nsc") {
+		tkgrid(tklabel(frame2,text="Non symmetric correspondence analysis", font="Times 16", foreground="blue"), columnspan=2)
+	} else if (dclass[1] == "dec") {
+		tkgrid(tklabel(frame2,text="Decentred correspondence analysis", font="Times 16", foreground="blue"), columnspan=2)
+	} else if (dclass[1] == "hillsmith") {
+		tkgrid(tklabel(frame2,text="Hill & Smith analysis", font="Times 16", foreground="blue"), columnspan=2)
+	} else if (dclass[1] == "dpcoa") {
+		tkgrid(tklabel(frame2,text="Double PCO analysis", font="Times 16", foreground="blue"), columnspan=2)
+	}
+	
+	tclvalue(chvar) <- dclass
+	tkgrid(tklabel(frame2,text="Class:"), tklabel(frame2,text=tclvalue(chvar)), sticky="w")
+
+	dcall <- eval(parse(text=paste(dudiname,"$call",sep="")))
+	narg <- length(names(dcall))
+	paramlst <- encodeString(dcall)[2:narg]
+	arglst <- names(dcall)[2:narg]
+	call1 <- paste(encodeString(dcall)[1],"(", paste(arglst, paramlst, sep=" = ",collapse=", "), ")", sep="")
+	call.label <- tklabel(frame2)
+	tkconfigure(call.label, text=call1)
+	tkgrid(tklabel(frame2,text="Call:"), call.label, sticky="w")
+
+	nf <- eval(parse(text=paste(dudiname,"$nf",sep="")))	
+	tclvalue(chvar) <- nf
+	tkgrid(tklabel(frame2,text="Axes:"), tklabel(frame2,text=tclvalue(chvar)), sticky="w")
+
+	if (dclass[1] != "discrimin" && dclass[1] != "dpcoa") {
+		rank1 <- eval(parse(text=paste(dudiname,"$rank",sep="")))	
+		tclvalue(chvar) <- rank1
+		tkgrid(tklabel(frame2,text="Rank:"), tklabel(frame2,text=tclvalue(chvar)), sticky="w")
+	}
+	
+	if (dclass[1] == "coinertia") {
+		rv <- eval(parse(text=paste(dudiname,"$RV",sep="")))	
+		tclvalue(chvar) <- signif(rv, 4)
+		tkgrid(tklabel(frame2,text="RV:"), tklabel(frame2,text=tclvalue(chvar)), sticky="w")
+	}
+	
+	eig <- eval(parse(text=paste(dudiname,"$eig",sep="")))
+
+	if ((dclass[1] == "between") || (dclass[1] == "within")) {
+		dudieig <- eval(parse(text=paste(dcall[2],"$eig",sep="")))
+		ratio <- signif(sum(eig)/sum(dudieig), 4)
+		tclvalue(chvar) <- ratio
+		tkgrid(tklabel(frame2,text="Ratio:"), tklabel(frame2,text=tclvalue(chvar)), sticky="w")
+	}
+	
+    l0 <- length(eig)
+    eigch <- ""
+    eigch <- paste(eigch, signif(eig, 4)[1:(min(5, l0))], sep="")
+	if (l0 > 5) eigch[[5]] <- paste(eigch[[5]], "...", sep="")
+	tclvalue(chvar) <- eigch
+	tkgrid(tklabel(frame2,text="Eigenvalues:"), tklabel(frame2,text=tclvalue(chvar)), sticky="w")
+
+	tkpack(frame2, fill = "x")
+#
+# Frame 3 : dudi vector components
+#
+	if (dclass[1] == "cca") {
+		frame3 <- tkframe(tf, relief="groove", borderwidth=2)
+		
+		tkgrid(tklabel(frame3,text="  "), tklabel(frame3,text="Vectors:", foreground="blue"), tklabel(frame3,text="Length:", foreground="blue"),
+			tklabel(frame3,text="Mode:", foreground="blue"), tklabel(frame3,text="Content:", foreground="blue"), sticky="w")
+	
+		ne <- eval(parse(text=paste("length(",dudiname,"$cw)",sep="")))	
+		tclvalue(chvar) <- ne
+		cwplot.but <- tkbutton(frame3, text=paste(dudiname, "$cw", sep=""), anchor="w", command=function() cwplotfunc())
+		tkgrid(tklabel(frame3,text="1:"), cwplot.but, tklabel(frame3,text=tclvalue(chvar)),
+			tklabel(frame3,text="numeric"), tklabel(frame3,text="column weights (from dudi)"), sticky="w")
+	
+		ne <- eval(parse(text=paste("length(",dudiname,"$lw)",sep="")))	
+		tclvalue(chvar) <- ne
+		lwplot.but <- tkbutton(frame3, text=paste(dudiname, "$lw", sep=""), anchor="w", command=function() lwplotfunc())
+		tkgrid(tklabel(frame3,text="2:"), lwplot.but, tklabel(frame3,text=tclvalue(chvar)),
+			tklabel(frame3,text="numeric"), tklabel(frame3,text="row weights (from dudi)"), sticky="w")
+	
+		ne <- eval(parse(text=paste("length(",dudiname,"$eig)",sep="")))	
+		tclvalue(chvar) <- ne
+		eigplot.but <- tkbutton(frame3, text=paste(dudiname, "$eig", sep=""), anchor="w", command=function() eigplotfunc())
+		tkgrid(tklabel(frame3,text="3:"), eigplot.but, tklabel(frame3,text=tclvalue(chvar)),
+			tklabel(frame3,text="numeric"), tklabel(frame3,text="eigenvalues"), sticky="w")
+	
+		tkpack(frame3, fill = "x")
+	} else if (dclass[1] == "coinertia") {
+		frame3 <- tkframe(tf, relief="groove", borderwidth=2)
+		
+		tkgrid(tklabel(frame3,text="  "), tklabel(frame3,text="Vectors:", foreground="blue"), tklabel(frame3,text="Length:", foreground="blue"),
+			tklabel(frame3,text="Mode:", foreground="blue"), tklabel(frame3,text="Content:", foreground="blue"), sticky="w")
+	
+		ne <- eval(parse(text=paste("length(",dudiname,"$cw)",sep="")))	
+		tclvalue(chvar) <- ne
+		cwplot.but <- tkbutton(frame3, text=paste(dudiname, "$cw", sep=""), anchor="w", command=function() cwplotfunc())
+		tkgrid(tklabel(frame3,text="1:"), cwplot.but, tklabel(frame3,text=tclvalue(chvar)),
+			tklabel(frame3,text="numeric"), tklabel(frame3,text="column weights (crossed array)"), sticky="w")
+	
+		ne <- eval(parse(text=paste("length(",dudiname,"$lw)",sep="")))	
+		tclvalue(chvar) <- ne
+		lwplot.but <- tkbutton(frame3, text=paste(dudiname, "$lw", sep=""), anchor="w", command=function() lwplotfunc())
+		tkgrid(tklabel(frame3,text="2:"), lwplot.but, tklabel(frame3,text=tclvalue(chvar)),
+			tklabel(frame3,text="numeric"), tklabel(frame3,text="row weights (crossed array)"), sticky="w")
+	
+		ne <- eval(parse(text=paste("length(",dudiname,"$eig)",sep="")))	
+		tclvalue(chvar) <- ne
+		eigplot.but <- tkbutton(frame3, text=paste(dudiname, "$eig", sep=""), anchor="w", command=function() eigplotfunc())
+		tkgrid(tklabel(frame3,text="3:"), eigplot.but, tklabel(frame3,text=tclvalue(chvar)),
+			tklabel(frame3,text="numeric"), tklabel(frame3,text="eigenvalues"), sticky="w")
+	
+		tkpack(frame3, fill = "x")
+	} else if (dclass[1] == "dpcoa") {
+		frame3 <- tkframe(tf, relief="groove", borderwidth=2)
+		
+		tkgrid(tklabel(frame3,text="  "), tklabel(frame3,text="Vectors:", foreground="blue"), tklabel(frame3,text="Length:", foreground="blue"),
+			tklabel(frame3,text="Mode:", foreground="blue"), tklabel(frame3,text="Content:", foreground="blue"), sticky="w")
+	
+		ne <- eval(parse(text=paste("length(",dudiname,"$w1)",sep="")))	
+		tclvalue(chvar) <- ne
+		cwplot.but <- tkbutton(frame3, text=paste(dudiname, "$w1", sep=""), anchor="w", command=function() w1plotfunc())
+		tkgrid(tklabel(frame3,text="1:"), cwplot.but, tklabel(frame3,text=tclvalue(chvar)),
+			tklabel(frame3,text="numeric"), tklabel(frame3,text="weights of species"), sticky="w")
+	
+		ne <- eval(parse(text=paste("length(",dudiname,"$w2)",sep="")))	
+		tclvalue(chvar) <- ne
+		lwplot.but <- tkbutton(frame3, text=paste(dudiname, "$w2", sep=""), anchor="w", command=function() w2plotfunc())
+		tkgrid(tklabel(frame3,text="2:"), lwplot.but, tklabel(frame3,text=tclvalue(chvar)),
+			tklabel(frame3,text="numeric"), tklabel(frame3,text="weights of communities"), sticky="w")
+	
+		ne <- eval(parse(text=paste("length(",dudiname,"$eig)",sep="")))	
+		tclvalue(chvar) <- ne
+		eigplot.but <- tkbutton(frame3, text=paste(dudiname, "$eig", sep=""), anchor="w", command=function() dpcoaeigplotfunc())
+		tkgrid(tklabel(frame3,text="3:"), eigplot.but, tklabel(frame3,text=tclvalue(chvar)),
+			tklabel(frame3,text="numeric"), tklabel(frame3,text="eigenvalues"), sticky="w")
+	
+		ne <- eval(parse(text=paste("length(",dudiname,"$RaoDiv)",sep="")))	
+		tclvalue(chvar) <- ne
+		eigplot.but <- tkbutton(frame3, text=paste(dudiname, "$RaoDiv", sep=""), anchor="w", command=function() RaoDivplotfunc())
+		tkgrid(tklabel(frame3,text="4:"), eigplot.but, tklabel(frame3,text=tclvalue(chvar)),
+			tklabel(frame3,text="numeric"), tklabel(frame3,text="diversity coefficients within communities"), sticky="w")
+	
+		tkpack(frame3, fill = "x")
+	} else if (dclass[1] != "discrimin") {
+		frame3 <- tkframe(tf, relief="groove", borderwidth=2)
+		
+		tkgrid(tklabel(frame3,text="  "), tklabel(frame3,text="Vectors:", foreground="blue"), tklabel(frame3,text="Length:", foreground="blue"),
+			tklabel(frame3,text="Mode:", foreground="blue"), tklabel(frame3,text="Content:", foreground="blue"), sticky="w")
+	
+		ne <- eval(parse(text=paste("length(",dudiname,"$cw)",sep="")))	
+		tclvalue(chvar) <- ne
+		cwplot.but <- tkbutton(frame3, text=paste(dudiname, "$cw", sep=""), anchor="w", command=function() cwplotfunc())
+		tkgrid(tklabel(frame3,text="1:"), cwplot.but, tklabel(frame3,text=tclvalue(chvar)),
+			tklabel(frame3,text="numeric"), tklabel(frame3,text="column weights"), sticky="w")
+	
+		ne <- eval(parse(text=paste("length(",dudiname,"$lw)",sep="")))	
+		tclvalue(chvar) <- ne
+		lwplot.but <- tkbutton(frame3, text=paste(dudiname, "$lw", sep=""), anchor="w", command=function() lwplotfunc())
+		tkgrid(tklabel(frame3,text="2:"), lwplot.but, tklabel(frame3,text=tclvalue(chvar)),
+			tklabel(frame3,text="numeric"), tklabel(frame3,text="row weights"), sticky="w")
+	
+		ne <- eval(parse(text=paste("length(",dudiname,"$eig)",sep="")))	
+		tclvalue(chvar) <- ne
+		eigplot.but <- tkbutton(frame3, text=paste(dudiname, "$eig", sep=""), anchor="w", command=function() eigplotfunc())
+		tkgrid(tklabel(frame3,text="3:"), eigplot.but, tklabel(frame3,text=tclvalue(chvar)),
+			tklabel(frame3,text="numeric"), tklabel(frame3,text="eigenvalues"), sticky="w")
+	
+		tkpack(frame3, fill = "x")
+	}
+#
+# Frame 3b : dudi dist components
+#
+	if (dclass[1] == "dpcoa") {
+		frame3b <- tkframe(tf, relief="groove", borderwidth=2)
+		
+		tkgrid(tklabel(frame3b,text="  "), tklabel(frame3b,text="dist:", foreground="blue"), tklabel(frame3b,text="Size:", foreground="blue"),
+			tklabel(frame3b,text="Content:", foreground="blue"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$RaoDis)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$RaoDis)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelfa.but <- tkbutton(frame3b, text=paste(dudiname, "$RaoDis", sep=""), anchor="w", command=function() tabvalueRaoDis())
+		tkgrid(tklabel(frame3b,text="1:"), labelfa.but, tklabel(frame3b,text=tclvalue(chvar)),
+			tklabel(frame3b,text="dissimilarities among communities"), sticky="w")
+
+		tkpack(frame3b, fill = "x")
+	}
+#
+# Frame 4 : dudi dataframe components
+#
+	frame4 <- tkframe(tf, relief="groove", borderwidth=2)
+	
+	tkgrid(tklabel(frame4,text="  "), tklabel(frame4,text="Dataframes:", foreground="blue"), tklabel(frame4,text="Nrow:", foreground="blue"),
+		tklabel(frame4,text="Ncol:", foreground="blue"), tklabel(frame4,text="Content:", foreground="blue"), sticky="w")
+
+	if (dclass[1] == "discrimin") {
+		nr <- eval(parse(text=paste("dim(",dudiname,"$fa)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$fa)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelfa.but <- tkbutton(frame4, text=paste(dudiname, "$fa", sep=""), anchor="w", command=function() labelfa())
+		tkgrid(tklabel(frame4,text="1:"), labelfa.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="loadings / canonical weights"), sticky="w")
+
+		nr <- eval(parse(text=paste("dim(",dudiname,"$li)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$li)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labellid.but <- tkbutton(frame4, text=paste(dudiname, "$li", sep=""), anchor="w", command=function() labellid())
+		tkgrid(tklabel(frame4,text="2:"), labellid.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="canonical scores"), sticky="w")
+
+		nr <- eval(parse(text=paste("dim(",dudiname,"$va)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$va)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelva.but <- tkbutton(frame4, text=paste(dudiname, "$va", sep=""), anchor="w", command=function() labelva())
+		tkgrid(tklabel(frame4,text="3:"), labelva.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="cos(variables, canonical scores)"), sticky="w")
+
+		nr <- eval(parse(text=paste("dim(",dudiname,"$cp)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$cp)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelcp.but <- tkbutton(frame4, text=paste(dudiname, "$cp", sep=""), anchor="w", command=function() labelcp())
+		tkgrid(tklabel(frame4,text="4:"), labelcp.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="cos(components, canonical scores)"), sticky="w")
+
+		nr <- eval(parse(text=paste("dim(",dudiname,"$gc)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$gc)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelgc.but <- tkbutton(frame4, text=paste(dudiname, "$gc", sep=""), anchor="w", command=function() labelgc())
+		tkgrid(tklabel(frame4,text="5:"), labelgc.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="class scores"), sticky="w")
+	} else if (dclass[1] == "cca") {
+		nr <- eval(parse(text=paste("dim(",dudiname,"$tab)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$tab)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		tab.but <- tkbutton(frame4, text=paste(dudiname, "$tab", sep=""), anchor="w", command=function() tabvalueCA())
+		tkgrid(tklabel(frame4,text="1a:"), tab.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="modified array (projected variables)"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$Y)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$Y)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelY.but <- tkbutton(frame4, text=paste(dudiname, "$Y", sep=""), anchor="w", command=function() tabvalueY())
+		tkgrid(tklabel(frame4,text="1b:"), labelY.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="Dependent variables"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$X)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$X)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelX.but <- tkbutton(frame4, text=paste(dudiname, "$X", sep=""), anchor="w", command=function() tabvalueX())
+		tkgrid(tklabel(frame4,text="1c:"), labelX.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="Explanatory variables"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$c1)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$c1)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelc1.but <- tkbutton(frame4, text=paste(dudiname, "$c1", sep=""), anchor="w", command=function() labelc1())
+		tkgrid(tklabel(frame4,text="2a:"), labelc1.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="PPA : Pseudo Principal Axes"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$as)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$as)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelasc.but <- tkbutton(frame4, text=paste(dudiname, "$as", sep=""), anchor="w", command=function() labelasc())
+		tkgrid(tklabel(frame4,text="2b:"), labelasc.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="Principal axis of dudi$tab on PPA"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$ls)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$ls)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labellscca.but <- tkbutton(frame4, text=paste(dudiname, "$ls", sep=""), anchor="w", command=function() labellscca())
+		tkgrid(tklabel(frame4,text="2c:"), labellscca.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="projection of the rows of dudi$tab on PPA"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$li)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$li)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labellicca.but <- tkbutton(frame4, text=paste(dudiname, "$li", sep=""), anchor="w", command=function() labellicca())
+		tkgrid(tklabel(frame4,text="2d:"), labellicca.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="$ls predicted by X"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$l1)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$l1)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labell1c.but <- tkbutton(frame4, text=paste(dudiname, "$l1", sep=""), anchor="w", command=function() labell1c())
+		tkgrid(tklabel(frame4,text="3a:"), labell1c.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="CPC Constraint Principal Components"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$fa)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$fa)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelfa.but <- tkbutton(frame4, text=paste(dudiname, "$fa", sep=""), anchor="w", command=function() labelfa())
+		tkgrid(tklabel(frame4,text="3b:"), labelfa.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="Loadings (CPC as linear combinations of X)"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$co)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$co)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelcoc.but <- tkbutton(frame4, text=paste(dudiname, "$co", sep=""), anchor="w", command=function() labelcoc())
+		tkgrid(tklabel(frame4,text="3c:"), labelcoc.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="inner product CPC - Y"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$cor)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$cor)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelcor.but <- tkbutton(frame4, text=paste(dudiname, "$cor", sep=""), anchor="w", command=function() labelcor())
+		tkgrid(tklabel(frame4,text="3d:"), labelcor.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="correlation CPC - X"), sticky="w")
+	
+	} else if (dclass[1] == "pcaiv") {
+		nr <- eval(parse(text=paste("dim(",dudiname,"$tab)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$tab)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		tab.but <- tkbutton(frame4, text=paste(dudiname, "$tab", sep=""), anchor="w", command=function() tabvalueCA())
+		tkgrid(tklabel(frame4,text="1a:"), tab.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="modified array (projected variables)"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$Y)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$Y)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelY.but <- tkbutton(frame4, text=paste(dudiname, "$Y", sep=""), anchor="w", command=function() tabvalueY())
+		tkgrid(tklabel(frame4,text="1b:"), labelY.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="Dependent variables"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$X)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$X)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelX.but <- tkbutton(frame4, text=paste(dudiname, "$X", sep=""), anchor="w", command=function() tabvalueX())
+		tkgrid(tklabel(frame4,text="1c:"), labelX.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="Explanatory variables"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$c1)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$c1)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelc1.but <- tkbutton(frame4, text=paste(dudiname, "$c1", sep=""), anchor="w", command=function() labelc1())
+		tkgrid(tklabel(frame4,text="2a:"), labelc1.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="PPA : Pseudo Principal Axes"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$as)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$as)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelasc.but <- tkbutton(frame4, text=paste(dudiname, "$as", sep=""), anchor="w", command=function() labelasc())
+		tkgrid(tklabel(frame4,text="2b:"), labelasc.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="Principal axis of dudi$tab on PPA"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$ls)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$ls)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labellsc.but <- tkbutton(frame4, text=paste(dudiname, "$ls", sep=""), anchor="w", command=function() labellsc())
+		tkgrid(tklabel(frame4,text="2c:"), labellsc.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="projection of the rows of dudi$tab on PPA"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$li)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$li)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labellic.but <- tkbutton(frame4, text=paste(dudiname, "$li", sep=""), anchor="w", command=function() labellic())
+		tkgrid(tklabel(frame4,text="2d:"), labellic.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="$ls predicted by X"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$l1)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$l1)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labell1c.but <- tkbutton(frame4, text=paste(dudiname, "$l1", sep=""), anchor="w", command=function() labell1c())
+		tkgrid(tklabel(frame4,text="3a:"), labell1c.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="CPC Constraint Principal Components"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$fa)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$fa)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelfa.but <- tkbutton(frame4, text=paste(dudiname, "$fa", sep=""), anchor="w", command=function() labelfa())
+		tkgrid(tklabel(frame4,text="3b:"), labelfa.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="Loadings (CPC as linear combinations of X)"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$co)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$co)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelcoc.but <- tkbutton(frame4, text=paste(dudiname, "$co", sep=""), anchor="w", command=function() labelcoc())
+		tkgrid(tklabel(frame4,text="3c:"), labelcoc.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="inner product CPC - Y"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$cor)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$cor)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelcor.but <- tkbutton(frame4, text=paste(dudiname, "$cor", sep=""), anchor="w", command=function() labelcor())
+		tkgrid(tklabel(frame4,text="3d:"), labelcor.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="correlation CPC - X"), sticky="w")
+	
+	} else if (dclass[1] == "pcaivortho") {
+		nr <- eval(parse(text=paste("dim(",dudiname,"$tab)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$tab)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		tab.but <- tkbutton(frame4, text=paste(dudiname, "$tab", sep=""), anchor="w", command=function() tabvalue())
+		tkgrid(tklabel(frame4,text="1:"), tab.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="modified array"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$li)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$li)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelli.but <- tkbutton(frame4, text=paste(dudiname, "$li", sep=""), anchor="w", command=function() labelli())
+		tkgrid(tklabel(frame4,text="2:"), labelli.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="row coordinates"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$l1)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$l1)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labell1.but <- tkbutton(frame4, text=paste(dudiname, "$l1", sep=""), anchor="w", command=function() labell1())
+		tkgrid(tklabel(frame4,text="3:"), labell1.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="row normed scores"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$co)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$co)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelco.but <- tkbutton(frame4, text=paste(dudiname, "$co", sep=""), anchor="w", command=function() labelco())
+		tkgrid(tklabel(frame4,text="4:"), labelco.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="column coordinates"), sticky="w")
+		
+		nr <- eval(parse(text=paste("dim(",dudiname,"$c1)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$c1)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelc1.but <- tkbutton(frame4, text=paste(dudiname, "$c1", sep=""), anchor="w", command=function() labelc1())
+		tkgrid(tklabel(frame4,text="5:"), labelc1.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="column normed scores"), sticky="w")
+
+	} else if (dclass[1] == "dpcoa") {
+		nr <- eval(parse(text=paste("dim(",dudiname,"$l1)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$l1)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		tab.but <- tkbutton(frame4, text=paste(dudiname, "$l1", sep=""), anchor="w", command=function() labell1dpcoa())
+		tkgrid(tklabel(frame4,text="1:"), tab.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="coordinates of the species"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$l2)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$l2)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		tab.but <- tkbutton(frame4, text=paste(dudiname, "$l2", sep=""), anchor="w", command=function() labell2dpcoa())
+		tkgrid(tklabel(frame4,text="2:"), tab.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="coordinates of the communities"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$c1)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$c1)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		tab.but <- tkbutton(frame4, text=paste(dudiname, "$c1", sep=""), anchor="w", command=function() labelc1dpcoa())
+		tkgrid(tklabel(frame4,text="3:"), tab.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="scores of the principal axes of the species"), sticky="w")
+	
+	} else if (dclass[1] == "coinertia") {
+		nr <- eval(parse(text=paste("dim(",dudiname,"$tab)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$tab)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		tab.but <- tkbutton(frame4, text=paste(dudiname, "$tab", sep=""), anchor="w", command=function() tabvalueCA())
+		tkgrid(tklabel(frame4,text="1:"), tab.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="crossed array (CA)"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$li)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$li)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelli.but <- tkbutton(frame4, text=paste(dudiname, "$li", sep=""), anchor="w", command=function() labelli())
+		tkgrid(tklabel(frame4,text="2:"), labelli.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="Y col = CA row: coordinates"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$l1)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$l1)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labell1.but <- tkbutton(frame4, text=paste(dudiname, "$l1", sep=""), anchor="w", command=function() labell1Y())
+		tkgrid(tklabel(frame4,text="3:"), labell1.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="Y col = CA row: normed scores"), sticky="w")
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$co)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$co)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelco.but <- tkbutton(frame4, text=paste(dudiname, "$co", sep=""), anchor="w", command=function() labelco())
+		tkgrid(tklabel(frame4,text="4:"), labelco.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="X col = CA column: coordinates"), sticky="w")
+		
+		nr <- eval(parse(text=paste("dim(",dudiname,"$c1)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$c1)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelc1.but <- tkbutton(frame4, text=paste(dudiname, "$c1", sep=""), anchor="w", command=function() labelc1X())
+		tkgrid(tklabel(frame4,text="5:"), labelc1.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="X col = CA column: normed scores"), sticky="w")
+		
+		nr <- eval(parse(text=paste("dim(",dudiname,"$lX)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$lX)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labellix.but <- tkbutton(frame4, text=paste(dudiname, "$lX", sep=""), anchor="w", command=function() labellX())
+		tkgrid(tklabel(frame4,text="6:"), labellix.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="row coordinates (X)"), sticky="w")
+
+		nr <- eval(parse(text=paste("dim(",dudiname,"$mX)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$mX)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labell1x.but <- tkbutton(frame4, text=paste(dudiname, "$mX", sep=""), anchor="w", command=function() labelmX())
+		tkgrid(tklabel(frame4,text="7:"), labell1x.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="normed row scores (X)"), sticky="w")
+
+		nr <- eval(parse(text=paste("dim(",dudiname,"$lY)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$lY)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelliy.but <- tkbutton(frame4, text=paste(dudiname, "$lY", sep=""), anchor="w", command=function() labellY())
+		tkgrid(tklabel(frame4,text="8:"), labelliy.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="row coordinates (Y)"), sticky="w")
+
+		nr <- eval(parse(text=paste("dim(",dudiname,"$mY)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$mY)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labell1y.but <- tkbutton(frame4, text=paste(dudiname, "$mY", sep=""), anchor="w", command=function() labelmY())
+		tkgrid(tklabel(frame4,text="9:"), labell1y.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="normed row scores (Y)"), sticky="w")
+
+		nr <- eval(parse(text=paste("dim(",dudiname,"$aX)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$aX)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelax.but <- tkbutton(frame4, text=paste(dudiname, "$aX", sep=""), anchor="w", command=function() labelaX())
+		tkgrid(tklabel(frame4,text="10:"), labelax.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="inertia axes onto coinertia axes (X)"), sticky="w")
+
+		nr <- eval(parse(text=paste("dim(",dudiname,"$aY)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$aY)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelay.but <- tkbutton(frame4, text=paste(dudiname, "$aY", sep=""), anchor="w", command=function() labelaY())
+		tkgrid(tklabel(frame4,text="11:"), labelay.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="inertia axes onto coinertia axes (Y)"), sticky="w")
+	} else {
+		nr <- eval(parse(text=paste("dim(",dudiname,"$tab)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$tab)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		tab.but <- tkbutton(frame4, text=paste(dudiname, "$tab", sep=""), anchor="w", command=function() tabvalue())
+		if ((dclass[1] == "between") || (dclass[1] == "within")) {
+			tkgrid(tklabel(frame4,text="1:"), tab.but, tklabel(frame4,text=tclvalue(chvar)),
+				tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="classes x variables array"), sticky="w")
+		} else {
+			tkgrid(tklabel(frame4,text="1:"), tab.but, tklabel(frame4,text=tclvalue(chvar)),
+				tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="modified array"), sticky="w")
+		}
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$li)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$li)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelli.but <- tkbutton(frame4, text=paste(dudiname, "$li", sep=""), anchor="w", command=function() labelli())
+		if (dclass[1] == "between") {
+			tkgrid(tklabel(frame4,text="2:"), labelli.but, tklabel(frame4,text=tclvalue(chvar)),
+				tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="class coordinates"), sticky="w")
+		} else {
+			tkgrid(tklabel(frame4,text="2:"), labelli.but, tklabel(frame4,text=tclvalue(chvar)),
+				tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="row coordinates"), sticky="w")
+		}
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$l1)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$l1)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labell1.but <- tkbutton(frame4, text=paste(dudiname, "$l1", sep=""), anchor="w", command=function() labell1())
+		if (dclass[1] == "between") {
+			tkgrid(tklabel(frame4,text="3:"), labell1.but, tklabel(frame4,text=tclvalue(chvar)),
+				tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="class normed scores"), sticky="w")
+		} else {
+			tkgrid(tklabel(frame4,text="3:"), labell1.but, tklabel(frame4,text=tclvalue(chvar)),
+				tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="row normed scores"), sticky="w")
+		}
+	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$co)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$co)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelco.but <- tkbutton(frame4, text=paste(dudiname, "$co", sep=""), anchor="w", command=function() labelco())
+		tkgrid(tklabel(frame4,text="4:"), labelco.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="column coordinates"), sticky="w")
+		
+		nr <- eval(parse(text=paste("dim(",dudiname,"$c1)[1]",sep="")))	
+		tclvalue(chvar) <- nr
+		nc <- eval(parse(text=paste("dim(",dudiname,"$c1)[2]",sep="")))	
+		tclvalue(chvar2) <- nc
+		labelc1.but <- tkbutton(frame4, text=paste(dudiname, "$c1", sep=""), anchor="w", command=function() labelc1())
+		tkgrid(tklabel(frame4,text="5:"), labelc1.but, tklabel(frame4,text=tclvalue(chvar)),
+			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="column normed scores"), sticky="w")
+		
+		if ((dclass[1] == "between") || ((dclass[1] == "within"))) {
+			nr <- eval(parse(text=paste("dim(",dudiname,"$ls)[1]",sep="")))	
+			tclvalue(chvar) <- nr
+			nc <- eval(parse(text=paste("dim(",dudiname,"$ls)[2]",sep="")))	
+			tclvalue(chvar2) <- nc
+			labells.but <- tkbutton(frame4, text=paste(dudiname, "$ls", sep=""), anchor="w", command=function() labells())
+			tkgrid(tklabel(frame4,text="6:"), labells.but, tklabel(frame4,text=tclvalue(chvar)),
+				tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="supplementary row coordinates"), sticky="w")
+	
+			nr <- eval(parse(text=paste("dim(",dudiname,"$as)[1]",sep="")))	
+			tclvalue(chvar) <- nr
+			nc <- eval(parse(text=paste("dim(",dudiname,"$as)[2]",sep="")))	
+			tclvalue(chvar2) <- nc
+			labelas.but <- tkbutton(frame4, text=paste(dudiname, "$as", sep=""), anchor="w", command=function() labelas())
+			tkgrid(tklabel(frame4,text="7:"), labelas.but, tklabel(frame4,text=tclvalue(chvar)),
+				tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="projection of inertia axes"), sticky="w")
+		}
+	}
+	tkpack(frame4, fill = "x")
+#
+# Frame 5 : X and Y axes choice for factor map graphics
+#
+	frame5 <- tkframe(tf, relief="groove", borderwidth=2)
+	xax.entry <- tkentry(frame5, textvariable=xaxvar, width=4)
+	yax.entry <- tkentry(frame5, textvariable=yaxvar, width=4)
+	tkgrid(tklabel(frame5,text="Select X and Y axis numbers for graphics - "),
+		tklabel(frame5,text="X axis : "), xax.entry, tklabel(frame5,text="Y axis : "), yax.entry)
+	tkpack(frame5, fill = "x")
+#
+# Frame 6 : pcaiv params
+#
+	if ((dclass[1] == "cca") || (dclass[1] == "pcaiv") || (dclass[1] == "pcaivortho")) {
+		frame6 <- tkframe(tf, relief="groove", borderwidth=2)
+		txt <- tktext(frame6, bg="white", font="courier", width=50, height=2+eval(parse(text=paste(dudiname,"$nf",sep=""))))
+		tkpack(txt, side="left", fill="both", expand=TRUE)
+		sink(conn <- file("Rlisting001.tmp", open="w"))
+		cheval <- paste(dudiname, "$param", sep="")
+		cat("Global analysis parameters :\n")
+		print(eval(parse(text=cheval)))
+		sink()
+		close(conn)
+		chn <- tclopen(file.path("Rlisting001.tmp"))
+		tkinsert(txt, "end", tclread(chn))
+		tclclose(chn)
+		system("rm Rlisting001.tmp")
+		tkconfigure(txt, state="disabled")
+		tkmark.set(txt,"insert","0.0")
+		tkfocus(txt)
+		tkpack(frame6, fill = "x")
+	} else if (dclass[1] == "dpcoa") {
+		frame6 <- tkframe(tf, relief="groove", borderwidth=2)
+		txt <- tktext(frame6, bg="white", font="courier", width=50, height=5)
+		tkpack(txt, side="left", fill="both", expand=TRUE)
+		sink(conn <- file("Rlisting001.tmp", open="w"))
+		cheval <- paste(dudiname, "$RaoDecodiv", sep="")
+		cat("Global analysis parameters :\n")
+		print(eval(parse(text=cheval)))
+		sink()
+		close(conn)
+		chn <- tclopen(file.path("Rlisting001.tmp"))
+		tkinsert(txt, "end", tclread(chn))
+		tclclose(chn)
+		system("rm Rlisting001.tmp")
+		tkconfigure(txt, state="disabled")
+		tkmark.set(txt,"insert","0.0")
+		tkfocus(txt)
+		tkpack(frame6, fill = "x")
+	}
+#
+# Last row buttons
+#
+	OK.but <- tkbutton(tf, text="Dismiss", command=function() tkdestroy(tf))
+	scatter.but <- tkbutton(tf, text=paste("scatter(",dudiname,")",sep=""), default="active", command=function() scatterfunc())
+	score.but <- tkbutton(tf, text=paste("score(",dudiname,")",sep=""), command=function() scorefunc())
+	plot.but <- tkbutton(tf, text=paste("plot(",dudiname,")",sep=""), default="active", command=function() plotfunc())
+	k <- 0
+	if (dclass[1] == "pca") {
+		ncp <- names(dcall)
+		nf1 <- names(formals(dudi.pca))
+		matchres <- pmatch(ncp,nf1)
+		for (i in 1:length(matchres)) {
+			resi <- matchres[i]
+			if (!is.na(resi) && resi == 5) k <- i
+		}
+		if (k != 0) {
+			res1 <- pmatch(encodeString(dcall)[k], "FALSE")
+		} else {
+			res1 <- NA
+		}
+		if (!is.na(res1) && res1 == 1) {
+			tkpack(OK.but, scatter.but, score.but, side="left", expand=1, fill = "x")	
+		} else {
+			corcircle.but <- tkbutton(tf, text=paste("s.corcircle(",dudiname,")",sep=""), command=function() corcirclefunc())
+			tkpack(OK.but, scatter.but, score.but, corcircle.but, side="left", expand=1, fill = "x")	
+		}
+	} else if (dclass[1] == "coa") {
+		tkpack(OK.but, scatter.but, score.but, side="left", expand=1, fill = "x")	
+	} else if (dclass[1] == "acm") {
+		tkpack(OK.but, scatter.but, score.but, side="left", expand=1, fill = "x")	
+	} else if (dclass[1] == "pco") {
+		tkpack(OK.but, scatter.but, side="left", expand=1, fill = "x")	
+	} else if (dclass[1] == "fca") {
+		tkpack(OK.but, scatter.but, side="left", expand=1, fill = "x")	
+	} else if (dclass[1] == "fcpa") {
+		tkpack(OK.but, scatter.but, side="left", expand=1, fill = "x")	
+	} else if (dclass[1] == "mix") {
+		tkpack(OK.but, scatter.but, score.but, side="left", expand=1, fill = "x")	
+	} else if (dclass[1] == "nsc") {
+		tkpack(OK.but, scatter.but, side="left", expand=1, fill = "x")	
+	} else if (dclass[1] == "dec") {
+		tkpack(OK.but, scatter.but, side="left", expand=1, fill = "x")	
+	} else if ((dclass[1] == "coinertia") || ((dclass[1] == "within"))) {
+		tkpack(OK.but, plot.but, scatter.but, side="left", expand=1, fill = "x")	
+	} else if ((dclass[1] == "between") || ((dclass[1] == "within"))) {
+		tkpack(OK.but, plot.but, scatter.but, side="left", expand=1, fill = "x")	
+	} else if (dclass[1] == "discrimin") {
+		tkpack(OK.but, plot.but, side="left", expand=1, fill = "x")	
+	} else if (dclass[1] == "cca") {
+		tkpack(OK.but, plot.but, scatter.but, side="left", expand=1, fill = "x")	
+	} else if (dclass[1] == "pcaiv") {
+		tkpack(OK.but, plot.but, scatter.but, side="left", expand=1, fill = "x")	
+	} else if (dclass[1] == "pcaivortho") {
+		tkpack(OK.but, scatter.but, side="left", expand=1, fill = "x")	
+	} else if (dclass[1] == "dpcoa") {
+		tkpack(OK.but, plot.but, side="left", expand=1, fill = "x")	
+	}
+#
+# Ending the dialog
+#
+	tkbind(tf, "<Destroy>", function() tclvalue(done) <- 2)
+	tkbind(tf, "<KeyPress-Return>", function() scatterfunc())
+	tkbind(tf, "<KeyPress-Escape>", function() tkdestroy(tf))
+#	tkwait.variable(done)
+	if(tclvalue(done) == "2") return(0)
+#	tkdestroy(tf)
+}
+
