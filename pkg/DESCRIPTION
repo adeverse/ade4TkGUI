@@ -1,6 +1,6 @@
 Package: ade4TkGUI
-Version: 0.2-2
-Date: 2007/09/14
+Version: 0.2-3
+Date: 2008/09/19
 Title: ade4 Tcl/Tk Graphical User Interface
 Author: Jean Thioulouse <jthioulouse@biomserv.univ-lyon1.fr>, Stephane Dray <dray@biomserv.univ-lyon1.fr>
 Maintainer: Jean Thioulouse <jthioulouse@biomserv.univ-lyon1.fr>
