@@ -172,7 +172,7 @@
 	between.but <- tkbutton(frame2b, text="BGA", command=function() dialog.between(show, history))
 	within.but <- tkbutton(frame2b, text="WGA", command=function() dialog.within(show, history))
 	discrimin.but <- tkbutton(frame2b, text="DA", command=function() dialog.discrimin(show, history))
-	tkgrid(between.but, within.but, discrimin.but, ipadx=20)
+	tkgrid(between.but, within.but, discrimin.but)
 	tkpack(frame2b, fill="x")
 
 	tkbind(between.but, "<Button-3>", function() print(help("between")))
