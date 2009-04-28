@@ -91,7 +91,7 @@
 	tkadd(graphMenu,"command",label="Reset graph list",command=function() resetgraph())
 
 	tkpack(topMenuFile, topMenuWin, topMenu1Tab, topMenu1TabG, topMenu2Tab, topMenuGraph, side="left")
-	tkpack(frame0, fill="x")
+	tkpack(frame0, expand="TRUE", fill="x")
 #
 # title and icons
 #
@@ -134,16 +134,16 @@
 #	tkgrid(frameCheck, Rlabel, titre, labh, TclTklabel, padx=10, sticky = "w")
 	tkgrid(Rlabel, titre, labh, TclTklabel, padx=10, sticky = "w")
 	tkgrid(helplab, columnspan=4)
-	tkpack(frame1, fill="x")
+	tkpack(frame1, expand="TRUE", fill="x")
 #
 # read text files and load ade4 data set
 #
 	frame1b <- tkframe(tt, relief="groove", borderwidth=2, background="white")
-	tkgrid(tklabel(frame1b,text="- Data sets -", font="Times 14", foreground="blue", background="white"), columnspan=3)	
+	tkpack(tklabel(frame1b,text="- Data sets -", font="Times 14", foreground="blue", background="white"))	
 	readtable.but <- tkbutton(frame1b, text="Read a data file", command=function() readtable(show, history))
 	getdata.but <- tkbutton(frame1b, text="Load a data set", command=function() choosepackage(show, history))
-	tkgrid(readtable.but, getdata.but, ipadx=30)
-	tkpack(frame1b, fill="x")
+	tkpack(readtable.but, getdata.but, ipadx=20, side="left", expand="TRUE", fill="x")
+	tkpack(frame1b, expand="TRUE", fill="x")
 
 	tkbind(readtable.but, "<Button-3>", function() print(help("read.table")))
 	tkbind(getdata.but, "<Button-3>", function() print(help("data")))
@@ -152,13 +152,13 @@
 # One table analyses
 #
 	frame2 <- tkframe(tt, relief="groove", borderwidth=2, background="white")
-	tkgrid(tklabel(frame2,text="- One table analyses -", font="Times 14", foreground="blue", background="white"), columnspan=4)
+	tkpack(tklabel(frame2,text="- One table analyses -", font="Times 14", foreground="blue", background="white"))
 	dudi.pca.but <- tkbutton(frame2, text="PCA", command=function() dialog.dudi.pca(show, history))
 	dudi.coa.but <- tkbutton(frame2, text="COA", command=function() dialog.dudi.coa(show, history))
 	dudi.acm.but <- tkbutton(frame2, text="MCA", command=function() dialog.dudi.acm(show, history))
 	dudi.pco.but <- tkbutton(frame2, text="PCO", command=function() dialog.dudi.pco(show, history))
-	tkgrid(dudi.pca.but, dudi.coa.but, dudi.acm.but, dudi.pco.but, ipadx=20)
-	tkpack(frame2, fill="x")
+	tkpack(dudi.pca.but, dudi.coa.but, dudi.acm.but, dudi.pco.but, ipadx=20, side="left", expand="TRUE", fill="x")
+	tkpack(frame2, expand="TRUE", fill="x")
 
 	tkbind(dudi.pca.but, "<Button-3>", function() print(help("dudi.pca")))
 	tkbind(dudi.coa.but, "<Button-3>", function() print(help("dudi.coa")))
@@ -168,12 +168,12 @@
 # One table with groups
 #
 	frame2b <- tkframe(tt, relief="groove", borderwidth=2, background="white")
-	tkgrid(tklabel(frame2b,text="- One table with groups -", font="Times 14", foreground="blue", background="white"), columnspan=3)
+	tkpack(tklabel(frame2b,text="- One table with groups -", font="Times 14", foreground="blue", background="white"))
 	between.but <- tkbutton(frame2b, text="BGA", command=function() dialog.between(show, history))
 	within.but <- tkbutton(frame2b, text="WGA", command=function() dialog.within(show, history))
 	discrimin.but <- tkbutton(frame2b, text="DA", command=function() dialog.discrimin(show, history))
-	tkgrid(between.but, within.but, discrimin.but)
-	tkpack(frame2b, fill="x")
+	tkpack(between.but, within.but, discrimin.but, ipadx=20, side="left", expand="TRUE", fill="x")
+	tkpack(frame2b, expand="TRUE", fill="x")
 
 	tkbind(between.but, "<Button-3>", function() print(help("between")))
 	tkbind(within.but, "<Button-3>", function() print(help("within")))
@@ -182,12 +182,12 @@
 # Two tables analyses
 #
 	frame2c <- tkframe(tt, relief="groove", borderwidth=2, background="white")
-	tkgrid(tklabel(frame2c,text="- Two tables analyses -", font="Times 14", foreground="blue", background="white"), columnspan=3)
+	tkpack(tklabel(frame2c,text="- Two tables analyses -", font="Times 14", foreground="blue", background="white"))
 	coinertia.but <- tkbutton(frame2c, text="Coinertia", command=function() dialog.coinertia(show, history))
 	cca.but <- tkbutton(frame2c, text="CCA", command=function() dialog.cca(show, history))
 	pcaiv.but <- tkbutton(frame2c, text="PCAIV", command=function() dialog.pcaiv(show, history))
-	tkgrid(coinertia.but, cca.but, pcaiv.but, ipadx=20)
-	tkpack(frame2c, fill="x")
+	tkpack(coinertia.but, cca.but, pcaiv.but, ipadx=20, side="left", expand="TRUE", fill="x")
+	tkpack(frame2c, expand="TRUE", fill="x")
 
 	tkbind(coinertia.but, "<Button-3>", function() print(help("coinertia")))
 	tkbind(cca.but, "<Button-3>", function() print(help("cca")))
@@ -196,12 +196,12 @@
 # Graphics
 #
 	frame3 <- tkframe(tt, relief="groove", borderwidth=2, background="white")
-	tkgrid(tklabel(frame3,text="- Graphic functions -", font="Times 14", foreground="blue", background="white"), columnspan=3)
+	tkpack(tklabel(frame3,text="- Graphic functions -", font="Times 14", foreground="blue", background="white"))
 	s.label.but <- tkbutton(frame3, text="Labels", command=function() dialog.s.label(show, history))
 	s.class.but <- tkbutton(frame3, text="Classes", command=function() dialog.s.class(show, history))
 	s.value.but <- tkbutton(frame3, text="Values", command=function() dialog.s.value(show, history))
-	tkgrid(s.label.but, s.class.but, s.value.but, ipadx=20)
-	tkpack(frame3, fill="x")
+	tkpack(s.label.but, s.class.but, s.value.but, ipadx=20, side="left", expand="TRUE", fill="x")
+	tkpack(frame3, expand="TRUE", fill="x")
 
 	tkbind(s.label.but, "<Button-3>", function() print(help("s.label")))
 	tkbind(s.value.but, "<Button-3>", function() print(help("s.value")))
@@ -210,13 +210,13 @@
 # Advanced graphics
 #
 	frame4 <- tkframe(tt, relief="groove", borderwidth=2, background="white")
-	tkgrid(tklabel(frame4,text="- Advanced graphics -", font="Times 14", foreground="blue", background="white"), columnspan=4)
+	tkpack(tklabel(frame4,text="- Advanced graphics -", font="Times 14", foreground="blue", background="white"))
 	dudisp.but <- tkbutton(frame4, text="dudi display", command=function() dudisp(show, history))
 	explore.but <- tkbutton(frame4, text="Explore", command=function() exploregraph(show, history))
 	MC.but <- tkbutton(frame4, text="MCTests", command=function() dialog.MCTests(show, history))
 	OC.but <- tkbutton(frame4, text="ordiClust", command=function() ordiClust())
-	tkgrid(dudisp.but, MC.but, explore.but, OC.but)
-	tkpack(frame4, fill="x")
+	tkpack(dudisp.but, MC.but, explore.but, OC.but, ipadx=5, side="left", expand="TRUE", fill="x")
+	tkpack(frame4, expand="TRUE", fill="x")
 
 	tkbind(dudisp.but, "<Button-3>", function() print(help("dudi")))
 	tkbind(MC.but, "<Button-3>", function() print(help("randtest")))
@@ -229,8 +229,8 @@
 	cancel.but <- tkbutton(frame5, text="Dismiss", command=function() tkdestroy(tt), foreground="darkgreen", background="white", font="Times 14")
 	quity.but <- tkbutton(frame5, text="Quit R (save)", command=function() q("yes"), foreground="darkgreen", background="white", font="Times 14")
 	quitn.but <- tkbutton(frame5, text="Quit R (don't save)", command=function() q("no"), foreground="darkgreen", background="white", font="Times 14")
-	tkgrid(quity.but, cancel.but, quitn.but)
-	tkpack(frame5, fill="x")
+	tkpack(quity.but, cancel.but, quitn.but, side="left", expand="TRUE", fill="x")
+	tkpack(frame5, expand="TRUE", fill="x")
 	tkfocus(tt)
 	return(invisible())
 }
