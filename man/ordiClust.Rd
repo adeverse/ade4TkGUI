@@ -32,7 +32,8 @@ and color or black & white). The \code{Submit} button under the graph (or the re
 draws the groups on the factor map. \code{Up arrow} and \code{Down arrow} keys (or the scale
 widget) can be used to increase or decrease the number of groups. Choosing another clustering
 algorithm or another distance automatically updates the graph, allowing easy comparisons. The
-\code{Dismiss} button at the bottom of the window closes the ordiClust window.\cr
+\code{Dismiss} button at the bottom of the window closes the ordiClust window, and the \code{Save}
+button can be used to save the current graphic in a disk file.\cr
 \cr
 From top to bottom the left panels are :\cr
 \cr
