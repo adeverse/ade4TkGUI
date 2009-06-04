@@ -1916,7 +1916,7 @@
 		outform <- tclvalue(formatvar)
 		width <- as.numeric(tclvalue(widthvar))
 		height <- as.numeric(tclvalue(heightvar))
-		odev <- dev.cur()
+		# odev <- dev.cur()
 		if (outform == 1) { # postcript
 			filename <- tclvalue(tkgetSaveFile(initialfile="Rplots.ps", defaultextension=".ps",
 				title="Save graph...", filetypes="{PostScript {.ps .eps}} {{All Files} {*.*}}"))
@@ -1954,10 +1954,10 @@
 				jpeg(file=filename, width=width, height=height)
 			}
 		}
-		ndev <- dev.cur()
-		dev.set(odev)
-		dev.copy(which=ndev)
-		dev.off()
+		#ndev <- dev.cur()
+		#dev.set(odev)
+		#dev.copy(which=ndev)
+		#dev.off()
 		tkdestroy(tf)
 	}
 #

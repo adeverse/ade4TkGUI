@@ -145,6 +145,119 @@
 		#} else 	plot(0, type="n", xaxt="n", yaxt="n", xlab="", ylab="", bty="n")
 	}
 	
+	################################
+	# Function to save a graphic in a file
+	################################
+	"outgraphOrdiClust" <- function()
+	{
+	#
+	# Main dialog window with title and frames
+	#
+		tf <- tktoplevel()
+		tkwm.title(tf,"Save graphic")
+	#
+	# Frames
+	#
+		frame1 <- tkframe(tf, relief="groove", borderwidth=2)	
+		frame2 <- tkframe(tf, relief="groove", borderwidth=2)	
+		frame3 <- tkframe(tf, relief="groove", borderwidth=2)	
+		devframe <- tkframe(frame2, relief="groove", borderwidth=2)
+	#
+	# Tcl/Tk variables
+	#
+		done <- tclVar(0)
+		formatvar <- tclVar(1)
+		widthvar <- tclVar(6)
+		heightvar <- tclVar(6)
+	#
+	# Save function
+	#
+		"savefic" <- function(formatvar, widthvar, heightvar)
+		{
+			outform <- tclvalue(formatvar)
+			width <- as.numeric(tclvalue(widthvar))
+			height <- as.numeric(tclvalue(heightvar))
+			# odev <- dev.cur()
+			if (outform == 1) { # postcript
+				filename <- tclvalue(tkgetSaveFile(initialfile="Rplots.ps", defaultextension=".ps",
+					title="Save graph...", filetypes="{PostScript {.ps .eps}} {{All Files} {*.*}}"))
+				if (filename != "") {
+					postscript(file=filename, width=width, height=height)
+				}
+			} else if (outform == 2) { # pdf
+				filename <- tclvalue(tkgetSaveFile(initialfile="Rplots.pdf", defaultextension=".pdf",
+					title="Save graph...", filetypes="{PDF {.pdf}} {{All Files} {*.*}}"))
+				if (filename != "") {
+					pdf(file=filename, width=width, height=height)
+				}
+			} else if (outform == 3) { # pictex
+				filename <- tclvalue(tkgetSaveFile(initialfile="Rplots.tex", defaultextension=".tex",
+					title="Save graph...", filetypes="{PicTeX {.tex}} {{All Files} {*.*}}"))
+				if (filename != "") {
+					pictex(file=filename, width=width, height=height)
+				}
+			} else if (outform == 4) { # xfig
+				filename <- tclvalue(tkgetSaveFile(initialfile="Rplots.fig", defaultextension=".fig",
+					title="Save graph...", filetypes="{XFig {.fig}} {{All Files} {*.*}}"))
+				if (filename != "") {
+					xfig(file=filename, width=width, height=height)
+				}
+			} else if (outform == 5) { # png
+				filename <- tclvalue(tkgetSaveFile(initialfile="Rplots.png", defaultextension=".png",
+					title="Save graph...", filetypes="{PNG {.png}} {{All Files} {*.*}}"))
+				if (filename != "") {
+					png(file=filename, width=width, height=height)
+				}
+			} else if (outform == 6) { # jpeg
+				filename <- tclvalue(tkgetSaveFile(initialfile="Rplots.jpeg", defaultextension=".jpeg",
+					title="Save graph...", filetypes="{JPEG {.jpeg .jpg}} {{All Files} {*.*}}"))
+				if (filename != "") {
+					jpeg(file=filename, width=width, height=height)
+				}
+			}
+			# ndev <- dev.cur()
+			# dev.set(odev)
+			# dev.copy(which=ndev)
+			# dev.off()
+			fplot()
+			dev.off()
+			tkdestroy(tf)
+		}
+	#
+	# Frames setup
+	#
+		tkgrid(tklabel(tf,text="Save current graphic", font="Times 18"), columnspan=2)
+	
+		tkgrid(tklabel(frame2,text="Output format : "), sticky="n")
+		tkgrid(tkradiobutton(frame2, text="postscript", value=1, variable=formatvar), sticky="w")
+		tkgrid(tkradiobutton(frame2, text="pdf", value=2, variable=formatvar), sticky="w")
+		tkgrid(tkradiobutton(frame2, text="pictex", value=3, variable=formatvar), sticky="w")
+		tkgrid(tkradiobutton(frame2, text="xfig", value=4, variable=formatvar), sticky="w")
+		tkgrid(tkradiobutton(frame2, text="png", value=5, variable=formatvar), sticky="w")
+		tkgrid(tkradiobutton(frame2, text="jpeg", value=6, variable=formatvar), sticky="w")
+		tkgrid(frame2, rowspan=2, sticky="n")
+		
+		tkgrid(tklabel(frame3,text="Output size : "))
+		width.entry <- tkentry(frame3, textvariable=widthvar, width=10)
+		height.entry <- tkentry(frame3, textvariable=heightvar, width=10)
+		tkgrid(tklabel(frame3,text="Width : "), width.entry)
+		tkgrid(tklabel(frame3,text="Height : "), height.entry)
+		tkgrid(frame3, column=1, row=1, sticky="n")
+	
+		save.but <- tkbutton(frame1, text="Save", command=function() savefic(formatvar, widthvar, heightvar))
+		cancel.but <- tkbutton(frame1, text="Dismiss", command=function() tkdestroy(tf))
+		tkgrid(save.but, cancel.but)
+		tkgrid(frame1, column=1, row=2, sticky="n")
+		
+		tkbind(tf, "<Destroy>", function() tclvalue(done) <- 2)
+		tkbind(tf, "<KeyPress-Return>", function() savefic(formatvar, widthvar, heightvar))
+		tkbind(tf, "<KeyPress-Escape>", function() tkdestroy(tf))
+		tkwait.variable(done)
+		if(tclvalue(done) == "2") return(0)
+		tkdestroy(tf)
+	}
+	
+	
 #
 # tkrplot init
 #
@@ -581,7 +694,8 @@
 	RCSFrame <- tkframe(plotFrame, relief="groove")
 	cancel.but <- tkbutton(RCSFrame, text="Dismiss", command=function() tkdestroy(tt))
 	submit.but <- tkbutton(RCSFrame, text="Submit", default="active", command=function() {doClass(); tkrreplot(img)})
-	tkgrid(cancel.but, submit.but, ipadx=20)	
+	save.but <- tkbutton(RCSFrame, text="Save", default="active", command=function() {outgraphOrdiClust()})
+	tkgrid(cancel.but, submit.but, save.but, ipadx=20)	
 	tkgrid(RCSFrame, columnspan=2)
 
 	tkgrid(compFrame, plotFrame)	
