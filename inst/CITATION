@@ -1,0 +1,18 @@
+citHeader("To cite ade4TkGUI in publications use this reference:")
+
+citEntry(entry="Article",
+	title = "Interactive Multivariate Data Analysis in R with the ade4 and ade4TkGUI Packages",
+        author = personList(as.person("J. Thioulouse"), as.person("S. Dray")),
+	journal = "Journal of Statistical Software",
+  	year = "2007",
+	volume = "22",
+	pages = "1-14",
+	number = "5",         
+        textVersion = 
+        paste("Thioulouse, J. and Dray, S. ",
+	       "(2007): ", 
+               "Interactive Multivariate Data Analysis in R with the ade4 and ade4TkGUI Packages. ",
+               "Journal of Statistical Software. ",
+               "22(5): 1-14.",
+               sep="")
+         )
