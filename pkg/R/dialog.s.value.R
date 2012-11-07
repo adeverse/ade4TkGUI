@@ -411,7 +411,7 @@
 		# Build and display the command line so that the user can check it
 		#
 		cmd <- build()
-		dcmd <- deparse(cmd, width = 500)
+		dcmd <- deparse(cmd, width.cutoff = 500)
 		tcmd <- paste(cmd, sep="", collapse="; ")
 		
 		#if (cmd == 0) return(0)
@@ -433,7 +433,7 @@
 		if (length(grep("expression", dcmd, fixed=TRUE)) == 0) {
 		# cmdlist <<- c(cmdlist, cmd)
 		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
-			if (history) rewriteHistory(deparse(cmd, width = 500))
+			if (history) rewriteHistory(deparse(cmd, width.cutoff = 500))
 		} else {
 			if (history) rewriteHistory(tcmd)
 		}

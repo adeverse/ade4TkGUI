@@ -624,13 +624,13 @@ explore <- function(call.graph, scale.graph=1.3){
             filename <- tclvalue(tkgetSaveFile(initialfile="Rplots.png", defaultextension=".png",
                                                title="Save graph...", filetypes="{PNG {.png}} {{All Files} {*.*}}"))
             if (filename != "") {
-              png(file=filename, width=width, height=height)
+              png(filename=filename, width=width, height=height)
             }
           } else if (outform == 6) { # jpeg
             filename <- tclvalue(tkgetSaveFile(initialfile="Rplots.jpeg", defaultextension=".jpeg",
                                                title="Save graph...", filetypes="{JPEG {.jpeg .jpg}} {{All Files} {*.*}}"))
             if (filename != "") {
-              jpeg(file=filename, width=width, height=height)
+              jpeg(filename=filename, width=width, height=height)
             }
           }
           plot.s()

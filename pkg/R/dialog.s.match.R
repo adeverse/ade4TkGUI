@@ -363,7 +363,7 @@
 			# Echoe the command line to the console
 			#
 			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(deparse(cmd, width = 500), "\n", pr1, sep="")
+			cat(deparse(cmd, width.cutoff = 500), "\n", pr1, sep="")
 		}
 		#
 		# Execute the command
@@ -371,7 +371,7 @@
 		eval.parent(cmd)
 		# cmdlist <<- c(cmdlist, cmd)
 		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
-		if (history) rewriteHistory(deparse(cmd, width = 500))
+		if (history) rewriteHistory(deparse(cmd, width.cutoff = 500))
 	}
 #
 # Place the three buttons

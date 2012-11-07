@@ -572,10 +572,10 @@
 		s.match(eval(parse(text=paste(dudiname, "$li", sep=""))), eval(parse(text=paste(dudiname, "$ls", sep=""))),
 			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
 		s.label(eval(parse(text=paste(dudiname, "$co", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]], clab=0, cpoi=2, add.plot=TRUE)
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]], clabel=0, cpoint=2, add.plot=TRUE)
 		cmd <- paste("s.match(",parse(text=paste(dudiname, "$li", sep="")), ",", parse(text=paste(dudiname, "$ls", sep="")), ",",
 			parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],"); s.label(", parse(text=paste(dudiname, "$co", sep="")),
-			",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]], ", clab=0, cpoi=2, add.plot=TRUE)", sep="")
+			",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]], ", clabel=0, cpoint=2, add.plot=TRUE)", sep="")
 		if (showCom) {
 			pr1 <- substr(options("prompt")$prompt, 1,2)
 			cat(cmd, "\n", pr1, sep="")
@@ -601,10 +601,10 @@
 		s.match(eval(parse(text=paste(dudiname, "$ls", sep=""))), eval(parse(text=paste(dudiname, "$li", sep=""))),
 			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
 		s.label(eval(parse(text=paste(dudiname, "$co", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]], clab=0, cpoi=2, add.plot=TRUE)
+			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]], clabel=0, cpoint=2, add.plot=TRUE)
 		cmd <- paste("s.match(",parse(text=paste(dudiname, "$ls", sep="")), ",", parse(text=paste(dudiname, "$li", sep="")), ",",
 			parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],"); s.label(", parse(text=paste(dudiname, "$co", sep="")),
-			",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]], ", clab=0, cpoi=2, add.plot=TRUE)", sep="")
+			",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]], ", clabel=0, cpoint=2, add.plot=TRUE)", sep="")
 		if (showCom) {
 			pr1 <- substr(options("prompt")$prompt, 1,2)
 			cat(cmd, "\n", pr1, sep="")
