@@ -154,7 +154,7 @@
 			# Echoe the command line to the console
 			#
 			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(eval(dudiname), " <- ", deparse(cmd, width = 256), "\n", pr1, sep="")
+			cat(eval(dudiname), " <- ", deparse(cmd, width.cutoff = 256), "\n", pr1, sep="")
 		}
 	#
 	# Execute the command
@@ -166,7 +166,7 @@
 		dialog.dudi.display(show, history, eval(dudiname))
 		rm("ade4TkGUIFlag", envir=.GlobalEnv)
 		if (history) {
-			commande = paste(eval(dudiname), " <- ", deparse(cmd, width = 500), sep = "")
+			commande = paste(eval(dudiname), " <- ", deparse(cmd, width.cutoff = 500), sep = "")
 			rewriteHistory(commande)
 		}
 	}
