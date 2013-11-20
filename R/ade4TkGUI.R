@@ -1,15 +1,10 @@
 ################################
 # GUI for ade4 functions
 ################################
+
 "ade4TkGUI" <- function(show = FALSE, history = FALSE)
 {
-	require(tcltk) || stop("tcltk support is absent")
-	require(ade4) || stop("ade4 support is absent")
-	require(grDevices) || stop("grDevices support is absent")
-	
-#	cmdlist <<- "cmdlist"
 	assign("cmdlist", "cmdlist", envir=.GlobalEnv)
-#	winlist <<- 1
 	assign("winlist", 1, envir=.GlobalEnv)
 	
 	if (exists("ade4TkGUIFlag")) rm("ade4TkGUIFlag", envir=.GlobalEnv)
@@ -175,7 +170,7 @@
 	tkpack(between.but, within.but, discrimin.but, ipadx=20, side="left", expand="TRUE", fill="x")
 	tkpack(frame2b, expand="TRUE", fill="x")
 
-	tkbind(between.but, "<Button-3>", function() print(help("between")))
+	tkbind(between.but, "<Button-3>", function() print(help("bca")))
 	tkbind(within.but, "<Button-3>", function() print(help("within")))
 	tkbind(discrimin.but, "<Button-3>", function() print(help("discrimin")))
 #
@@ -212,8 +207,8 @@
 	frame4 <- tkframe(tt, relief="groove", borderwidth=2, background="white")
 	tkpack(tklabel(frame4,text="- Advanced graphics -", font="Times 14", foreground="blue", background="white"))
 	dudisp.but <- tkbutton(frame4, text="dudi display", command=function() dudisp(show, history))
-	explore.but <- tkbutton(frame4, text="Explore", command=function() exploregraph(show, history))
-	MC.but <- tkbutton(frame4, text="MCTests", command=function() dialog.MCTests(show, history))
+	explore.but <- tkbutton(frame4, text="Explore", state="disabled", command=function() exploregraph(show, history))
+  MC.but <- tkbutton(frame4, text="MCTests", command=function() dialog.MCTests(show, history))
 	OC.but <- tkbutton(frame4, text="ordiClust", command=function() ordiClust())
 	tkpack(dudisp.but, MC.but, explore.but, OC.but, ipadx=5, side="left", expand="TRUE", fill="x")
 	tkpack(frame4, expand="TRUE", fill="x")

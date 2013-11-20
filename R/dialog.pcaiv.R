@@ -3,8 +3,6 @@
 ################################
 "dialog.pcaiv" <- function(show, history)
 {
-	op=options()
-	options(warn=-1)
 #
 # Main dialog window with title
 #
@@ -139,14 +137,13 @@
 	#
 	# Execute the command
 	#
-#		ade4TkGUIFlag <<- 1
 		assign("ade4TkGUIFlag", 1, envir=.GlobalEnv)
 		myObject <- eval.parent(cmd)
 		assign(eval(dudiout), myObject, pos=1)
 		dialog.dudi.display(show, history, eval(dudiout))
 		rm("ade4TkGUIFlag", envir=.GlobalEnv)
 		if (history) {
-			commande = paste(eval(dudiout), " <- ", deparse(cmd, width.cutoff = 500), sep = "")
+			commande <- paste(eval(dudiout), " <- ", deparse(cmd, width.cutoff = 500), sep = "")
 			rewriteHistory(commande)
 		}
 	}

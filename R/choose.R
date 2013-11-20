@@ -25,7 +25,7 @@
 		return(nf)
 	}
 
-	barplot(eig[1:rank1])
+	adegraphics:::.add.scatter.eig(eig[1:rank1], col.plot="grey", paxes.draw=TRUE, paxes.x.draw=FALSE)
 
 	frame1 <- tkframe(tf, relief="groove", borderwidth=2)	
 	nf.entry <- tkentry(frame1, textvariable=nfvar)
@@ -71,7 +71,6 @@
 	tkpack(tlb, side="left", fill="both", expand=TRUE)
 	tkpack(scr, side="right", fill="y")
 
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())
 #
 # For all objects in the global environment, check to see if it is a dataframe
@@ -145,13 +144,13 @@
 }
 
 ################################
-# Function to choose the contour : builds a listbox containing the contours
+# Function to choose the spatial object (contour or area) : builds a listbox containing the contours
 # that are in the global environment and allows the user to choose one
 ################################
-"choosecont" <- function(cont.entry)
+"choosesp" <- function(sp.entry)
 {
 	tf <- tktoplevel()
-	tkwm.title(tf,"Choose contour")
+	tkwm.title(tf,"Choose sp")
 	done <- tclVar(0)
 	
 	vnr <- NULL
@@ -159,17 +158,16 @@
 	numi <- 1
 
 	tlb <- tklistbox(tf)
-	scr <- tkscrollbar(tf, repeatinterval=5, command=function(...)tkyview(tlb,...))
+	scr <- tkscrollbar(tf, repeatinterval=5, command=function(...) tkyview(tlb,...))
 	tkconfigure(tlb, yscrollcommand=function(...)tkset(scr,...))
 	frame1 <- tkframe(tf, relief="groove", borderwidth=2)
-	cancel.but <- tkbutton(frame1, text="Dismiss", command=function()tkdestroy(tf))
-	submit.but <- tkbutton(frame1, text="Choose", default="active", command=function()tclvalue(done)<-1)
+	cancel.but <- tkbutton(frame1, text="Dismiss", command=function() tkdestroy(tf))
+	submit.but <- tkbutton(frame1, text="Choose", default="active", command=function() tclvalue(done)<-1)
 	tkpack(cancel.but, submit.but, side="left")
 	tkpack(frame1, side="bottom")
 	tkpack(tlb, side="left", fill="both", expand=TRUE)
 	tkpack(scr, side="right", fill="y")
 
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())
 #
 # For all objects in the global environment, check to see if it is a dataframe
@@ -178,7 +176,7 @@
 #
 	flb <- function(x1) {
 		xobj <- get(x1, envir=globalenv())
-		if (is.data.frame(xobj) && (ncol(xobj) == 4)) {
+		if (is.data.frame(xobj) && ((ncol(xobj) == 3) | (ncol(xobj) == 4))) {
 			tkinsert(tlb, "end", x1)
 			cbind(nrow(xobj),ncol(xobj))
 		} else if (is.list(xobj)) {
@@ -186,7 +184,7 @@
 				fn1 <- function(x) {
 					sobjn <- paste(x1,"$",x,sep="")
 					sobj <- try(eval(parse(text=sobjn)), silent=TRUE)
-					if (is.data.frame(sobj) && (ncol(sobj) == 4)) {
+					if (is.data.frame(sobj) && ((ncol(sobj) == 3) | (ncol(sobj) == 4))) {
 						tkinsert(tlb, "end", sobjn)
 					}
 				}
@@ -194,7 +192,7 @@
 				fn2 <- function(x) {
 					sobjn <- paste(x1,"$",x,sep="")
 					sobj <- try(eval(parse(text=sobjn)), silent=TRUE)
-					if (is.data.frame(sobj) && (ncol(sobj) == 4)) {
+					if (is.data.frame(sobj) && ((ncol(sobj) == 3) | (ncol(sobj) == 4))) {
 						cbind(nrow(sobj), ncol(sobj))
 					}
 				}
@@ -204,9 +202,7 @@
 		}
 	}
 	v <- unlist(lapply(obj, flb))
-#	vnr <- v[seq(from=1,to=length(v),by=2)]
-#	vnc <- v[seq(from=2,to=length(v),by=2)]
-
+  
 	tkbind(tlb, "<Double-ButtonPress-1>", function() tclvalue(done)<-1)
 	tkbind(tf, "<Destroy>", function() tclvalue(done)<-2)
 	tkbind(tf, "<KeyPress-Return>", function() tclvalue(done)<-1)
@@ -229,13 +225,8 @@
 #
 # Put the name of the object in the dataframe text entry
 #
-	tkdelete(cont.entry, 0, "end")
-	tkinsert(cont.entry, "end", choix)
-#
-# Put the row and column numbers of the dataframe in the corresponding labels
-#
-	#tkconfigure(dfnr.label, text=as.character(vnr[numi]))
-	#tkconfigure(dfnc.label, text=as.character(vnc[numi]))
+	tkdelete(sp.entry, 0, "end")
+	tkinsert(sp.entry, "end", choix)
 
 	tkdestroy(tf)
 }
@@ -265,7 +256,6 @@
 	tkpack(tlb, side="left", fill="both", expand=TRUE)
 	tkpack(scr, side="right", fill="y")
 
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())
 #
 # For all objects in the global environment, check to see if it is a dataframe
@@ -300,8 +290,6 @@
 		}
 	}
 	v <- unlist(lapply(obj, flb))
-	#vnr <- v[seq(from=1,to=length(v),by=2)]
-	#vnc <- v[seq(from=2,to=length(v),by=2)]
 
 	tkbind(tlb, "<Double-ButtonPress-1>", function() tclvalue(done)<-1)
 	tkbind(tf, "<Destroy>", function() tclvalue(done)<-2)
@@ -336,102 +324,6 @@
 	tkdestroy(tf)
 }
 
-################################
-# Function to choose the areas : builds a listbox containing the areas
-# that are in the global environment and allows the user to choose one
-################################
-"choosearea" <- function(cont.entry)
-{
-	tf <- tktoplevel()
-	tkwm.title(tf,"Choose area")
-	done <- tclVar(0)
-	
-	vnr <- NULL
-	vnc <- NULL
-	numi <- 1
-
-	tlb <- tklistbox(tf)
-	scr <- tkscrollbar(tf, repeatinterval=5, command=function(...)tkyview(tlb,...))
-	tkconfigure(tlb, yscrollcommand=function(...)tkset(scr,...))
-	frame1 <- tkframe(tf, relief="groove", borderwidth=2)
-	cancel.but <- tkbutton(frame1, text="Dismiss", command=function()tkdestroy(tf))
-	submit.but <- tkbutton(frame1, text="Choose", default="active", command=function()tclvalue(done)<-1)
-	tkpack(cancel.but, submit.but, side="left")
-	tkpack(frame1, side="bottom")
-	tkpack(tlb, side="left", fill="both", expand=TRUE)
-	tkpack(scr, side="right", fill="y")
-
-#	 rm("last.warning", envir=globalenv())
-	obj <- ls(globalenv())
-#
-# For all objects in the global environment, check to see if it is a dataframe
-# or a list. If it is a data frame, insert it in the listbox, and if it is a list,
-# check its elements.
-#
-	flb <- function(x1) {
-		xobj <- get(x1, envir=globalenv())
-		if (is.data.frame(xobj) && (ncol(xobj) == 3)) {
-			tkinsert(tlb, "end", x1)
-			cbind(nrow(xobj),ncol(xobj))
-		} else if (is.list(xobj)) {
-			if (length(names(xobj)) != 0) {
-				fn1 <- function(x) {
-					sobjn <- paste(x1,"$",x,sep="")
-					sobj <- try(eval(parse(text=sobjn)), silent=TRUE)
-					if (is.data.frame(sobj) && (ncol(sobj) == 3)) {
-						tkinsert(tlb, "end", sobjn)
-					}
-				}
-				sapply(names(xobj), fn1)
-				fn2 <- function(x) {
-					sobjn <- paste(x1,"$",x,sep="")
-					sobj <- try(eval(parse(text=sobjn)), silent=TRUE)
-					if (is.data.frame(sobj) && (ncol(sobj) == 3)) {
-						cbind(nrow(sobj), ncol(sobj))
-					}
-				}
-				res <- sapply(names(xobj), fn2)
-				return(res)		
-			}
-		}
-	}
-
-	v <- unlist(lapply(obj, flb))
-	#vnr <- v[seq(from=1,to=length(v),by=2)]
-	#vnc <- v[seq(from=2,to=length(v),by=2)]
-
-	tkbind(tlb, "<Double-ButtonPress-1>", function() tclvalue(done)<-1)
-	tkbind(tf, "<Destroy>", function() tclvalue(done)<-2)
-	tkbind(tf, "<KeyPress-Return>", function() tclvalue(done)<-1)
-	tkbind(tf, "<KeyPress-Escape>", function() tkdestroy(tf))
-	
-	tkwait.variable(done)
-	if(tclvalue(done)=="2") return(0)
-#
-# Get the number of the element choosed by the user
-#
-	numc <- tclvalue(tkcurselection(tlb))
-	numi <- as.integer(numc)+1
-	
-	if(numc == "") {
-		tkdestroy(tf)
-		return(0)
-	}
-	
-	choix <- tclvalue(tkget(tlb, numc))
-#
-# Put the name of the object in the dataframe text entry
-#
-	tkdelete(cont.entry, 0, "end")
-	tkinsert(cont.entry, "end", choix)
-#
-# Put the row and column numbers of the dataframe in the corresponding labels
-#
-	#tkconfigure(dfnr.label, text=as.character(vnr[numi]))
-	#tkconfigure(dfnc.label, text=as.character(vnc[numi]))
-
-	tkdestroy(tf)
-}
 
 ################################
 # Function to choose a distance matrix : builds a listbox containing the dist mat
@@ -458,7 +350,6 @@
 	tkpack(tlb, side="left", fill="both", expand=TRUE)
 	tkpack(scr, side="right", fill="y")
 	
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())
 #
 # For all objects in the global environment, check to see if it is a dist mat
@@ -556,7 +447,6 @@
 	tkpack(tlb, side="left", fill="both", expand=TRUE)
 	tkpack(scr, side="right", fill="y")
 	
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())
 #
 # For all objects in the global environment, check to see if it is a neighbouring
@@ -592,8 +482,6 @@
 	}
 
 	v <- unlist(lapply(obj, flb))
-	#vnr <- v[seq(from=1,to=length(v),by=2)]
-	#vnc <- v[seq(from=2,to=length(v),by=2)]
 
 	tkbind(tlb, "<Double-ButtonPress-1>", function() tclvalue(done)<-1)
 	tkbind(tf, "<Destroy>", function() tclvalue(done)<-2)
@@ -647,7 +535,6 @@
 	tkpack(scr, side="right", fill="y")
 	
 	nbr <- tclvalue(tkcget(dfnr.label, "-text"))
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())
 #
 # For all objects in the global environment, check to see if it is a vector
@@ -666,13 +553,8 @@
 					if (is.vector(sobj) && identical(class(sobj), "numeric")) {
 						if (length(sobj) == nbr) tkinsert(tlb, "end", sobjn)
 					} else if (is.data.frame(sobj)) {
-						if (nrow(sobj) == nbr) {
+						if (nrow(sobj) == nbr)
 							tkinsert(tlb, "end", sobjn)
-#							for (i in 1:ncol(sobj)) {
-#								sobjni <- paste(sobjn,"[,",i,"]",sep="")
-#								tkinsert(tlb, "end", sobjni)
-#							}
-						}
 					}
 				}
 				sapply(names(xobj), fn1)
@@ -680,8 +562,6 @@
 		}
 	}
 	v <- unlist(lapply(obj, flb))
-	#vnr <- v[seq(from=1,to=length(v),by=2)]
-	#vnc <- v[seq(from=2,to=length(v),by=2)]
 
 	tkbind(tlb, "<Double-ButtonPress-1>", function() tclvalue(done)<-1)
 	tkbind(tf, "<Destroy>", function() tclvalue(done)<-2)
@@ -729,7 +609,6 @@
 	tkpack(scr, side="right", fill="y")
 	
 	nbr <- tclvalue(tkcget(dfnr.label, "-text"))
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())
 	
 #
@@ -755,8 +634,6 @@
 		}
 	}
 	v <- unlist(lapply(obj, flb))
-	#vnr <- v[seq(from=1,to=length(v),by=2)]
-	#vnc <- v[seq(from=2,to=length(v),by=2)]
 
 	tkbind(tlb, "<Double-ButtonPress-1>", function() tclvalue(done)<-1)
 	tkbind(tf, "<Destroy>", function() tclvalue(done)<-2)
@@ -803,7 +680,6 @@
 	tkpack(scr, side="right", fill="y")
 	
 	nbr <- tclvalue(tkcget(dfnr.label, "-text"))
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())
 	
 #
@@ -829,8 +705,6 @@
 		}
 	}
 	v <- unlist(lapply(obj, flb))
-	#vnr <- v[seq(from=1,to=length(v),by=2)]
-	#vnc <- v[seq(from=2,to=length(v),by=2)]
 
 	tkbind(tlb, "<Double-ButtonPress-1>", function() tclvalue(done)<-1)
 	tkbind(tf, "<Destroy>", function() tclvalue(done)<-2)
@@ -881,7 +755,6 @@
 	tkpack(scr, side="right", fill="y")
 	
 	nbc <- tclvalue(tkcget(dfnc.label, "-text"))
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())
 	
 #
@@ -907,8 +780,6 @@
 		}
 	}
 	v <- unlist(lapply(obj, flb))
-	#vnr <- v[seq(from=1,to=length(v),by=2)]
-	#vnc <- v[seq(from=2,to=length(v),by=2)]
 
 	tkbind(tlb, "<Double-ButtonPress-1>", function() tclvalue(done)<-1)
 	tkbind(tf, "<Destroy>", function() tclvalue(done)<-2)
@@ -932,8 +803,6 @@
 	
 	tclvalue(ucwvar)<-"0"
 	tkcheckbutton(tt,text="Uniform row weights", variable=ucwvar)
-#	cwl.cbut <- tkcheckbutton(tt,text="Uniform row weights", variable=ucwvar)
-
 
 	tkdestroy(tf)
 }
@@ -952,8 +821,6 @@
 	scr <- tkscrollbar(tf, repeatinterval=5, command=function(...)tkyview(tlb,...))
 	tkconfigure(tlb, yscrollcommand=function(...)tkset(scr,...))
 	frame1 <- tkframe(tf, relief="groove", borderwidth=2)
-	#tkpack(tklabel(frame1,text="Choose one ade4 data set", font="Times 18"))
-
 	cancel.but <- tkbutton(frame1, text="Dismiss", command=function()tkdestroy(tf))
 	submit.but <- tkbutton(frame1, text="Choose", default="active", command=function()tclvalue(done)<-1)
 	tkpack(cancel.but, submit.but, side="left")
@@ -991,11 +858,11 @@
 		cat("data(", choix, ")\n", pr1, sep="")
 	}
 
-	if (history) rewriteHistory(paste("data(", choix, ")", sep=""))
+	if (history)
+    rewriteHistory(paste("data(", choix, ")", sep=""))
 	
 	tkdestroy(tf)
-	q <- tkmessageBox(icon="info", title="Data set loaded", type="ok", 
-		message=paste("The \"",choix,"\" data set has been successfully loaded.", sep=""))
+	q <- tkmessageBox(icon="info", title="Data set loaded", type="ok", message=paste("The \"",choix,"\" data set has been successfully loaded.", sep=""))
 }
 
 ################################
@@ -1074,7 +941,6 @@
 
 		eval(parse(text=rdcom))
 		tkdestroy(tf)
-		#displaytable(tabname)
 		eval(parse(text=paste("edit(", tabname, ")", sep="")))
 	}
 	
@@ -1095,24 +961,23 @@
 	
 	sepFrame <- tkframe(frame2, relief="groove", borderwidth=2)
 	sep.entry <- tkentry(sepFrame, textvariable=otherSepVar, width=10)
-    tkgrid(tklabel(sepFrame, text="Field separator:", foreground="blue"))
-    tkgrid(tkradiobutton(sepFrame, text="Default", value=1, variable=sepVar), sticky="w")
-    tkgrid(tkradiobutton(sepFrame, text="Commas", value=2, variable=sepVar), sticky="w")
-    tkgrid(tkradiobutton(sepFrame, text="Semicolon", value=3, variable=sepVar), sticky="w")
-    tkgrid(tkradiobutton(sepFrame, text="Other", value=4, variable=sepVar), sep.entry, sticky="w")
+  tkgrid(tklabel(sepFrame, text="Field separator:", foreground="blue"))
+  tkgrid(tkradiobutton(sepFrame, text="Default", value=1, variable=sepVar), sticky="w")
+  tkgrid(tkradiobutton(sepFrame, text="Commas", value=2, variable=sepVar), sticky="w")
+  tkgrid(tkradiobutton(sepFrame, text="Semicolon", value=3, variable=sepVar), sticky="w")
+  tkgrid(tkradiobutton(sepFrame, text="Other", value=4, variable=sepVar), sep.entry, sticky="w")
 
-    decSepFrame <- tkframe(frame2, relief="groove", borderwidth=2)
-    tkgrid(tklabel(decSepFrame, text="Decimal separator:", foreground="blue"))
-    tkgrid(tkradiobutton(decSepFrame, text="Period [.]", value=1, variable=decSepVar), sticky="w")
-    tkgrid(tkradiobutton(decSepFrame, text="Comma [,]", value=2, variable=decSepVar), sticky="w")
- 	#tkgrid(sepFrame, decSepFrame, sticky="n")
+  decSepFrame <- tkframe(frame2, relief="groove", borderwidth=2)
+  tkgrid(tklabel(decSepFrame, text="Decimal separator:", foreground="blue"))
+  tkgrid(tkradiobutton(decSepFrame, text="Period [.]", value=1, variable=decSepVar), sticky="w")
+  tkgrid(tkradiobutton(decSepFrame, text="Comma [,]", value=2, variable=decSepVar), sticky="w")
 
-    colClassFrame <- tkframe(frame2, relief="groove", borderwidth=2)
-    tkgrid(tklabel(colClassFrame, text="Column types:", foreground="blue"))
-    tkgrid(tkradiobutton(colClassFrame, text="Default", value=4, variable=colClassVar), sticky="w")
-    tkgrid(tkradiobutton(colClassFrame, text="Numeric", value=1, variable=colClassVar), sticky="w")
-    tkgrid(tkradiobutton(colClassFrame, text="Character", value=2, variable=colClassVar), sticky="w")
-    tkgrid(tkradiobutton(colClassFrame, text="Factor", value=3, variable=colClassVar), sticky="w")
+  colClassFrame <- tkframe(frame2, relief="groove", borderwidth=2)
+  tkgrid(tklabel(colClassFrame, text="Column types:", foreground="blue"))
+  tkgrid(tkradiobutton(colClassFrame, text="Default", value=4, variable=colClassVar), sticky="w")
+  tkgrid(tkradiobutton(colClassFrame, text="Numeric", value=1, variable=colClassVar), sticky="w")
+  tkgrid(tkradiobutton(colClassFrame, text="Character", value=2, variable=colClassVar), sticky="w")
+  tkgrid(tkradiobutton(colClassFrame, text="Factor", value=3, variable=colClassVar), sticky="w")
  	tkgrid(sepFrame, decSepFrame, colClassFrame, sticky="n")
 
 	tkpack(frame2, fill = "x")
@@ -1125,7 +990,8 @@
 	tkbind(tf, "<KeyPress-Return>", function() choosefic(show, history))
 	tkbind(tf, "<KeyPress-Escape>", function() tkdestroy(tf))
 	tkwait.variable(done)
-	if(tclvalue(done) == "2") return(0)
+	if(tclvalue(done) == "2")
+    return(0)
 	tkdestroy(tf)
 }
 
@@ -1134,15 +1000,15 @@
 ################################
 "displaytable" <- function(tabname)
 {
-    tt <- tktoplevel()
-    tkwm.title(tt, "Dataframe display")
-    txt <- tktext(tt, bg="white", font="courier")
-    scr <- tkscrollbar(tt, repeatinterval=5,
-                       command=function(...)tkyview(txt,...))
-    ## Safest to make sure scr exists before setting yscrollcommand
-    tkconfigure(txt, yscrollcommand=function(...)tkset(scr,...))
-    tkpack(txt, side="left", fill="both", expand=TRUE)
-    tkpack(scr, side="right", fill="y")
+  tt <- tktoplevel()
+  tkwm.title(tt, "Dataframe display")
+  txt <- tktext(tt, bg="white", font="courier")
+  scr <- tkscrollbar(tt, repeatinterval=5, command=function(...)tkyview(txt,...))
+  
+  ## Safest to make sure scr exists before setting yscrollcommand
+  tkconfigure(txt, yscrollcommand=function(...)tkset(scr,...))
+  tkpack(txt, side="left", fill="both", expand=TRUE)
+  tkpack(scr, side="right", fill="y")
 
 	sink(conn <- file("Rlisting001.tmp", open="w"))
 	cheval <- paste(tabname,"[1:min(20,nrow(", tabname, ")), 1:min(5,ncol(", tabname, "))]", sep="")
@@ -1150,14 +1016,14 @@
 	print(eval(parse(text=cheval)))
 	sink()
 	close(conn)
-    chn <- tclopen(file.path("Rlisting001.tmp"))
-    tkinsert(txt, "end", tclread(chn))
-    tclclose(chn)
-    system("rm Rlisting001.tmp")
+  chn <- tclopen(file.path("Rlisting001.tmp"))
+  tkinsert(txt, "end", tclread(chn))
+  tclclose(chn)
+  system("rm Rlisting001.tmp")
 
-    tkconfigure(txt, state="disabled")
-    tkmark.set(txt,"insert","0.0")
-    tkfocus(txt)
+  tkconfigure(txt, state="disabled")
+  tkmark.set(txt,"insert","0.0")
+  tkfocus(txt)
 }
 
 ################################
@@ -1177,7 +1043,8 @@
 			cat(paste("dialog.dudi.display(", show, ",", history, ",eval(expression(", dQuote(tclvalue(dudivar)), ")))", sep=""), "\n", pr1, sep="")
 		}
 
-		if (history) rewriteHistory(paste("dialog.dudi.display(", show, ",", history, ",eval(expression(", dQuote(tclvalue(dudivar)), ")))", sep=""))
+		if (history)
+      rewriteHistory(paste("dialog.dudi.display(", show, ",", history, ",eval(expression(", dQuote(tclvalue(dudivar)), ")))", sep=""))
 
 		tkdestroy(tf)
 	}
@@ -1232,7 +1099,6 @@
 	tkpack(tlb, side="left", fill="both", expand=TRUE)
 	tkpack(scr, side="right", fill="y")
 
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())
 #
 # For all objects in the global environment, check to see if it is a dudi
@@ -1299,7 +1165,6 @@
 	tkpack(tlb, side="left", fill="both", expand=TRUE)
 	tkpack(scr, side="right", fill="y")
 
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())
 #
 # For all objects in the global environment, check to see if it is a dudi
@@ -1376,7 +1241,6 @@
 	tkpack(tlb, side="left", fill="both", expand=TRUE)
 	tkpack(scr, side="right", fill="y")
 
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())
 #
 # For all objects in the global environment, check to see if it is a dudi
@@ -1422,18 +1286,16 @@
 ################################
 # dialog box to launch the explore function
 ################################
-"exploregraph" <- function(show, history)
-{
+"exploregraph" <- function(show, history) {
 	tf <- tktoplevel()
-	tkwm.title(tf,"Graph exploration")
-	
-	loclist <- get("cmdlist", envir=.GlobalEnv)
+	tkwm.title(tf, "Graph exploration")
+	loclist <- get("cmdlist", envir = .GlobalEnv)
 	
 	"callexp" <- function()
 	{
 		appel <- tclvalue(callvar)[[1]]
-		plotcmd <- parse(text=loclist[as.numeric(appel)+1])		
-		explorecmd <- parse(text=paste("explore(", plotcmd, ")", sep=""))		
+		plotcmd <- parse(text = loclist[as.numeric(appel) + 1])		
+		explorecmd <- parse(text = paste("explore(", plotcmd, ")", sep=""))		
 		if (show) {
 			pr1 <- substr(options("prompt")$prompt, 1,2)
 			cat(paste("explore(", plotcmd, ")", sep=""), "\n", pr1, sep="")
@@ -1491,7 +1353,6 @@
 	tkpack(tlb, side="left", fill="both", expand=TRUE)
 	tkpack(scr, side="right", fill="y")
 
-#	 rm("last.warning", envir=globalenv())
 #
 # cmdlist contains the list of graphs that were drawn by the user.
 #
@@ -1560,7 +1421,6 @@
 	tkpack(scr, side="right", fill="y")
 	
 	nbr <- tclvalue(tkcget(dfnr.label, "-text"))
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())	
 	
 #
@@ -1602,8 +1462,6 @@
 		}
 	}
 	v <- unlist(lapply(obj, flb))
-	#vnr <- v[seq(from=1,to=length(v),by=2)]
-	#vnc <- v[seq(from=2,to=length(v),by=2)]
 
 	tkbind(tlb, "<Double-ButtonPress-1>", function() tclvalue(done)<-1)
 	tkbind(tf, "<Destroy>", function() tclvalue(done)<-2)
@@ -1649,7 +1507,6 @@
 	tkpack(tlb, side="left", fill="both", expand=TRUE)
 	tkpack(scr, side="right", fill="y")
 	
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())
 	dudiname <- ""
 	dudi <- tclvalue(tkcget(dudi.entry, "-text"))
@@ -1691,8 +1548,6 @@
 		}
 	}
 	v <- unlist(lapply(obj, flb))
-	#vnr <- v[seq(from=1,to=length(v),by=2)]
-	#vnc <- v[seq(from=2,to=length(v),by=2)]
 
 	tkbind(tlb, "<Double-ButtonPress-1>", function() tclvalue(done)<-1)
 	tkbind(tf, "<Destroy>", function() tclvalue(done)<-2)
@@ -1738,7 +1593,6 @@
 	tkpack(tlb, side="left", fill="both", expand=TRUE)
 	tkpack(scr, side="right", fill="y")
 	
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())
 	nlev <- length(levels(eval(parse(text=tclvalue(facvar)))))
 
@@ -1794,7 +1648,6 @@
 	tkpack(tlb, side="left", fill="both", expand=TRUE)
 	tkpack(scr, side="right", fill="y")
 	
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())
 	
 	for (i in 1:length(obj)) {
@@ -1850,7 +1703,6 @@
 	tkpack(tlb, side="left", fill="both", expand=TRUE)
 	tkpack(scr, side="right", fill="y")
 	
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())
 	
 	for (i in 1:length(obj)) {
@@ -1966,12 +1818,12 @@
 	tkgrid(tklabel(tf,text="Save current graphic", font="Times 18"), columnspan=2)
 
 	tkgrid(tklabel(frame2,text="Output format : "), sticky="n")
-    tkgrid(tkradiobutton(frame2, text="postscript", value=1, variable=formatvar), sticky="w")
-    tkgrid(tkradiobutton(frame2, text="pdf", value=2, variable=formatvar), sticky="w")
-    tkgrid(tkradiobutton(frame2, text="pictex", value=3, variable=formatvar), sticky="w")
-    tkgrid(tkradiobutton(frame2, text="xfig", value=4, variable=formatvar), sticky="w")
-    tkgrid(tkradiobutton(frame2, text="png", value=5, variable=formatvar), sticky="w")
-    tkgrid(tkradiobutton(frame2, text="jpeg", value=6, variable=formatvar), sticky="w")
+  tkgrid(tkradiobutton(frame2, text="postscript", value=1, variable=formatvar), sticky="w")
+  tkgrid(tkradiobutton(frame2, text="pdf", value=2, variable=formatvar), sticky="w")
+  tkgrid(tkradiobutton(frame2, text="pictex", value=3, variable=formatvar), sticky="w")
+  tkgrid(tkradiobutton(frame2, text="xfig", value=4, variable=formatvar), sticky="w")
+  tkgrid(tkradiobutton(frame2, text="png", value=5, variable=formatvar), sticky="w")
+  tkgrid(tkradiobutton(frame2, text="jpeg", value=6, variable=formatvar), sticky="w")
 	tkgrid(frame2, rowspan=2, sticky="n")
     
 	tkgrid(tklabel(frame3,text="Output size : "))
@@ -1990,7 +1842,8 @@
 	tkbind(tf, "<KeyPress-Return>", function() savefic(formatvar, widthvar, heightvar))
 	tkbind(tf, "<KeyPress-Escape>", function() tkdestroy(tf))
 	tkwait.variable(done)
-	if(tclvalue(done) == "2") return(0)
+	if(tclvalue(done) == "2")
+    return(0)
 	tkdestroy(tf)
 }
 
@@ -2006,7 +1859,6 @@
 	} else if (options("device")$device=="quartz") {
 		quartz()
 	}
-#	winlist <<- winlist+1
 	assign("winlist", get("winlist", envir=.GlobalEnv)+1, envir=.GlobalEnv)
 }
 
@@ -2043,7 +1895,6 @@
 	tkpack(tlb, side="left", fill="both", expand=TRUE)
 	tkpack(scr, side="right", fill="y")
 
-#	 rm("last.warning", envir=globalenv())
 #
 # dev.list contains the list of graphic windows.
 #
@@ -2113,7 +1964,6 @@
 	tkpack(tlb, side="left", fill="both", expand=TRUE)
 	tkpack(scr, side="right", fill="y")
 
-#	 rm("last.warning", envir=globalenv())
 	obj <- ls(globalenv())
 #
 # For all objects in the global environment, check to see if it is a dataframe
@@ -2190,4 +2040,24 @@
 	writeLines(command, con=conn) 
 	close(conn) 
 	loadhistory(file1) 
+}
+
+
+
+################################
+# Functions to test if one or two values are empty and to return a default value
+# Two useful functions for programming optimization
+################################
+".test1value" <- function(val, default) {
+  if(val!="")
+    return(parse(text=val)[[1]])
+  else
+    return(default) 
+}
+
+".test2values" <- function(val1, val2, default) {
+  if((val1!="") & (val2!=""))
+    return(c(parse(text=val1)[[1]], parse(text=val2)[[1]]))
+  else
+    return(default)
 }

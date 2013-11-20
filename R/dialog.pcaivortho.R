@@ -3,8 +3,6 @@
 ################################
 "dialog.pcaivortho" <- function(show, history)
 {
-	op=options()
-	options(warn=-1)
 #
 # Main dialog window with title
 #
@@ -139,7 +137,6 @@
 	#
 	# Execute the command
 	#
-#		ade4TkGUIFlag <<- 1
 		assign("ade4TkGUIFlag", 1, envir=.GlobalEnv)
 		myObject <- eval.parent(cmd)
 		assign(eval(dudiout), myObject, pos=1)

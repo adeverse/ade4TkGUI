@@ -2,10 +2,7 @@
 # tcl/Tk GUI for the ordiClust method
 ################################
 "ordiClust" <- function(datatab=NULL, hscalef=1.2, vscalef=1.2, maxgr=20) {
-	require(tcltk) || stop("tcltk support is absent")
-	require(tkrplot) || stop("tkrplot support is absent")
-	require(ade4) || stop("ade4 support is absent")
-	require(grDevices) || stop("grDevices support is absent")
+
 	if (.Platform$OS.type == "windows") {
 		hscale <- hscalef + 0.2
 		vscale <- vscalef + 0.2
@@ -13,7 +10,6 @@
 		hscale <- hscalef
 		vscale <- vscalef
 	}
-	options(warn=-1)
 
 	tt <- tktoplevel()
 	tkwm.title(tt,"OrdiClust")
@@ -80,16 +76,16 @@
 				} else  return()
 				if ((xax >= 1) && (xax <= nax) && (yax >= 1) && (yax <= nax))
 					if (tclvalue(mgrvar) == 1) {
-						if (as.logical(tclObj(colorvar))) s.class(ordiClust.dudi$li, fact1, xax=xax, yax=yax, col=rainbow(nlevels(fact1)))
-							else s.class(ordiClust.dudi$li, fact1, xax=xax, yax=yax)
+						if (as.logical(tclObj(colorvar))) s.class(dfxy=ordiClust.dudi$li, fac=fact1, xax=xax, yax=yax, col=rainbow(nlevels(fact1)))
+							else s.class(dfxy=ordiClust.dudi$li, fac=fact1, xax=xax, yax=yax)
 					} else {
-						if (as.logical(tclObj(colorvar))) s.chull(ordiClust.dudi$li, fact1, optchull=1, xax=xax, yax=yax, col=rainbow(nlevels(fact1)))
-							else s.chull(ordiClust.dudi$li, fact1, optchull=1, xax=xax, yax=yax)
+						if (as.logical(tclObj(colorvar))) s.class(dfxy=ordiClust.dudi$li, fac=fact1, chullSize=1, ellipseSize=0, starSize=0, xax=xax, yax=yax, col=rainbow(nlevels(fact1)))
+							else s.class(dfxy=ordiClust.dudi$li, fac=fact1, chullSize=1, ellipseSize=0, starSize=0, xax=xax, yax=yax)
 					}
 			}
 		} else if (ploteig) {
 			if (!is.null(ordiClust.dudi)) {
-				barplot(ordiClust.dudi$eig)
+				adegraphics:::.add.scatter.eig(ordiClust.dudi$eig)
 			}
 		} else if (plotrow) {
 			if (!is.null(ordiClust.dudi)) {
@@ -102,7 +98,7 @@
 					yax <- as.numeric(yaxs)
 				} else  return()
 				if ((xax >= 1) && (xax <= nax) && (yax >= 1) && (yax <= nax))
-					s.label(ordiClust.dudi$li, xax, yax, boxes=FALSE)
+					s.label(dfxy=ordiClust.dudi$li, xax=xax, yax=yax, plabels.boxes.draw=FALSE)
 			}
 		} else if (plotcol) {
 			if (!is.null(ordiClust.dudi)) {
@@ -115,7 +111,7 @@
 					yax <- as.numeric(yaxs)
 				} else  return()
 				if ((xax >= 1) && (xax <= nax) && (yax >= 1) && (yax <= nax)) 
-					s.label(ordiClust.dudi$co, xax, yax, boxes=FALSE)
+					s.label(dfxy=ordiClust.dudi$co, xax=xax, yax=yax, plabels.boxes.draw=FALSE)
 			}
 		} else if (plotclust) {
 			if (class(h1) == "hclust") {
@@ -142,7 +138,6 @@
 		} else {
 			plot(0, type="n")
 		}
-		#} else 	plot(0, type="n", xaxt="n", yaxt="n", xlab="", ylab="", bty="n")
 	}
 	
 	################################
@@ -261,8 +256,8 @@
 #
 # tkrplot init
 #
-    plotFrame <- tkframe(tt, relief="groove", borderwidth=2)
-	img <-tkrplot(plotFrame, fplot, hscale=hscale, vscale=vscale)
+  plotFrame <- tkframe(tt, relief="groove", borderwidth=2)
+	img <- tkrplot(plotFrame, fplot, hscale=hscale, vscale=vscale)
 
 #
 # Ordination method
@@ -424,8 +419,8 @@
 				hlev <<- hlev1
 				tclvalue(hlevvar) <- hlev1
 				if (nlev > 1 && nlev <= nrow(ordiClust.dudi$li)) {
-					bet1 <- between(ordiClust.dudi, as.factor(ordiClust.factor), scannf=FALSE)
-					mc1 <- randtest.between(bet1)
+					bet1 <- bca(ordiClust.dudi, as.factor(ordiClust.factor), scannf=FALSE)
+					mc1 <- randtest(bet1)
 					tkconfigure(bwg.label, text=paste(format(bet1$ratio*100, dig=2),"%",sep=""))
 					tkconfigure(proba.label, text=format(mc1$pvalue, dig=3))
 				}
@@ -447,8 +442,8 @@
 				tclvalue(nlevvar) <- nlevels(ordiClust.factor)
 				nlev <<- as.numeric(tclvalue(nlevvar))
 				if (nlev > 1 && nlev <= nrow(ordiClust.dudi$li)) {
-					bet1 <- between(ordiClust.dudi,as.factor(ordiClust.factor),scannf=FALSE)
-					mc1 <- randtest.between(bet1)
+					bet1 <- bca(ordiClust.dudi,as.factor(ordiClust.factor),scannf=FALSE)
+					mc1 <- randtest(bet1)
 					tkconfigure(bwg.label, text=paste(format(bet1$ratio*100, dig=2),"%",sep=""))
 					tkconfigure(proba.label, text=format(mc1$pvalue, dig=3))
 				}
@@ -467,8 +462,8 @@
 				ordiClust.factor <<- as.factor(cutree(h1, k=nlev))
 				assign("ordiClust.factor", ordiClust.factor, globalenv())
 			}
-			bet1 <- between(ordiClust.dudi,as.factor(ordiClust.factor),scannf=FALSE)
-			mc1 <- randtest.between(bet1)
+			bet1 <- bca(ordiClust.dudi,as.factor(ordiClust.factor),scannf=FALSE)
+			mc1 <- randtest(bet1)
 			tkconfigure(bwg.label, text=paste(format(bet1$ratio*100, dig=2),"%",sep=""))
 			tkconfigure(proba.label, text=format(mc1$pvalue, dig=3))
 		}
@@ -496,7 +491,7 @@
 			betrat <<- vector("numeric", nchh)
 			for (i in 1:(nchh-1)) {
 				f1loc <- as.factor(hhloc[,i])
-				betrat[nchh-i+1] <<- between(ordiClust.dudi, f1loc, scannf=FALSE)$ratio
+				betrat[nchh-i+1] <<- bca(ordiClust.dudi, f1loc, scannf=FALSE)$ratio
 			}
 			plotrow <<- 0
 			plotcol <<- 0
@@ -515,7 +510,6 @@
 	tkgrid(tklabel(TFrame,text="OrdiClust", font="Times 18", foreground="red"), labh)
 	tkgrid(TFrame, columnspan=2)
 	tkbind(labh, "<Button-1>", function() print(help("ordiClust")))
-
 
 	compFrame <- tkframe(tt, relief="groove")
 #
@@ -552,14 +546,14 @@
 #
 # Ordination method
 #	
-    ordFrame <- tkframe(compFrame, relief="groove", borderwidth=2)
-
-    ordMethFrame <- tkframe(ordFrame, relief="groove", borderwidth=2)
-    tkgrid(tklabel(ordMethFrame, text="- Ordination method -", foreground="blue"))
-    tkgrid(tkradiobutton(ordMethFrame, text="cPCA", value=1, variable=ordvar))
-    tkgrid(tkradiobutton(ordMethFrame, text="nPCA", value=2, variable=ordvar))
-    tkgrid(tkradiobutton(ordMethFrame, text="COA", value=3, variable=ordvar))
-    tkgrid(tkradiobutton(ordMethFrame, text="MCA", value=4, variable=ordvar))
+  ordFrame <- tkframe(compFrame, relief="groove", borderwidth=2)
+  
+  ordMethFrame <- tkframe(ordFrame, relief="groove", borderwidth=2)
+  tkgrid(tklabel(ordMethFrame, text="- Ordination method -", foreground="blue"))
+  tkgrid(tkradiobutton(ordMethFrame, text="cPCA", value=1, variable=ordvar))
+  tkgrid(tkradiobutton(ordMethFrame, text="nPCA", value=2, variable=ordvar))
+  tkgrid(tkradiobutton(ordMethFrame, text="COA", value=3, variable=ordvar))
+  tkgrid(tkradiobutton(ordMethFrame, text="MCA", value=4, variable=ordvar))
 	ord.but <- tkbutton(ordMethFrame, text="Submit", default="active", command=function() {doOrd(); tkrreplot(img)})
 	tkgrid(ord.but)
 	nax.but <- tkbutton(ordMethFrame, text="Set", default="active", command=function() {doChooseAxes(); tkrreplot(img)})
@@ -568,8 +562,8 @@
 #
 # Ordination graph
 #	
-    ordGrFrame <- tkframe(ordFrame, relief="groove", borderwidth=2)
-    tkgrid(tklabel(ordGrFrame, text="- Ordination graph -", foreground="blue"), columnspan=2)
+  ordGrFrame <- tkframe(ordFrame, relief="groove", borderwidth=2)
+  tkgrid(tklabel(ordGrFrame, text="- Ordination graph -", foreground="blue"), columnspan=2)
 	xax.entry <- tkentry(ordGrFrame, textvariable=xaxvar, width=4)
 	tkgrid(tklabel(ordGrFrame,text="X-axis : "), xax.entry, sticky="w")
 	yax.entry <- tkentry(ordGrFrame, textvariable=yaxvar, width=4)
@@ -609,18 +603,17 @@
     tkgrid(tkradiobutton(clustMethFrame, text="mcquitty", value=5, variable=clustvar, command=function() {doClust(); tkrreplot(img)}), sticky="w")
     tkgrid(tkradiobutton(clustMethFrame, text="median", value=6, variable=clustvar, command=function() {doClust(); tkrreplot(img)}), sticky="w")
     tkgrid(tkradiobutton(clustMethFrame, text="centroid", value=7, variable=clustvar, command=function() {doClust(); tkrreplot(img)}), sticky="w")
-	clust.but <- tkbutton(clustMethFrame, text="Submit", default="active", command=function() {
-		plotclust <<- 1;
-		plotcurve <<- 0;
-		plotclass <<- 0;
-		doClust();
-		tkrreplot(img)}
-	)
-	tkgrid(clust.but)
+	  clust.but <- tkbutton(clustMethFrame, text="Submit", default="active", command=function() {
+		    plotclust <<- 1;
+		    plotcurve <<- 0;
+		    plotclass <<- 0;
+		    doClust();
+		    tkrreplot(img)})
+	  tkgrid(clust.but)
 #
 # Cut level
 #	
-    cutFrame <- tkframe(compFrame, relief="groove", borderwidth=2)
+  cutFrame <- tkframe(compFrame, relief="groove", borderwidth=2)
 	tkgrid(tklabel(cutFrame,text="Number of groups", font="Times 18", foreground="red"), columnspan=3)
 	cutk.but <- tkbutton(cutFrame, text="Cut tree", default="active", command=function() {doCutk(); tkrreplot(img)})
 	nlev.entry <- tkentry(cutFrame, textvariable=nlevvar, width=6)
@@ -657,8 +650,8 @@
 			}
 			else return(0)
 			if (nlev >= 2 && nlev <= nrow(ordiClust.dudi$li)) {
-				bet1 <- between(ordiClust.dudi,as.factor(ordiClust.factor),scannf=FALSE)
-				mc1 <- randtest.between(bet1)
+				bet1 <- bca(ordiClust.dudi,as.factor(ordiClust.factor),scannf=FALSE)
+				mc1 <- randtest(bet1)
 				tkconfigure(bwg.label, text=paste(format(bet1$ratio*100, dig=2),"%",sep=""))
 				tkconfigure(proba.label, text=format(mc1$pvalue, dig=3))
 			} else return(0)
@@ -679,10 +672,9 @@
 #
 # scale
 #
-	s <- tkscale(plotFrame, command=f, from=0, to=maxngr, variable=nlevvar,
-				 showvalue=TRUE, resolution=1, tickinterval=5, length=500, orient="horiz")
+	s <- tkscale(plotFrame, command=f, from=0, to=maxngr, variable=nlevvar, showvalue=TRUE, resolution=1, tickinterval=5, length=500, orient="horiz")
 	tkgrid(img, columnspan=2)
-    plotParFrame <- tkframe(plotFrame, relief="groove", borderwidth=2)
+  plotParFrame <- tkframe(plotFrame, relief="groove", borderwidth=2)
 	color.but <- tkcheckbutton(plotParFrame,text="Colors", variable=colorvar, command=function() tkrreplot(img))
 	ell.rbut <- tkradiobutton(plotParFrame, text="Ellipses", value=1, variable=mgrvar, command=function() tkrreplot(img))
 	chul.rbut <- tkradiobutton(plotParFrame, text="Conv. hulls", value=2, variable=mgrvar, command=function() tkrreplot(img))
@@ -690,7 +682,7 @@
 	tkgrid(ell.rbut)
 	tkgrid(chul.rbut)
 	tkgrid(plotParFrame, s)
-
+  
 	RCSFrame <- tkframe(plotFrame, relief="groove")
 	cancel.but <- tkbutton(RCSFrame, text="Dismiss", command=function() tkdestroy(tt))
 	submit.but <- tkbutton(RCSFrame, text="Submit", default="active", command=function() {doClass(); tkrreplot(img)})
@@ -725,8 +717,8 @@
 				if (nlev >= 2 && nlev <= nrow(ordiClust.dudi$li)) {
 					ordiClust.factor <<- as.factor(cutree(h1, k=nlev))
 					assign("ordiClust.factor", ordiClust.factor, globalenv())
-					bet1 <- between(ordiClust.dudi,as.factor(ordiClust.factor),scannf=FALSE)
-					mc1 <- randtest.between(bet1)
+					bet1 <- bca(ordiClust.dudi,as.factor(ordiClust.factor),scannf=FALSE)
+					mc1 <- randtest(bet1)
 					tkconfigure(bwg.label, text=paste(format(bet1$ratio*100, dig=2),"%",sep=""))
 					tkconfigure(proba.label, text=format(mc1$pvalue, dig=3))
 				}
@@ -755,8 +747,8 @@
 				if (nlev >= 2 && nlev <= nrow(ordiClust.dudi$li)) {
 					ordiClust.factor <<- as.factor(cutree(h1, k=nlev))
 					assign("ordiClust.factor", ordiClust.factor, globalenv())
-					bet1 <- between(ordiClust.dudi,as.factor(ordiClust.factor),scannf=FALSE)
-					mc1 <- randtest.between(bet1)
+					bet1 <- bca(ordiClust.dudi,as.factor(ordiClust.factor),scannf=FALSE)
+					mc1 <- randtest(bet1)
 					tkconfigure(bwg.label, text=paste(format(bet1$ratio*100, dig=2),"%",sep=""))
 					tkconfigure(proba.label, text=format(mc1$pvalue, dig=3))
 				} else {

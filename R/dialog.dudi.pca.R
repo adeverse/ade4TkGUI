@@ -3,8 +3,6 @@
 ################################
 "dialog.dudi.pca" <- function(show, history)
 {
-	op=options()
-	options(warn=-1)
 #
 # Main dialog window with title
 #
@@ -185,7 +183,8 @@
 	#
 	# Check that the analysis name is not empty and get it
 	#
-		if (tclvalue(dudivar) == "") tkinsert(dudi.entry, "end", "untitled1")
+		if (tclvalue(dudivar) == "")
+      tkinsert(dudi.entry, "end", "untitled1")
 		dudiname <- parse(text=paste("\"",tclvalue(dudivar)[[1]],"\"",sep=""))
 	#
 	# Build and display the command line so that the user can check it
@@ -202,7 +201,6 @@
 	#
 	# Execute the command
 	#
-#		ade4TkGUIFlag <<- 1
 		assign("ade4TkGUIFlag", 1, envir=.GlobalEnv)
 		mydudi <- eval.parent(cmd)
 		assign(eval(dudiname), mydudi, pos=1)

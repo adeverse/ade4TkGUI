@@ -3,7 +3,7 @@
 ################################
 "dialog.dudi.display" <- function(showCom, histCom, dudiname)
 {
-	tf=tktoplevel()
+	tf <- tktoplevel()
 	tkwm.title(tf, dudiname)
 	done <- tclVar(0)
 	
@@ -20,114 +20,109 @@
 #
 # intermediate functions to draw graphics
 #
+  
+  "tablevalue" <- function(val)
+	{
+    g <- do.call("table.value",list(tab = parse(text=paste(dudiname, val, sep=""))[[1]]))
+    print(g@Call)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
+		if (showCom) {
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
+		}
+		if (histCom) rewriteHistory(deparse(g@Call))
+	}
+  
+  
 	"scatterfunc" <- function()
 	{
-		scatter(eval(parse(text=dudiname)), parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("scatter(", parse(text=dudiname), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]], ")", sep="")
+		g <- do.call("scatter", list(x = parse(text=dudiname)[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+    assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 
 	"scorefunc" <- function()
 	{
-		score(eval(parse(text=dudiname)), parse(text=tclvalue(xaxvar))[[1]])
-		cmd <- paste("score(", parse(text=dudiname), ",", parse(text=tclvalue(xaxvar))[[1]], ")", sep="")
+    g <- do.call("score", list(x = parse(text=dudiname)[[1]], xax = parse(text=tclvalue(xaxvar))[[1]]))
+    assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"plotfunc" <- function()
 	{
-		plot(eval(parse(text=dudiname)), parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("plot(", parse(text=dudiname), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]], ")", sep="")
+    g <- do.call("plot", list(x = parse(text=dudiname)[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
-	}
+		if (histCom) rewriteHistory(deparse(g@Call))
+  }
 
 	"tabvalue" <- function()
 	{
-		cmd <- paste("ngr <- sqrt(nrow(", dudiname, "$co))+1; par(mfrow=c(ngr,ngr)); for(i in 1:nrow(",dudiname,
-			"$co)) s.value(",dudiname, "$li,", dudiname, "$tab[,i],", parse(text=tclvalue(xaxvar))[[1]], ",",
-			parse(text=tclvalue(yaxvar))[[1]], ", sub=names(",dudiname, "$tab[i]), csub=2, clegend=2, cgrid=2); par(mfrow=c(1,1))", sep="")
+    g <- do.call("s.value", list(dfxy = parse(text=paste(dudiname, "$li", sep=""))[[1]], z = parse(text=paste(dudiname, "$tab", sep=""))[[1]], 
+        xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]],
+        psub.text = eval(parse(text=paste("names(",dudiname, "$tab)", sep=""))), psub.cex = 1.5))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
-		ngr <- sqrt(eval(parse(text=paste("nrow(",dudiname, "$co)", sep=""))))+1
-		par(mfrow=c(ngr,ngr))
-		for (i in 1:eval(parse(text=paste("nrow(",dudiname, "$co)", sep=""))))
-		s.value(eval(parse(text=paste(dudiname, "$li", sep=""))), eval(parse(text=paste(dudiname, "$tab[,i]", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]],
-			sub=eval(parse(text=paste("names(",dudiname, "$tab[i])", sep=""))),
-			csub=2, clegend=2, cgrid=2)
-		par(mfrow=c(1,1))
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labelli" <- function()
 	{
-		s.label(eval(parse(text=paste(dudiname, "$li", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.label(",parse(text=paste(dudiname, "$li", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$li", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labell1" <- function()
 	{
-		s.arrow(eval(parse(text=paste(dudiname, "$l1", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.arrow(",parse(text=paste(dudiname, "$l1", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.arrow",list(dfxy = parse(text=paste(dudiname, "$l1", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labell1dpcoa" <- function()
 	{
-		s.label(eval(parse(text=paste(dudiname, "$l1", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.label(",parse(text=paste(dudiname, "$l2", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$l1", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labell2dpcoa" <- function()
 	{
-		s.label(eval(parse(text=paste(dudiname, "$l2", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.label(",parse(text=paste(dudiname, "$l2", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$l2", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labelco" <- function()
@@ -145,77 +140,54 @@
 			} else {
 				res1 <- NA
 			}
+      
 			if (!is.na(res1) && res1 == 1) {
-				s.label(eval(parse(text=paste(dudiname, "$co", sep=""))),
-					parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-				cmd <- paste("s.label(",parse(text=paste(dudiname, "$co", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-				# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
-				if (showCom) {
-					pr1 <- substr(options("prompt")$prompt, 1,2)
-					cat(cmd, "\n", pr1, sep="")
-				}
-				if (histCom) rewriteHistory(cmd)
+				g <- do.call("s.label", list(dfxy = parse(text=paste(dudiname, "$co", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
 			} else {
-				s.corcircle(eval(parse(text=paste(dudiname, "$co", sep=""))),
-					parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-				cmd <- paste("s.corcircle(",parse(text=paste(dudiname, "$co", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-				if (showCom) {
-					pr1 <- substr(options("prompt")$prompt, 1,2)
-					cat(cmd, "\n", pr1, sep="")
-				}
-				if (histCom) rewriteHistory(cmd)
+				g <- do.call("s.corcircle", list(dfxy = parse(text=paste(dudiname, "$co", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
 			}
-		} else {
-			s.label(eval(parse(text=paste(dudiname, "$co", sep=""))),
-				parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-			cmd <- paste("s.label(",parse(text=paste(dudiname, "$co", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-			# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
-			if (showCom) {
-					pr1 <- substr(options("prompt")$prompt, 1,2)
-					cat(cmd, "\n", pr1, sep="")
-			}
-			if (histCom) rewriteHistory(cmd)
+    } else {
+			g <- do.call("s.label", list(dfxy = parse(text=paste(dudiname, "$co", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
 		}
+    assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
+		if (showCom) {
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
+		}
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labelc1" <- function()
 	{
-		s.arrow(eval(parse(text=paste(dudiname, "$c1", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.arrow(",parse(text=paste(dudiname, "$c1", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.arrow", list(dfxy = parse(text=paste(dudiname, "$c1", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"corcirclefunc" <- function()
 	{
-		s.corcircle(eval(parse(text=paste(dudiname, "$co", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.corcircle(", parse(text=paste(dudiname, "$co", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+    g <- do.call("s.corcircle",list(dfxy = parse(text=paste(dudiname, "$co", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labelc1dpcoa" <- function()
 	{
-		s.corcircle(eval(parse(text=paste(dudiname, "$c1", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.corcircle(", parse(text=paste(dudiname, "$c1", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+    g <- do.call("s.corcircle",list(dfxy = parse(text=paste(dudiname, "$c1", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"w1plotfunc" <- function()
@@ -223,7 +195,7 @@
 		dotchart(eval(parse(text=paste(dudiname, "$w1", sep=""))))
 		cmd <- paste("dotchart(", parse(text=paste(dudiname, "$w1", sep="")),")",sep="")
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
+			pr1 <- substr(options("prompt")$prompt, 1, 2)
 			cat(cmd, "\n", pr1, sep="")
 		}
 		if (histCom) rewriteHistory(cmd)
@@ -242,23 +214,14 @@
 
 	"RaoDivplotfunc" <- function()
 	{
-		#dotchart(eval(parse(text=paste(dudiname, "$RaoDiv", sep=""))))
-		s.value(dfxy = eval(parse(text=paste(dudiname, "$l2", sep=""))),
-			z = eval(parse(text=paste(dudiname, "$RaoDiv", sep=""))),
-			xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]],
-			csize = 2, sub = "Rao Divcs", possub = "topright", csub = 1.5)
-		cmd <- paste("s.value(dfxy = ",parse(text=paste(dudiname, "$l2", sep="")), ", z = ",
-			parse(text=paste(dudiname, "$RaoDiv", sep="")),
-			", xax = ", parse(text=tclvalue(xaxvar))[[1]],
-			", yax = ", parse(text=tclvalue(yaxvar))[[1]],
-			", csize = 2, sub = \"Rao Divcs\", possub = \"topright\", csub = 1.5)", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.value",list(dfxy = parse(text=paste(dudiname, "$l2", sep=""))[[1]], z = parse(text=paste(dudiname, "$RaoDiv", sep=""))[[1]], 
+        xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]], maxsize = 2, psub.text = "Rao Divcs", psub.position = "topright", psub.cex = 1.5))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 	
 	"cwplotfunc" <- function()
@@ -285,398 +248,344 @@
 
 	"eigplotfunc" <- function()
 	{
-		rank1 <- eval(parse(text=paste(dudiname,"$rank",sep="")))	
-		barplot(eval(parse(text=paste(dudiname, "$eig[1:", rank1, "]", sep=""))))
-		cmd <- paste("barplot(", parse(text=paste(dudiname, "$eig[1:", rank1, "]", sep="")),")",sep="")
+    rank1 <- eval(parse(text=paste(dudiname,"$rank",sep=""))[[1]])
+    eigvalue <- eval(parse(text = paste(dudiname, "$eig[1:", rank1, "]", sep="")))
+    xax <- parse(text=tclvalue(xaxvar))[[1]]
+    yax <- parse(text=tclvalue(yaxvar))[[1]]
+    nf <- eval(parse(text=paste(dudiname,"$nf",sep=""))[[1]])
+    g <- adegraphics:::.add.scatter.eig(eigvalue = eigvalue, nf = 1:nf, xax = xax, yax = yax, paxes.draw = TRUE, paxes.x.draw = FALSE)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom)
+      rewriteHistory(deparse(g@Call))
 	}
 
 	"dpcoaeigplotfunc" <- function()
 	{
-		rank1 <- eval(parse(text=paste(dudiname,"$rank",sep="")))	
-		barplot(eval(parse(text=paste(dudiname, "$eig", sep=""))))
-		cmd <- paste("barplot(", parse(text=paste(dudiname, "$eig", sep="")),")",sep="")
+    g <- adegraphics:::.add.scatter.eig(eigvalue = eval(parse(text=paste(dudiname, "$eig", sep=""))), nf = 1:eval(parse(text=paste(dudiname, "$nf", sep=""))))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labells" <- function()
 	{
-		s.class(dfxy=eval(parse(text=paste(dudiname, "$ls", sep=""))), fac=eval(parse(text=dcall[3])),
-			xax=parse(text=tclvalue(xaxvar))[[1]], yax=parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.class(dfxy=",parse(text=paste(dudiname, "$ls", sep="")), ", fac=", parse(text=dcall[3]),
-			", xax=", parse(text=tclvalue(xaxvar))[[1]], ", yax=", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.class",list(dfxy = parse(text=paste(dudiname, "$ls", sep=""))[[1]], fac = parse(text=dcall[3])[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labelas" <- function()
 	{
-		s.arrow(eval(parse(text=paste(dudiname, "$as", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.arrow(",parse(text=paste(dudiname, "$as", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.arrow",list(dfxy = parse(text=paste(dudiname, "$as", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labelfa" <- function()
 	{
-		s.arrow(eval(parse(text=paste(dudiname, "$fa", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.arrow(",parse(text=paste(dudiname, "$fa", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.arrow",list(dfxy = parse(text=paste(dudiname, "$fa", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labellid" <- function()
 	{
-		s.class(dfxy=eval(parse(text=paste(dudiname, "$li", sep=""))), fac=eval(parse(text=dcall[3])),
-			xax=parse(text=tclvalue(xaxvar))[[1]], yax=parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.class(dfxy=",parse(text=paste(dudiname, "$li", sep="")), ", fac=", parse(text=dcall[3]),
-			", xax=", parse(text=tclvalue(xaxvar))[[1]], ", yax=", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.class",list(dfxy = parse(text=paste(dudiname, "$li", sep=""))[[1]], fac = parse(text=dcall[3])[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labelva" <- function()
 	{
-		s.corcircle(eval(parse(text=paste(dudiname, "$va", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.corcircle(",parse(text=paste(dudiname, "$va", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+    g <- do.call("s.corcircle",list(dfxy = parse(text=paste(dudiname, "$va", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labelcp" <- function()
 	{
-		s.corcircle(eval(parse(text=paste(dudiname, "$cp", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.corcircle(",parse(text=paste(dudiname, "$cp", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+    g <- do.call("s.corcircle",list(dfxy = parse(text=paste(dudiname, "$cp", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labelgc" <- function()
 	{
-		s.label(eval(parse(text=paste(dudiname, "$gc", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.label(",parse(text=paste(dudiname, "$gc", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$gc", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labelaX" <- function()
 	{
-		s.corcircle(eval(parse(text=paste(dudiname, "$aX", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.corcircle(",parse(text=paste(dudiname, "$aX", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+    g <- do.call("s.corcircle",list(dfxy = parse(text=paste(dudiname, "$aX", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labelaY" <- function()
 	{
-		s.corcircle(eval(parse(text=paste(dudiname, "$aY", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.corcircle(",parse(text=paste(dudiname, "$aY", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+    g <- do.call("s.corcircle",list(dfxy = parse(text=paste(dudiname, "$aY", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labell1Y" <- function()
 	{
-		s.arrow(eval(parse(text=paste(dudiname, "$l1", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.arrow(",parse(text=paste(dudiname, "$l1", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.arrow",list(dfxy = parse(text=paste(dudiname, "$l1", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labelc1X" <- function()
 	{
-		s.arrow(eval(parse(text=paste(dudiname, "$c1", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.arrow(",parse(text=paste(dudiname, "$c1", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.arrow",list(dfxy = parse(text=paste(dudiname, "$c1", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labellX" <- function()
 	{
-		s.label(eval(parse(text=paste(dudiname, "$lX", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.label(",parse(text=paste(dudiname, "$lX", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$lX", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labellY" <- function()
 	{
-		s.label(eval(parse(text=paste(dudiname, "$lY", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.label(",parse(text=paste(dudiname, "$lY", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$lY", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labelmX" <- function()
 	{
-		s.match(eval(parse(text=paste(dudiname, "$mX", sep=""))), eval(parse(text=paste(dudiname, "$mY", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.match(",parse(text=paste(dudiname, "$mX", sep="")), ",",parse(text=paste(dudiname, "$mY", sep="")),
-			",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+    g <- do.call("s.match",list(dfxy1 = parse(text=paste(dudiname, "$mY", sep=""))[[1]], dfxy2 = parse(text=paste(dudiname, "$mX", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labelmY" <- function()
 	{
-		s.match(eval(parse(text=paste(dudiname, "$mY", sep=""))), eval(parse(text=paste(dudiname, "$mX", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.match(",parse(text=paste(dudiname, "$mY", sep="")), ",",parse(text=paste(dudiname, "$mX", sep="")),
-			",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+    g <- do.call("s.match",list(dfxy1 = parse(text=paste(dudiname, "$mX", sep=""))[[1]], dfxy2 = parse(text=paste(dudiname, "$mY", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"tabvalueCA" <- function()
 	{
-		table.value(eval(parse(text=paste(dudiname, "$tab", sep=""))))
-		cmd <- paste("table.value(", parse(text=paste(dudiname, "$tab", sep="")), ")", sep="")
+    g <- do.call("table.value",list(tab = parse(text=paste(dudiname, "$tab", sep=""))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"tabvalueX" <- function()
 	{
-		table.value(eval(parse(text=paste(dudiname, "$X", sep=""))))
-		cmd <- paste("table.value(", parse(text=paste(dudiname, "$X", sep="")), ")", sep="")
+    g <- do.call("table.value",list(tab = parse(text=paste(dudiname, "$X", sep=""))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"tabvalueY" <- function()
 	{
-		table.value(eval(parse(text=paste(dudiname, "$Y", sep=""))))
-		cmd <- paste("table.value(", parse(text=paste(dudiname, "$Y", sep="")), ")", sep="")
+    g <- do.call("table.value",list(tab = parse(text=paste(dudiname, "$Y", sep=""))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"tabvalueRaoDecodiv" <- function()
 	{
-		table.value(eval(parse(text=paste(dudiname, "$RaoDecodiv", sep=""))))
-		cmd <- paste("table.value(", parse(text=paste(dudiname, "$RaoDecodiv", sep="")), ")", sep="")
+    g <- do.call("table.value",list(tab = parse(text=paste(dudiname, "$RaoDecodiv", sep=""))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 	
 	"tabvalueRaoDis" <- function()
 	{
-		#table.value(as.matrix(eval(parse(text=paste(dudiname, "$RaoDis", sep="")))))
-		
-		table.dist(eval(parse(text=paste(dudiname, "$RaoDis", sep=""))), labels=
-			eval(parse(text=paste("attributes(", dudiname, "$RaoDis)$Lab", sep=""))))
-		cmd <- paste("table.dist(",parse(text=paste(dudiname, "$RaoDis", sep="")), ", labels=", parse(text=paste("attributes(", dudiname, "$RaoDis)$Lab", sep="")), ")", sep="")
+    g <- do.call("table.value",list(tab = parse(text=paste(dudiname, "$RaoDis", sep=""))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 	
 	"labellicca" <- function()
 	{
-		s.match(eval(parse(text=paste(dudiname, "$li", sep=""))), eval(parse(text=paste(dudiname, "$ls", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		s.label(eval(parse(text=paste(dudiname, "$co", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]], clabel=0, cpoint=2, add.plot=TRUE)
-		cmd <- paste("s.match(",parse(text=paste(dudiname, "$li", sep="")), ",", parse(text=paste(dudiname, "$ls", sep="")), ",",
-			parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],"); s.label(", parse(text=paste(dudiname, "$co", sep="")),
-			",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]], ", clabel=0, cpoint=2, add.plot=TRUE)", sep="")
+    g11 <- do.call("s.match", list(dfxy1 = parse(text=paste(dudiname, "$li", sep=""))[[1]], dfxy2 = parse(text=paste(dudiname, "$ls", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+    g12 <- do.call("s.label", list(dfxy = parse(text=paste(dudiname, "$co", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]], plabels.cex = 0, ppoints.cex = 2))
+    g <- do.call("superpose", list(g11, g12))
+    g@Call <- call("superpose", g11@Call, g12@Call)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labellic" <- function()
 	{
-		s.match(eval(parse(text=paste(dudiname, "$li", sep=""))), eval(parse(text=paste(dudiname, "$ls", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.match(", parse(text=paste(dudiname, "$li", sep="")), ",", parse(text=paste(dudiname, "$ls", sep="")),
-			",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]], ")", sep="")
+    g <- do.call("s.match",list(dfxy1 = parse(text=paste(dudiname, "$li", sep=""))[[1]], dfxy2 = parse(text=paste(dudiname, "$ls", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labellscca" <- function()
 	{
-		s.match(eval(parse(text=paste(dudiname, "$ls", sep=""))), eval(parse(text=paste(dudiname, "$li", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		s.label(eval(parse(text=paste(dudiname, "$co", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]], clabel=0, cpoint=2, add.plot=TRUE)
-		cmd <- paste("s.match(",parse(text=paste(dudiname, "$ls", sep="")), ",", parse(text=paste(dudiname, "$li", sep="")), ",",
-			parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],"); s.label(", parse(text=paste(dudiname, "$co", sep="")),
-			",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]], ", clabel=0, cpoint=2, add.plot=TRUE)", sep="")
+    g11 <- do.call("s.match", list(dfxy1 = parse(text=paste(dudiname, "$ls", sep=""))[[1]], dfxy2 = parse(text=paste(dudiname, "$li", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+    g12 <- do.call("s.label", list(dfxy = parse(text=paste(dudiname, "$co", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]], plabels.cex = 0, ppoints.cex = 2))
+    g <- do.call("superpose", list(g11, g12))
+    g@Call <- call("superpose", g11@Call, g12@Call)
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labellsc" <- function()
 	{
-		s.match(eval(parse(text=paste(dudiname, "$ls", sep=""))), eval(parse(text=paste(dudiname, "$li", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.match(", parse(text=paste(dudiname, "$ls", sep="")), ",", parse(text=paste(dudiname, "$li", sep="")),
-			",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]], ")", sep="")
+    g <- do.call("s.match",list(dfxy1 = parse(text=paste(dudiname, "$ls", sep=""))[[1]], dfxy2 = parse(text=paste(dudiname, "$li", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labelcor" <- function()
 	{
-		s.arrow(eval(parse(text=paste(dudiname, "$cor", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.arrow(",parse(text=paste(dudiname, "$cor", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.arrow",list(dfxy = parse(text=paste(dudiname, "$cor", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labelasc" <- function()
 	{
-		s.corcircle(eval(parse(text=paste(dudiname, "$as", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.corcircle(",parse(text=paste(dudiname, "$as", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
+    g <- do.call("s.corcircle",list(dfxy = parse(text=paste(dudiname, "$as", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labelcoc" <- function()
 	{
-		s.label(eval(parse(text=paste(dudiname, "$co", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.label(",parse(text=paste(dudiname, "$co", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$co", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 	"labell1c" <- function()
 	{
-		s.label(eval(parse(text=paste(dudiname, "$l1", sep=""))),
-			parse(text=tclvalue(xaxvar))[[1]], parse(text=tclvalue(yaxvar))[[1]])
-		cmd <- paste("s.label(",parse(text=paste(dudiname, "$l1", sep="")), ",", parse(text=tclvalue(xaxvar))[[1]], ",", parse(text=tclvalue(yaxvar))[[1]],")", sep="")
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
+    g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$l1", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
+      print(g@Call)
+			cat(substr(options("prompt")$prompt, 1, 2))
 		}
-		if (histCom) rewriteHistory(cmd)
+		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
 #
@@ -693,9 +602,6 @@
 	frame2 <- tkframe(tf, relief="groove", borderwidth=2)	
 	
 	dclass <- eval(parse(text=paste("class(",dudiname,")",sep="")))	
-
-	#tclvalue(chvar) <- dudiname
-	#tkgrid(tklabel(frame2,text="Object name:"), tklabel(frame2,text=tclvalue(chvar)), sticky="w")
 
 	if (dclass[1] == "cca") {
 		tkgrid(tklabel(frame2,text="Canonical correspondence analysis", font="Times 16", foreground="blue"), columnspan=2)
@@ -749,18 +655,18 @@
 	tkconfigure(call.label, text=call1)
 	tkgrid(tklabel(frame2,text="Call:"), call.label, sticky="w")
 
-	nf <- eval(parse(text=paste(dudiname,"$nf",sep="")))	
+	nf <- eval(parse(text=paste(dudiname,"$nf",sep="")))
 	tclvalue(chvar) <- nf
 	tkgrid(tklabel(frame2,text="Axes:"), tklabel(frame2,text=tclvalue(chvar)), sticky="w")
 
 	if (dclass[1] != "discrimin" && dclass[1] != "dpcoa") {
-		rank1 <- eval(parse(text=paste(dudiname,"$rank",sep="")))	
+		rank1 <- eval(parse(text=paste(dudiname,"$rank",sep="")))
 		tclvalue(chvar) <- rank1
 		tkgrid(tklabel(frame2,text="Rank:"), tklabel(frame2,text=tclvalue(chvar)), sticky="w")
 	}
 	
 	if (dclass[1] == "coinertia") {
-		rv <- eval(parse(text=paste(dudiname,"$RV",sep="")))	
+		rv <- eval(parse(text=paste(dudiname,"$RV",sep="")))
 		tclvalue(chvar) <- signif(rv, 4)
 		tkgrid(tklabel(frame2,text="RV:"), tklabel(frame2,text=tclvalue(chvar)), sticky="w")
 	}
@@ -774,9 +680,9 @@
 		tkgrid(tklabel(frame2,text="Ratio:"), tklabel(frame2,text=tclvalue(chvar)), sticky="w")
 	}
 	
-    l0 <- length(eig)
-    eigch <- ""
-    eigch <- paste(eigch, signif(eig, 4)[1:(min(5, l0))], sep="")
+  l0 <- length(eig)
+  eigch <- ""
+  eigch <- paste(eigch, signif(eig, 4)[1:(min(5, l0))], sep="")
 	if (l0 > 5) eigch[[5]] <- paste(eigch[[5]], "...", sep="")
 	tclvalue(chvar) <- eigch
 	tkgrid(tklabel(frame2,text="Eigenvalues:"), tklabel(frame2,text=tclvalue(chvar)), sticky="w")
@@ -790,13 +696,13 @@
 		
 		tkgrid(tklabel(frame3,text="  "), tklabel(frame3,text="Vectors:", foreground="blue"), tklabel(frame3,text="Length:", foreground="blue"),
 			tklabel(frame3,text="Mode:", foreground="blue"), tklabel(frame3,text="Content:", foreground="blue"), sticky="w")
-	
+	  
 		ne <- eval(parse(text=paste("length(",dudiname,"$cw)",sep="")))	
 		tclvalue(chvar) <- ne
 		cwplot.but <- tkbutton(frame3, text=paste(dudiname, "$cw", sep=""), anchor="w", command=function() cwplotfunc())
 		tkgrid(tklabel(frame3,text="1:"), cwplot.but, tklabel(frame3,text=tclvalue(chvar)),
 			tklabel(frame3,text="numeric"), tklabel(frame3,text="column weights (from dudi)"), sticky="w")
-	
+	  
 		ne <- eval(parse(text=paste("length(",dudiname,"$lw)",sep="")))	
 		tclvalue(chvar) <- ne
 		lwplot.but <- tkbutton(frame3, text=paste(dudiname, "$lw", sep=""), anchor="w", command=function() lwplotfunc())
@@ -1382,10 +1288,11 @@
 		frame6 <- tkframe(tf, relief="groove", borderwidth=2)
 		txt <- tktext(frame6, bg="white", font="courier", width=50, height=2+eval(parse(text=paste(dudiname,"$nf",sep=""))))
 		tkpack(txt, side="left", fill="both", expand=TRUE)
-		sink(conn <- file("Rlisting001.tmp", open="w"))
-		cheval <- paste(dudiname, "$param", sep="")
+		cheval <- paste("summary(", dudiname, ")", sep="")
+    cheval <- eval(parse(text=cheval), envir=.GlobalEnv)
+    sink(conn <- file("Rlisting001.tmp", open="w"))
 		cat("Global analysis parameters :\n")
-		print(eval(parse(text=cheval)))
+		print(cheval)
 		sink()
 		close(conn)
 		chn <- tclopen(file.path("Rlisting001.tmp"))
@@ -1479,8 +1386,7 @@
 	tkbind(tf, "<Destroy>", function() tclvalue(done) <- 2)
 	tkbind(tf, "<KeyPress-Return>", function() scatterfunc())
 	tkbind(tf, "<KeyPress-Escape>", function() tkdestroy(tf))
-#	tkwait.variable(done)
-	if(tclvalue(done) == "2") return(0)
-#	tkdestroy(tf)
+	if(tclvalue(done) == "2")
+    return(0)
 }
 
