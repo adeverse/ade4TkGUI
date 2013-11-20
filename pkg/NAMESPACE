@@ -1,4 +1,5 @@
-
 importFrom(tkrplot, tkrplot, tkrreplot)
+importFrom(ade4)
+importFrom(adegraphics)
 
 exportPattern(".")
