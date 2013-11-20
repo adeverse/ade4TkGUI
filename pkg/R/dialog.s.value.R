@@ -3,41 +3,37 @@
 ################################
 "dialog.s.value" <- function(show, history)
 {
-	#op=options()
-	#options(warn=-1)
 #
 # Main dialog window with title
 #
 	tt <- tktoplevel()
 	tkwm.title(tt,"s.value")
-
-    frame1 <- tkframe(tt, relief="groove", borderwidth=2)
-    frame2 <- tkframe(tt, relief="groove", borderwidth=2)
-    frame3 <- tkframe(tt, relief="groove", borderwidth=2)
-    frame4 <- tkframe(tt, relief="groove", borderwidth=2)
-    xyframe <- tkframe(frame1, relief="groove", borderwidth=2)
-    symframe <- tkframe(frame1, relief="groove", borderwidth=2)
-    limframe <- tkframe(frame2, relief="groove", borderwidth=2)
-    posframe <- tkframe(frame2, relief="groove", borderwidth=2)
-    legframe <- tkframe(frame2, relief="groove", borderwidth=2)
-    optframe <- tkframe(frame3, relief="groove", borderwidth=2)
-    origframe <- tkframe(frame3, relief="groove", borderwidth=2)
-    gridframe <- tkframe(frame3, relief="groove", borderwidth=2)
-    miscframe <- tkframe(frame4, relief="groove", borderwidth=2)
-    methframe <- tkframe(frame4, relief="groove", borderwidth=2)
+  
+  frame1 <- tkframe(tt, relief="groove", borderwidth=2)
+  frame2 <- tkframe(tt, relief="groove", borderwidth=2)
+  frame3 <- tkframe(tt, relief="groove", borderwidth=2)
+  frame4 <- tkframe(tt, relief="groove", borderwidth=2)
+  xyframe <- tkframe(frame1, relief="groove", borderwidth=2)
+  symframe <- tkframe(frame1, relief="groove", borderwidth=2)
+  limframe <- tkframe(frame2, relief="groove", borderwidth=2)
+  posframe <- tkframe(frame2, relief="groove", borderwidth=2)
+  legframe <- tkframe(frame2, relief="groove", borderwidth=2)
+  optframe <- tkframe(frame3, relief="groove", borderwidth=2)
+  origframe <- tkframe(frame3, relief="groove", borderwidth=2)
+  gridframe <- tkframe(frame3, relief="groove", borderwidth=2)
+  miscframe <- tkframe(frame4, relief="groove", borderwidth=2)
+  methframe <- tkframe(frame4, relief="groove", borderwidth=2)
 #
 # Variables for text fields
 #
 	xyvar <- tclVar()
 	nxvar <- tclVar(1)
 	nyvar <- tclVar(2)
-	nrvar <- tclVar()
 	valvar <- tclVar()
 	csizevar <- tclVar(1)
-	zmaxvar <- tclVar()
 	pchvar <- tclVar(20)
-	cpvar <- tclVar()
-	clegendvar <- tclVar(0.75)
+	cpvar <- tclVar(1)
+	clegendvar <- tclVar(1)
 	xl1var <- tclVar()
 	xl2var <- tclVar()
 	yl1var <- tclVar()
@@ -46,21 +42,21 @@
 	orxvar <- tclVar(0)
 	oryvar <- tclVar(0)
 	subvar <- tclVar()
-	csubvar <- tclVar(1.25)
+	csubvar <- tclVar(1)
 	neigvar <- tclVar()
-	cneigvar <- tclVar(2)
+	cneigvar <- tclVar(1)
 	pmvar <- tclVar()
-	contvar <- tclVar()
-	areavar <- tclVar()
+	spvar <- tclVar()
 #
 # Checkboxes variables
 #
 	methvar <- tclVar(1)
 	gridvar <- tclVar(1)
-	axesvar <- tclVar(1)
+	axesvar <- tclVar(0)
 	origvar <- tclVar(1)
 	posvar <- tclVar(1)
 	addvar <- tclVar(0)
+  zmaxvar <- tclVar(1)
 #
 # Title
 #
@@ -79,9 +75,9 @@
 	dfnc.label <- tklabel(xyframe, width=4)
 	choosexy.but <- tkbutton(xyframe, text="Set", command=function() choosedf(xy.entry, dfnr.label, dfnc.label))
 	tkgrid(tklabel(xyframe, text="- Coordinates -", foreground="blue"), columnspan=5)
-	tkgrid(tklabel(xyframe,text="XY coordinates: "), xy.entry, choosexy.but, dfnr.label, dfnc.label)
-	tkgrid(tklabel(xyframe,text="X axis col. #: "), nx.entry)
-	tkgrid(tklabel(xyframe,text="Y axis col. #: "), ny.entry)
+	tkgrid(tklabel(xyframe,text="XY coordinates"), xy.entry, choosexy.but, dfnr.label, dfnc.label)
+	tkgrid(tklabel(xyframe,text="X axis col. #"), nx.entry)
+	tkgrid(tklabel(xyframe,text="Y axis col. #"), ny.entry)
 #
 # Symbols frame
 #
@@ -89,12 +85,11 @@
 	cp.entry <- tkentry(symframe, textvariable=cpvar, width=10)
 	clegend.entry <- tkentry(symframe, textvariable=clegendvar, width=10)
 	tkgrid(tklabel(symframe, text="- Symbols -", foreground="blue"), columnspan=3)
-	tkgrid(tklabel(symframe,text="Character #: "), pch.entry)
-	tkgrid(tklabel(symframe,text="Char. size : "), cp.entry)
-	tkgrid(tklabel(symframe,text="Legend size : "), clegend.entry)
+	tkgrid(tklabel(symframe,text="Character #"), pch.entry)
+	tkgrid(tklabel(symframe,text="Char. size"), cp.entry)
+	tkgrid(tklabel(symframe,text="Legend size"), clegend.entry)
 
 	tkpack(xyframe, symframe, side="left")
-	
 	tkpack(frame1)
 #
 # Values frame
@@ -103,35 +98,31 @@
 	chooseval.but <- tkbutton(methframe, text="Set", command=function() chooseval(tt, dfnr.label, val.entry))
 	val.entry <- tkentry(methframe, textvariable=valvar, width=10)
 	csize.entry <- tkentry(methframe, textvariable=csizevar, width=10)
-	zmax.entry <- tkentry(methframe, textvariable=zmaxvar, width=10)
-	tkgrid(tklabel(methframe,text="Values : "), val.entry, chooseval.but)
-	tkgrid(tklabel(methframe,text="Size coeff. : "), csize.entry)
-	tkgrid(tklabel(methframe,text="Z max. : "), zmax.entry)
-    tkgrid(tkradiobutton(methframe, text="B&W squares", value=1, variable=methvar), columnspan=3)
-    tkgrid(tkradiobutton(methframe, text="Grey levels", value=2, variable=methvar), columnspan=3)
+	zmax.cbut <- tkcheckbutton(methframe, text="Same limits", variable=zmaxvar)
+	tkgrid(tklabel(methframe,text="Values"), val.entry, chooseval.but)
+	tkgrid(tklabel(methframe,text="Size coeff."), csize.entry)
+	tkgrid(zmax.cbut)
+  tkgrid(tkradiobutton(methframe, text="B&W squares", value=1, variable=methvar), columnspan=3)
+  tkgrid(tkradiobutton(methframe, text="Grey levels", value=2, variable=methvar), columnspan=3)
 #
 # Misc frame
 #
 	neig.entry <- tkentry(miscframe, textvariable=neigvar, width=10)
 	cneig.entry <- tkentry(miscframe, textvariable=cneigvar, width=3)
-	pm.entry <- tkentry(miscframe, textvariable=pmvar, width=10)
-	cont.entry <- tkentry(miscframe, textvariable=contvar, width=10)
-	area.entry <- tkentry(miscframe, textvariable=areavar, width=10)
+	pm.entry <- tkentry(miscframe, textvariable=pmvar, width=10, state="disabled")
+	sp.entry <- tkentry(miscframe, textvariable=spvar, width=10)
 
-	chooseneig.but <- tkbutton(miscframe, text="Set", command=function() chooseneig(neig.entry))
+	chooseneig.but <- tkbutton(miscframe, text="Set", state="disabled", command=function() chooseneig(neig.entry))
 	choosepm.but <- tkbutton(miscframe, text="Set", command=function() choosepm(pm.entry))
-	choosecont.but <- tkbutton(miscframe, text="Set", command=function() choosecont(cont.entry))
-	choosearea.but <- tkbutton(miscframe, text="Set", command=function() choosearea(area.entry))
+	choosesp.but <- tkbutton(miscframe, text="Set", command=function() choosesp(sp.entry))
 
-    tkgrid(tklabel(miscframe, text="- Misc. options -", foreground="blue"), columnspan=3)
-	tkgrid(tklabel(miscframe,text="Neighbouring relation : "), neig.entry, chooseneig.but)
-	tkgrid(tklabel(miscframe,text="Neighbouring size : "), cneig.entry)
-	tkgrid(tklabel(miscframe,text="Pixmap : "), pm.entry, choosepm.but)
-	tkgrid(tklabel(miscframe,text="Contour : "), cont.entry, choosecont.but)
-	tkgrid(tklabel(miscframe,text="Area : "), area.entry, choosearea.but)
+  tkgrid(tklabel(miscframe, text="- Misc. options -", foreground="blue"), columnspan=3)
+	tkgrid(tklabel(miscframe,text="Neighbouring relation"), neig.entry, chooseneig.but)
+	tkgrid(tklabel(miscframe,text="Neighbouring size"), cneig.entry)
+	tkgrid(tklabel(miscframe,text="Pixmap"), pm.entry, choosepm.but)
+	tkgrid(tklabel(miscframe,text="Spatial object"), sp.entry, choosesp.but)
 
 	tkpack(methframe, miscframe, side="left", expand=1)
-
 	tkpack(frame4, fill="x")
 #
 # Limits frame
@@ -141,29 +132,27 @@
 	yl1.entry <- tkentry(limframe, textvariable=yl1var, width=10)
 	yl2.entry <- tkentry(limframe, textvariable=yl2var, width=10)
 	tkgrid(tklabel(limframe, text="- Limits -", foreground="blue"), columnspan=2)
-	tkgrid(tklabel(limframe,text="X min : "), xl1.entry)
-	tkgrid(tklabel(limframe,text="X max : "), xl2.entry)
-	tkgrid(tklabel(limframe,text="Y min : "), yl1.entry)
-	tkgrid(tklabel(limframe,text="Y max : "), yl2.entry)
+	tkgrid(tklabel(limframe,text="X min"), xl1.entry)
+	tkgrid(tklabel(limframe,text="X max"), xl2.entry)
+	tkgrid(tklabel(limframe,text="Y min"), yl1.entry)
+	tkgrid(tklabel(limframe,text="Y max"), yl2.entry)
 #
 # Legend frame
 #
-    tkpack(tklabel(posframe, text="- Legend position -", foreground="blue"), anchor="w")
-    tkpack(tkradiobutton(posframe, text="Top left", value=1, variable=posvar), anchor="w")
-    tkpack(tkradiobutton(posframe, text="Top right", value=2, variable=posvar), anchor="w")
-    tkpack(tkradiobutton(posframe, text="Bottom left", value=3, variable=posvar), anchor="w")
-    tkpack(tkradiobutton(posframe, text="Bottom right", value=4, variable=posvar), anchor="w")
-
+  tkpack(tklabel(posframe, text="- Sub-title position -", foreground="blue"), anchor="w")
+  tkpack(tkradiobutton(posframe, text="Top left", value=1, variable=posvar), anchor="w")
+  tkpack(tkradiobutton(posframe, text="Top right", value=2, variable=posvar), anchor="w")
+  tkpack(tkradiobutton(posframe, text="Bottom left", value=3, variable=posvar), anchor="w")
+  tkpack(tkradiobutton(posframe, text="Bottom right", value=4, variable=posvar), anchor="w")
+  
 	sub.entry <- tkentry(legframe, textvariable=subvar)
 	csub.entry <- tkentry(legframe, textvariable=csubvar, width=10)
-	tkgrid(tklabel(legframe, text="- Legend -", foreground="blue"), columnspan=2)
-	tkgrid(tklabel(legframe,text="Legend string: "), sub.entry)
-	tkgrid(tklabel(legframe,text="Legend size: "), csub.entry)
-
-
-    tkpack(limframe, legframe, posframe, side="left", expand=1)
-
-    tkpack(frame2, fill="x")
+	tkgrid(tklabel(legframe, text="- Sub-title -", foreground="blue"), columnspan=2)
+	tkgrid(tklabel(legframe,text="Sub-title string"), sub.entry)
+	tkgrid(tklabel(legframe,text="Sub-title size"), csub.entry)
+  
+  tkpack(limframe, legframe, posframe, side="left", expand=1)
+  tkpack(frame2, fill="x")
 #
 # Options frame
 #
@@ -178,17 +167,16 @@
 	ory.entry <- tkentry(origframe, textvariable=oryvar, width=10)
 	tkgrid(tklabel(origframe, text="- Origin -", foreground="blue"), columnspan=2)
 	tkgrid(orig.cbut)
-	tkgrid(tklabel(origframe,text="X Origin : "), orx.entry)
-	tkgrid(tklabel(origframe,text="Y Origin : "), ory.entry)
+	tkgrid(tklabel(origframe,text="X Origin"), orx.entry)
+	tkgrid(tklabel(origframe,text="Y Origin"), ory.entry)
 
 	grid.cbut <- tkcheckbutton(gridframe,text="Draw grid", variable=gridvar)
 	cgr.entry <- tkentry(gridframe, textvariable=cgrvar, width=10)
 	tkgrid(tklabel(gridframe, text="- Grid -", foreground="blue"), columnspan=2)
 	tkgrid(grid.cbut)
-	tkgrid(tklabel(gridframe,text="Grid size : "), cgr.entry)
+	tkgrid(tklabel(gridframe,text="Grid legend size"), cgr.entry)
 	
 	tkpack(optframe, gridframe, origframe, side="left", expand=1)
-
 	tkpack(frame3, fill="x")
 #
 # Local variables
@@ -201,165 +189,43 @@
 ################################
 # Function to build the command line from dialog widgets
 ################################
-	"build" <- function()
-	{
-	#
-	# Check that the xy data frame is not empty and get its name
-	#
-		if (tclvalue(xyvar) != "") {
-			xy  <- parse(text=tclvalue(xyvar))[[1]]
-		} else {
-			return(0)
-		}
-	#
-	# Get x and y axis column number
-	#
-		if (tclvalue(nxvar) != "") {
-			nx <- parse(text=tclvalue(nxvar))[[1]]
-		} else nx <- 1
-		if (tclvalue(nyvar) != "") {
-			ny <- parse(text=tclvalue(nyvar))[[1]]
-		} else ny <- 2
-	#
-	# Get values
-	#
-		if (tclvalue(valvar) != "") {
-			val <- parse(text=tclvalue(valvar))[[1]]
-		} else {
-			nr <- as.numeric(tkcget(dfnr.label, "-text"))
-			val <- rep(1, nr)
-		}
-		if (tclvalue(csizevar) != "") {
-			csize <- parse(text=tclvalue(csizevar))[[1]]
-		} else csize <- 1
-	#
-	# Get points char
-	#
-		if (tclvalue(pchvar) != "") {
-			pch <- parse(text=tclvalue(pchvar))[[1]]
-		} else pch <- 20
-		if (tclvalue(cpvar) != "") {
-			cp <- parse(text=tclvalue(cpvar))[[1]]
-		} else cp <- 0
-	#
-	# Get zmax
-	#
-		if (tclvalue(zmaxvar) != "") {
-			zmax <- parse(text=tclvalue(zmaxvar))[[1]]
-		} else zmax <- NULL
-	#
-	# Get csize
-	#
-		if (tclvalue(csizevar) != "") {
-			csize <- parse(text=tclvalue(csizevar))[[1]]
-		} else csize <- 1
-	#
-	# Get clegend
-	#
-		if (tclvalue(clegendvar) != "") {
-			clegend <- parse(text=tclvalue(clegendvar))[[1]]
-		} else clegend <- 0.75
-	#
-	# Get x and y lim
-	#
-		if (tclvalue(xl1var) != "") {
-			xl1 <- parse(text=tclvalue(xl1var))[[1]]
-		} else xl1 <- NULL
-		if (tclvalue(xl2var) != "") {
-			xl2 <- parse(text=tclvalue(xl2var))[[1]]
-		} else xl2 <- NULL
-		if (tclvalue(yl1var) != "") {
-			yl1 <- parse(text=tclvalue(yl1var))[[1]]
-		} else yl1 <- NULL
-		if (tclvalue(yl2var) != "") {
-			yl2 <- parse(text=tclvalue(yl2var))[[1]]
-		} else yl2 <- NULL
-	#
-	# Get cgrid
-	#
-		if (tclvalue(cgrvar) != "") {
-			cgr <- parse(text=tclvalue(cgrvar))[[1]]
-		} else cgr <- 1
-	#
-	# Get origin
-	#
-		if (tclvalue(orxvar) != "") {
-			orx <- parse(text=tclvalue(orxvar))[[1]]
-		} else orx <- 0
-		if (tclvalue(oryvar) != "") {
-			ory <- parse(text=tclvalue(oryvar))[[1]]
-		} else ory <- 0
-	#
-	# Get legend
-	#
-		if (tclvalue(subvar) != "") {
-			sub <- tclvalue(subvar)
-		} else sub <- ""
-		if (tclvalue(csubvar) != "") {
-			csub <- parse(text=tclvalue(csubvar))[[1]]
-		} else csub <- 1.25
-	#
-	# Get neighbouring relationship
-	#
-		if (tclvalue(neigvar) != "") {
-			neig <- parse(text=tclvalue(neigvar))[[1]]
-		} else neig <- NULL
-		if (tclvalue(cneigvar) != "") {
-			cneig <- parse(text=tclvalue(cneigvar))[[1]]
-		} else cneig <- 2
-	#
-	# Get pixmap
-	#
-		if (tclvalue(pmvar) != "") {
-			pm <- parse(text=tclvalue(pmvar))[[1]]
-		} else pm <- NULL
-	#
-	# Get contour
-	#
-		if (tclvalue(contvar) != "") {
-			cont <- parse(text=tclvalue(contvar))[[1]]
-		} else cont <- NULL
-	#
-	# Get area
-	#
-		if (tclvalue(areavar) != "") {
-			area <- parse(text=tclvalue(areavar))[[1]]
-		} else area <- NULL
-	#
-	# Get checkboxes state
-	#
-		gridl <- as.logical(tclObj(gridvar))
-		axesl <- as.logical(tclObj(axesvar))
-		origl <- as.logical(tclObj(origvar))
-		posit <- tclvalue(posvar)
-		addl <- as.logical(tclObj(addvar))
-		if (posit == 1) possub <- "topleft"
-		if (posit == 2) possub <- "topright"
-		if (posit == 3) possub <- "bottomleft"
-		if (posit == 4) possub <- "bottomright"
-		meth <- tclvalue(methvar)
-		if (meth == 1) method <- "squaresize"
-		if (meth == 2) method <- "greylevel"
-	#
-	# Make the command line
-	#
-		if (is.data.frame(eval(val))) {
-			cmd <- paste("if (sqrt(ncol(", deparse(val), ")) == round(sqrt(ncol(", deparse(val),
-				"))) ) ngr <- sqrt(ncol(", deparse(val), ")) else ngr <- sqrt(ncol(", deparse(val),
-				"))+1;par(mfrow=c(ngr,ngr));for(i in 1:ncol(", deparse(val), ")) s.value(", deparse(xy),
-				",", deparse(val), "[,i], ", deparse(nx), ",", deparse(ny), ", sub=names(", deparse(val),
-				")[i], csub=2, clegend=2, cgrid=2, xlim=c(", deparse(xl1), ",", deparse(xl2),
-				"), ylim=c(", deparse(yl1), ",", deparse(yl1),"), method = \"", method, "\");par(mfrow=c(1,1))", sep="")
-			parse(text=cmd)
-		} else {
-			substitute(s.value(dfxy=xy, z=val, xax = nx, yax = ny, method = method,
-				zmax = zmax, csize = csize, pch = pch, cpoint = cp, clegend = clegend,
-				neig = neig, cneig = cneig, xlim = c(xl1, xl2), ylim = c(yl1, yl2), grid = gridl, 
-				addaxes = axesl, cgrid = cgr, include.origin = origl, origin = c(orx, ory), 
-				sub = sub, csub = csub, possub = possub, pixmap = pm, 
-				contour = cont, area = area, add.plot = addl))
-		}
-	}
+"build" <- function() {
+  l <- list(dfxy = .test1value(tclvalue(xyvar), ""),
+    				xax = .test1value(tclvalue(nxvar), ""),
+            yax = .test1value(tclvalue(nyvar), ""),
+            ppoints.pch = .test1value(tclvalue(pchvar), ""),
+            ppoints.cex = .test1value(tclvalue(cpvar), ""),
+            xlim = .test2values(tclvalue(xl1var), tclvalue(xl2var), ""),
+            ylim = .test2values(tclvalue(yl1var), tclvalue(yl2var), ""),
+            psub.text = tclvalue(subvar),
+            psub.cex = .test1value(tclvalue(csubvar), ""),
+            paxes.draw = as.logical(tclObj(axesvar)),
+            add = as.logical(tclObj(addvar)),
+            pgrid.draw = as.logical(tclObj(gridvar)),
+            pgrid.text.cex = .test1value(tclvalue(cgrvar), ""),
+            porigin.include = as.logical(tclObj(origvar)),
+            porigin.origin = .test2values(tclvalue(orxvar), tclvalue(oryvar), ""),
+            nbobject = .test1value(tclvalue(neigvar), ""),
+            pnb.edge.lwd = .test1value(tclvalue(cneigvar), ""),
+            Sp = .test1value(tclvalue(spvar), ""),
+            maxsize = .test1value(tclvalue(csizevar), ""),
+            plegend.text.cex = .test1value(tclvalue(clegendvar), ""),
+            samelimits = as.logical(tclObj(zmaxvar)),
+            z = .test1value(tclvalue(valvar), rep(1, as.numeric(tkcget(dfnr.label, "-text")))),
+            plot = FALSE
+          	)
+  
+	if (tclvalue(posvar) == 1) l$psub.position <- "topleft"
+	if (tclvalue(posvar) == 2) l$psub.position <- "topright"
+	if (tclvalue(posvar) == 3) l$psub.position <- "bottomleft"
+	if (tclvalue(posvar) == 4) l$psub.position <- "bottomright"
+
+	if (tclvalue(methvar) == 1) l$method <- "size"
+	if (tclvalue(methvar) == 2) l$method <- "color"
+  
+  l <- l[which(l != "")]
+  return(do.call("s.value", l))
+}
 
 ################################
 # Function to reset all dialog elements to default values
@@ -371,10 +237,9 @@
 		tclvalue(nyvar) <- "2"
 		tclvalue(valvar) <- ""
 		tclvalue(csizevar) <- "1"
-		tclvalue(zmaxvar) <- ""
-		tclvalue(clegendvar) <- "0.75"
-		tclvalue(pchvar) <- "20"
-		tclvalue(cpvar) <- ""
+    tclvalue(pchvar) <- "20"
+		tclvalue(cpvar) <- "1"
+    tclvalue(clegendvar) <- "1"
 		tclvalue(xl1var) <- ""
 		tclvalue(xl2var) <- ""
 		tclvalue(yl1var) <- ""
@@ -383,23 +248,20 @@
 		tclvalue(orxvar) <- "0"
 		tclvalue(oryvar) <- "0"
 		tclvalue(subvar) <- ""
-		tclvalue(csubvar) <- "1.25"
+		tclvalue(csubvar) <- "1"
 		tclvalue(neigvar) <- ""
-		tclvalue(cneigvar) <- "2"
+		tclvalue(cneigvar) <- "1"
 		tclvalue(pmvar) <- ""
-		tclvalue(contvar) <- ""
-		tclvalue(areavar) <- ""
+		tclvalue(spvar) <- ""
 		tkconfigure(dfnr.label, text="")
 		tkconfigure(dfnc.label, text="")
-		methvar <- tclVar(0)
-		gridvar <- tclVar(1)
-		axesvar <- tclVar(1)
-		origvar <- tclVar(1)
-		ptlvar <- tclVar(1)
-		ptrvar <- tclVar(0)
-		pblvar <- tclVar(1)
-		pbrvar <- tclVar(0)
-		addvar <- tclVar(0)
+		tclvalue(methvar) <- "1"
+		tclvalue(gridvar) <- "1"
+		tclvalue(axesvar) <- "0"
+		tclvalue(origvar) <- "1"
+		tclvalue(posvar) <- "1"
+		tclvalue(addvar) <- "0"
+    tclvalue(zmaxvar) <- "1"
 	}
 	
 ################################
@@ -410,17 +272,15 @@
 		#
 		# Build and display the command line so that the user can check it
 		#
-		cmd <- build()
-		dcmd <- deparse(cmd, width.cutoff = 500)
-		tcmd <- paste(cmd, sep="", collapse="; ")
+		cmd <- print(build())
+		dcmd <- deparse(cmd@Call, width.cutoff = 500)
+		tcmd <- paste(cmd@Call, sep="", collapse="; ")
 		
-		#if (cmd == 0) return(0)
-
 		if (show) {
 			#
 			# Echoe the command line to the console
 			#
-			pr1 <- substr(options("prompt")$prompt, 1,2)
+			pr1 <- substr(options("prompt")$prompt, 1, 2)
 			if (length(grep("expression", dcmd, fixed=TRUE)) == 0)
 				cat(dcmd, "\n", pr1, sep="")
 			else
@@ -431,9 +291,8 @@
 		#
 		eval.parent(cmd)
 		if (length(grep("expression", dcmd, fixed=TRUE)) == 0) {
-		# cmdlist <<- c(cmdlist, cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd), envir=.GlobalEnv)
-			if (history) rewriteHistory(deparse(cmd, width.cutoff = 500))
+		  assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd@Call), envir=.GlobalEnv)
+			if (history) rewriteHistory(deparse(cmd@Call, width.cutoff = 500))
 		} else {
 			if (history) rewriteHistory(tcmd)
 		}

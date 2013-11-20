@@ -69,8 +69,8 @@ cluttered points.\cr
 
 
 \author{
-Jean Thioulouse \email{jthioulouse@biomserv.univ-lyon1.fr} \cr
-Stephane Dray \email{dray@biomserv.univ-lyon1.fr}
+Jean Thioulouse \email{jean.thioulouse@univ-lyon1.fr} \cr
+Stephane Dray \email{stephane.dray@univ-lyon1.fr}
 }
 
 \examples{

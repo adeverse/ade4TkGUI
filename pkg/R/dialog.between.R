@@ -3,8 +3,6 @@
 ################################
 "dialog.between" <- function(show, history)
 {
-	op=options()
-	options(warn=-1)
 #
 # Main dialog window with title
 #
@@ -27,7 +25,7 @@
 	TFrame <- tkframe(tt, relief="groove")
 	labh <- tklabel(TFrame, bitmap="questhead")
 	tkgrid(tklabel(TFrame,text="Between analysis", font="Times 18", foreground="red"), labh)
-	tkbind(labh, "<Button-1>", function() print(help("between")))
+	tkbind(labh, "<Button-1>", function() print(help("bca")))
 	tkgrid(TFrame)
 #
 # Input and output dudis
@@ -98,7 +96,7 @@
 	#
 	# Make the command line
 	#
-		substitute(between(dudi = dudi, fac = fac, scannf = scannf, nf = nf))
+		substitute(bca(dudi = dudi, fac = fac, scannf = scannf, nf = nf))
 	}
 		
 ################################

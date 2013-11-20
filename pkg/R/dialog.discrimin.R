@@ -3,8 +3,6 @@
 ################################
 "dialog.discrimin" <- function(show, history)
 {
-	op=options()
-	options(warn=-1)
 #
 # Main dialog window with title
 #

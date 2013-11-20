@@ -1,10 +1,7 @@
 \name{ade4TkGUI-internal}
-\alias{choosearea}
 \alias{chooseaxes}
 \alias{choosechull}
 \alias{choosecol}
-\alias{choosepm}
-\alias{choosecont}
 \alias{choosecw}
 \alias{choosedf}
 \alias{choosedist}
@@ -17,7 +14,9 @@
 \alias{chooselab}
 \alias{chooseneig}
 \alias{choosepackage}
+\alias{choosepm}
 \alias{chooserw}
+\alias{choosesp}
 \alias{chooseval}
 \alias{choosewt}
 \alias{dialog.between}
@@ -38,11 +37,11 @@
 \alias{dialog.MCTests}
 \alias{dialog.pcaiv}
 \alias{dialog.pcaivortho}
+\alias{dialog.s.arrow}
 \alias{dialog.s.chull}
 \alias{dialog.s.class}
 \alias{dialog.s.corcircle}
 \alias{dialog.s.label}
-\alias{dialog.s.arrow}
 \alias{dialog.s.match}
 \alias{dialog.s.value}
 \alias{dialog.within}
