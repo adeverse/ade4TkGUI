@@ -1852,12 +1852,14 @@
 ################################
 "newGr" <- function()
 {
-	if (options("device")$device=="X11") {
-		x11()
-	} else if (options("device")$device=="windows") {
+	if(.Platform$OS.type == "unix") {
+		if (capabilities("aqua")) {
+			quartz()
+		} else if (capabilities("X11")) {
+			x11()
+		}
+	} else {
 		windows()
-	} else if (options("device")$device=="quartz") {
-		quartz()
 	}
 	assign("winlist", get("winlist", envir=.GlobalEnv)+1, envir=.GlobalEnv)
 }
