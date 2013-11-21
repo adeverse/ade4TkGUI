@@ -1854,12 +1854,15 @@
 {
 	if(.Platform$OS.type == "unix") {
 		if (capabilities("aqua")) {
-			quartz()
+			# quartz()
+			dev.new()
 		} else if (capabilities("X11")) {
-			x11()
+			# x11()
+			dev.new()
 		}
 	} else {
-		windows()
+		# windows()
+		dev.new()
 	}
 	assign("winlist", get("winlist", envir=.GlobalEnv)+1, envir=.GlobalEnv)
 }
