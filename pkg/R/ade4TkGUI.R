@@ -1,5 +1,5 @@
 ################################
-# GUI for ade4 functions
+# GUI for ade4 functions 
 ################################
 
 "ade4TkGUI" <- function(show = FALSE, history = FALSE)
