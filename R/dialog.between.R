@@ -96,7 +96,7 @@
 	#
 	# Make the command line
 	#
-		substitute(bca(dudi = dudi, fac = fac, scannf = scannf, nf = nf))
+		substitute(bca(x = dudi, fac = fac, scannf = scannf, nf = nf))
 	}
 		
 ################################
