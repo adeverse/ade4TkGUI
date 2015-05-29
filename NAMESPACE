@@ -1,5 +1,4 @@
-import(tcltk, ade4)
-importFrom(adegraphics, s.class, plotEig, s.label)
+import(tcltk, ade4, adegraphics)
 importFrom(tkrplot, tkrplot, tkrreplot)
 importFrom(lattice, xyplot, panel.rect)
 
