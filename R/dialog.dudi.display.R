@@ -253,7 +253,7 @@
     xax <- parse(text=tclvalue(xaxvar))[[1]]
     yax <- parse(text=tclvalue(yaxvar))[[1]]
     nf <- eval(parse(text=paste(dudiname,"$nf",sep=""))[[1]])
-    g <- adegraphics:::.add.scatter.eig(eigvalue = eigvalue, nf = 1:nf, xax = xax, yax = yax, paxes.draw = TRUE, paxes.x.draw = FALSE)
+    g <- plotEig(eigvalue = eigvalue, nf = 1:nf, xax = xax, yax = yax, paxes.draw = TRUE, paxes.x.draw = FALSE)
 		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
       print(g@Call)
@@ -265,7 +265,7 @@
 
 	"dpcoaeigplotfunc" <- function()
 	{
-    g <- adegraphics:::.add.scatter.eig(eigvalue = eval(parse(text=paste(dudiname, "$eig", sep=""))), nf = 1:eval(parse(text=paste(dudiname, "$nf", sep=""))))
+    g <- plotEig(eigvalue = eval(parse(text=paste(dudiname, "$eig", sep=""))), nf = 1:eval(parse(text=paste(dudiname, "$nf", sep=""))))
 		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
       print(g@Call)
