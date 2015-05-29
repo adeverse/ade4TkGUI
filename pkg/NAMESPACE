@@ -1,5 +1,5 @@
+import(tcltk, ade4, adegraphics)
 importFrom(tkrplot, tkrplot, tkrreplot)
-importFrom(ade4)
-importFrom(adegraphics)
+importFrom(lattice, xyplot, panel.rect)
 
 exportPattern(".")

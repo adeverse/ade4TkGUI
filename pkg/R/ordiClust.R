@@ -13,7 +13,20 @@
 
 	tt <- tktoplevel()
 	tkwm.title(tt,"OrdiClust")
-#
+  
+  
+	tkwm.title(tt,"OrdiClustiii")
+	## Scrollbar
+	##	
+	#  scr <- tkscrollbar(tt, repeatinterval=5, command=function(...)tkyview(tt,...))
+	##  tkconfigure(tt, yscrollcommand=function(...)tkset(scr,...))
+	#  tkpack(tt,side="left",fill="both",expand=TRUE)
+	#  tkpack(scr,side="right",fill="y")
+	#  
+
+  
+  
+  #
 # Local variables
 #
 	maxngr <- maxngr1 <- maxgr
@@ -85,7 +98,7 @@
 			}
 		} else if (ploteig) {
 			if (!is.null(ordiClust.dudi)) {
-				adegraphics:::.add.scatter.eig(ordiClust.dudi$eig)
+			  plotEig(ordiClust.dudi$eig)
 			}
 		} else if (plotrow) {
 			if (!is.null(ordiClust.dudi)) {
@@ -118,7 +131,7 @@
 				plot(h1, hang=-1)
 				if (plotlev) {
 					if (as.logical(tclObj(colorvar))) abline(h=hlev, col="red", lwd=2)
-						else  abline(h=hlev, lwd=2)
+						else abline(h=hlev, lwd=2)
 				}
 			}
 		} else if (plotcurve) {

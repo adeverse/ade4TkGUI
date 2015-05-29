@@ -207,7 +207,7 @@
 	frame4 <- tkframe(tt, relief="groove", borderwidth=2, background="white")
 	tkpack(tklabel(frame4,text="- Advanced graphics -", font="Times 14", foreground="blue", background="white"))
 	dudisp.but <- tkbutton(frame4, text="dudi display", command=function() dudisp(show, history))
-	explore.but <- tkbutton(frame4, text="Explore", state="disabled", command=function() exploregraph(show, history))
+	explore.but <- tkbutton(frame4, text="Explore", state="disabled", command=function() exploregraph(show, history)) ## bouton pour explore
   MC.but <- tkbutton(frame4, text="MCTests", command=function() dialog.MCTests(show, history))
 	OC.but <- tkbutton(frame4, text="ordiClust", command=function() ordiClust())
 	tkpack(dudisp.but, MC.but, explore.but, OC.but, ipadx=5, side="left", expand="TRUE", fill="x")

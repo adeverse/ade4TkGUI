@@ -25,7 +25,7 @@
 		return(nf)
 	}
 
-	adegraphics:::.add.scatter.eig(eig[1:rank1], col.plot="grey", paxes.draw=TRUE, paxes.x.draw=FALSE)
+	plotEig(eig[1:rank1], col.plot="grey", paxes.draw=TRUE, paxes.x.draw=FALSE)
 
 	frame1 <- tkframe(tf, relief="groove", borderwidth=2)	
 	nf.entry <- tkentry(frame1, textvariable=nfvar)
