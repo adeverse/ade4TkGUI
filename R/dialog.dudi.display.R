@@ -1355,7 +1355,7 @@
     
 	  tkpack(OK.but, scatter.but, side="left", expand=1, fill = "x")	
 	} else if (dclass[1] == "acm") {
-		tkpack(OK.but, scatter.but, score.but, side="left", expand=1, fill = "x")	
+		tkpack(OK.but, plot.but, score.but, side="left", expand=1, fill = "x")	
 	} else if (dclass[1] == "pco") {
 		tkpack(OK.but, scatter.but, side="left", expand=1, fill = "x")	
 	} else if (dclass[1] == "fca") {
