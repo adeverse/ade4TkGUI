@@ -96,7 +96,7 @@
 	#
 	# Make the command line
 	#
-		substitute(within(dudi = dudi, fac = fac, scannf = scannf, nf = nf))
+		substitute(wca(x = dudi, fac = fac, scannf = scannf, nf = nf))
 	}
 		
 ################################

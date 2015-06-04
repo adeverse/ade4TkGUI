@@ -1,5 +1,5 @@
 import(tcltk)
-importFrom(ade4, dudi.pca, dudi.coa, dudi.acm, dudi.pco, dudi.fca, dudi.fpca, dudi.mix, dudi.nsc, is.dudi, dist.dudi, bca, randtest)
+importFrom(ade4, dudi.pca, dudi.coa, dudi.acm, dudi.pco, dudi.fca, dudi.fpca, dudi.mix, dudi.nsc, is.dudi, dist.dudi, bca, wca, randtest)
 importFrom(adegraphics, table.value, s.value, s.arrow, s.corcircle, s.class, s.match, s.label, plotEig, plot, score, scatter)
 importFrom(tkrplot, tkrplot, tkrreplot)
 importFrom(lattice, xyplot, panel.rect)
