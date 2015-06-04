@@ -1350,7 +1350,10 @@
 			tkpack(OK.but, scatter.but, score.but, corcircle.but, side="left", expand=1, fill = "x")	
 		}
 	} else if (dclass[1] == "coa") {
-		tkpack(OK.but, scatter.but, score.but, side="left", expand=1, fill = "x")	
+    # tkpack(OK.but, scatter.but, score.but, side="left", expand=1, fill = "x")
+    # the score button is deleted until score.coa was implemented in adegraphics
+    
+	  tkpack(OK.but, scatter.but, side="left", expand=1, fill = "x")	
 	} else if (dclass[1] == "acm") {
 		tkpack(OK.but, scatter.but, score.but, side="left", expand=1, fill = "x")	
 	} else if (dclass[1] == "pco") {
