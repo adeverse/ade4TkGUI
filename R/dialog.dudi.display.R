@@ -23,7 +23,7 @@
   
   "tablevalue" <- function(val)
 	{
-    g <- do.call("table.value",list(tab = parse(text=paste(dudiname, val, sep=""))[[1]]))
+    g <- do.call("table.value",list(dftab = parse(text=paste(dudiname, val, sep=""))[[1]]))
     print(g@Call)
 		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
@@ -441,7 +441,7 @@
 
 	"tabvalueCA" <- function()
 	{
-    g <- do.call("table.value",list(tab = parse(text=paste(dudiname, "$tab", sep=""))[[1]]))
+    g <- do.call("table.value",list(dftab = parse(text=paste(dudiname, "$tab", sep=""))[[1]]))
 		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
       print(g@Call)
@@ -452,7 +452,7 @@
 
 	"tabvalueX" <- function()
 	{
-    g <- do.call("table.value",list(tab = parse(text=paste(dudiname, "$X", sep=""))[[1]]))
+    g <- do.call("table.value",list(dftab = parse(text=paste(dudiname, "$X", sep=""))[[1]]))
 		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
       print(g@Call)
@@ -463,7 +463,7 @@
 
 	"tabvalueY" <- function()
 	{
-    g <- do.call("table.value",list(tab = parse(text=paste(dudiname, "$Y", sep=""))[[1]]))
+    g <- do.call("table.value",list(dftab = parse(text=paste(dudiname, "$Y", sep=""))[[1]]))
 		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
       print(g@Call)
@@ -474,7 +474,7 @@
 
 	"tabvalueRaoDecodiv" <- function()
 	{
-    g <- do.call("table.value",list(tab = parse(text=paste(dudiname, "$RaoDecodiv", sep=""))[[1]]))
+    g <- do.call("table.value",list(dftab = parse(text=paste(dudiname, "$RaoDecodiv", sep=""))[[1]]))
 		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
       print(g@Call)
@@ -485,7 +485,7 @@
 	
 	"tabvalueRaoDis" <- function()
 	{
-    g <- do.call("table.value",list(tab = parse(text=paste(dudiname, "$RaoDis", sep=""))[[1]]))
+    g <- do.call("table.value",list(dftab = parse(text=paste(dudiname, "$RaoDis", sep=""))[[1]]))
 		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
       print(g@Call)
