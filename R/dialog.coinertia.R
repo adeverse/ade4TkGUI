@@ -137,7 +137,6 @@
 	#
 	# Execute the command
 	#
-#		ade4TkGUIFlag <<- 1
 		assign("ade4TkGUIFlag", 1, envir=.GlobalEnv)
 		myObject <- eval.parent(cmd)
 		assign(eval(dudiout), myObject, pos=1)
