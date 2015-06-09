@@ -524,7 +524,7 @@
     g11 <- do.call("s.match", list(dfxy1 = parse(text=paste(dudiname, "$ls", sep=""))[[1]], dfxy2 = parse(text=paste(dudiname, "$li", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]], plot = FALSE))
     g12 <- do.call("s.label", list(dfxy = parse(text=paste(dudiname, "$co", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]], plabels.cex = 0, ppoints.cex = 2, plot = FALSE))
     g <- do.call("superpose", list(g12, g11, plot = TRUE))
-    g@Call <- call("superpose", g12@Call, g11@Call, plot = TRUE)
+    g@Call <- call("superpose", g11@Call, g12@Call, plot = TRUE)
 		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
       print(g@Call)
