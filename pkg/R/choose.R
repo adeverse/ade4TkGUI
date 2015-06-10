@@ -2055,7 +2055,7 @@
 ################################
 ".test1value" <- function(val, default) {
   if(val!="")
-    return(eval(parse(text=val)))
+    return(parse(text=val)[[1]])
   else
     return(default) 
 }
