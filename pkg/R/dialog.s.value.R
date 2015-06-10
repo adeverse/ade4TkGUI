@@ -44,7 +44,7 @@
 	csubvar <- tclVar(1)
 	neigvar <- tclVar()
 	cneigvar <- tclVar(1)
-	pmvar <- tclVar()
+	#pmvar <- tclVar()
 	spvar <- tclVar()
 #
 # Checkboxes variables
@@ -106,17 +106,17 @@
 #
 	neig.entry <- tkentry(miscframe, textvariable=neigvar, width=10)
 	cneig.entry <- tkentry(miscframe, textvariable=cneigvar, width=3)
-	pm.entry <- tkentry(miscframe, textvariable=pmvar, width=10, state="disabled")
+	#pm.entry <- tkentry(miscframe, textvariable=pmvar, width=10, state="disabled")
 	sp.entry <- tkentry(miscframe, textvariable=spvar, width=10)
 
-	chooseneig.but <- tkbutton(miscframe, text="Set", state="disabled", command=function() chooseneig(neig.entry))
-	choosepm.but <- tkbutton(miscframe, text="Set", command=function() choosepm(pm.entry))
+	chooseneig.but <- tkbutton(miscframe, text="Set", command=function() chooseneig(neig.entry))
+	#choosepm.but <- tkbutton(miscframe, text="Set", state="disabled", command=function() choosepm(pm.entry))
 	choosesp.but <- tkbutton(miscframe, text="Set", command=function() choosesp(sp.entry))
 
   tkgrid(tklabel(miscframe, text="- Misc. options -", foreground="blue"), columnspan=3)
 	tkgrid(tklabel(miscframe,text="Neighbouring relation"), neig.entry, chooseneig.but)
 	tkgrid(tklabel(miscframe,text="Neighbouring size"), cneig.entry)
-	tkgrid(tklabel(miscframe,text="Pixmap"), pm.entry, choosepm.but)
+	#tkgrid(tklabel(miscframe,text="Pixmap"), pm.entry, choosepm.but)
 	tkgrid(tklabel(miscframe,text="Spatial object"), sp.entry, choosesp.but)
 
 	tkpack(methframe, miscframe, side="left", expand=1)
