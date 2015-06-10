@@ -30,7 +30,6 @@
 	nxvar <- tclVar(1)
 	nyvar <- tclVar(2)
 	valvar <- tclVar()
-	csizevar <- tclVar(1)
 	pchvar <- tclVar(20)
 	cpvar <- tclVar(1)
 	clegendvar <- tclVar(1)
@@ -97,10 +96,8 @@
 	tkgrid(tklabel(methframe, text="- Values -", foreground="blue"), columnspan=3)
 	chooseval.but <- tkbutton(methframe, text="Set", command=function() chooseval(tt, dfnr.label, val.entry))
 	val.entry <- tkentry(methframe, textvariable=valvar, width=10)
-	csize.entry <- tkentry(methframe, textvariable=csizevar, width=10)
 	zmax.cbut <- tkcheckbutton(methframe, text="Same limits", variable=zmaxvar)
 	tkgrid(tklabel(methframe,text="Values"), val.entry, chooseval.but)
-	tkgrid(tklabel(methframe,text="Size coeff."), csize.entry)
 	tkgrid(zmax.cbut)
   tkgrid(tkradiobutton(methframe, text="B&W squares", value=1, variable=methvar), columnspan=3)
   tkgrid(tkradiobutton(methframe, text="Grey levels", value=2, variable=methvar), columnspan=3)
@@ -208,8 +205,7 @@
             nbobject = .test1value(tclvalue(neigvar), ""),
             pnb.edge.lwd = .test1value(tclvalue(cneigvar), ""),
             Sp = .test1value(tclvalue(spvar), ""),
-            maxsize = .test1value(tclvalue(csizevar), ""),
-            plegend.text.cex = .test1value(tclvalue(clegendvar), ""),
+            plegend.size = .test1value(tclvalue(clegendvar), ""),
             samelimits = as.logical(tclObj(zmaxvar)),
             z = .test1value(tclvalue(valvar), rep(1, as.numeric(tkcget(dfnr.label, "-text")))),
             plot = FALSE
