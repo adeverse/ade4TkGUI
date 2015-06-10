@@ -2055,14 +2055,14 @@
 ################################
 ".test1value" <- function(val, default) {
   if(val!="")
-    return(parse(text=val)[[1]])
+    return(eval(parse(text=val)))
   else
     return(default) 
 }
 
 ".test2values" <- function(val1, val2, default) {
   if((val1!="") & (val2!=""))
-    return(c(parse(text=val1)[[1]], parse(text=val2)[[1]]))
+    return(c(eval(parse(text=val1)), eval(parse(text=val2))))
   else
     return(default)
 }
