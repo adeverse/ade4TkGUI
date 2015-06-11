@@ -103,9 +103,9 @@
 		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
-	"labell1dpcoa" <- function()
+	"labeldlsdpcoa" <- function()
 	{
-    g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$l1", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+    g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$dls", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
 		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
       print(g@Call)
@@ -114,9 +114,9 @@
 		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
-	"labell2dpcoa" <- function()
+	"labellidpcoa" <- function()
 	{
-    g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$l2", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
+    g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$li", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
 		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
       print(g@Call)
@@ -190,10 +190,10 @@
 		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
-	"w1plotfunc" <- function()
+	"dwplotfunc" <- function()
 	{
-		dotchart(eval(parse(text=paste(dudiname, "$w1", sep=""))))
-		cmd <- paste("dotchart(", parse(text=paste(dudiname, "$w1", sep="")),")",sep="")
+		dotchart(eval(parse(text=paste(dudiname, "$dw", sep=""))))
+		cmd <- paste("dotchart(", parse(text=paste(dudiname, "$dw", sep="")),")",sep="")
 		if (showCom) {
 			pr1 <- substr(options("prompt")$prompt, 1, 2)
 			cat(cmd, "\n", pr1, sep="")
@@ -201,10 +201,10 @@
 		if (histCom) rewriteHistory(cmd)
 	}
 
-	"w2plotfunc" <- function()
+	"lwplotfunc" <- function()
 	{
-		dotchart(eval(parse(text=paste(dudiname, "$w2", sep=""))))
-		cmd <- paste("dotchart(", parse(text=paste(dudiname, "$w2", sep="")),")",sep="")
+		dotchart(eval(parse(text=paste(dudiname, "$lw", sep=""))))
+		cmd <- paste("dotchart(", parse(text=paste(dudiname, "$lw", sep="")),")",sep="")
 		if (showCom) {
 			pr1 <- substr(options("prompt")$prompt, 1,2)
 			cat(cmd, "\n", pr1, sep="")
@@ -214,7 +214,7 @@
 
 	"RaoDivplotfunc" <- function()
 	{
-    g <- do.call("s.value",list(dfxy = parse(text=paste(dudiname, "$l2", sep=""))[[1]], z = parse(text=paste(dudiname, "$RaoDiv", sep=""))[[1]], 
+    g <- do.call("s.value",list(dfxy = parse(text=paste(dudiname, "$li", sep=""))[[1]], z = parse(text=paste(dudiname, "$RaoDiv", sep=""))[[1]], 
         xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]], maxsize = 2, psub.text = "Rao Divcs", psub.position = "topright", psub.cex = 1.5))
 		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
 		if (showCom) {
@@ -747,15 +747,15 @@
 		tkgrid(tklabel(frame3,text="  "), tklabel(frame3,text="Vectors:", foreground="blue"), tklabel(frame3,text="Length:", foreground="blue"),
 			tklabel(frame3,text="Mode:", foreground="blue"), tklabel(frame3,text="Content:", foreground="blue"), sticky="w")
 	
-		ne <- eval(parse(text=paste("length(",dudiname,"$w1)",sep="")))	
+		ne <- eval(parse(text=paste("length(",dudiname,"$dw)",sep="")))	
 		tclvalue(chvar) <- ne
-		cwplot.but <- tkbutton(frame3, text=paste(dudiname, "$w1", sep=""), anchor="w", command=function() w1plotfunc())
+		cwplot.but <- tkbutton(frame3, text=paste(dudiname, "$dw", sep=""), anchor="w", command=function() dwplotfunc())
 		tkgrid(tklabel(frame3,text="1:"), cwplot.but, tklabel(frame3,text=tclvalue(chvar)),
 			tklabel(frame3,text="numeric"), tklabel(frame3,text="weights of species"), sticky="w")
 	
-		ne <- eval(parse(text=paste("length(",dudiname,"$w2)",sep="")))	
+		ne <- eval(parse(text=paste("length(",dudiname,"$lw)",sep="")))	
 		tclvalue(chvar) <- ne
-		lwplot.but <- tkbutton(frame3, text=paste(dudiname, "$w2", sep=""), anchor="w", command=function() w2plotfunc())
+		lwplot.but <- tkbutton(frame3, text=paste(dudiname, "$lw", sep=""), anchor="w", command=function() lwplotfunc())
 		tkgrid(tklabel(frame3,text="2:"), lwplot.but, tklabel(frame3,text=tclvalue(chvar)),
 			tklabel(frame3,text="numeric"), tklabel(frame3,text="weights of communities"), sticky="w")
 	
@@ -1085,19 +1085,19 @@
 			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="column normed scores"), sticky="w")
 
 	} else if (dclass[1] == "dpcoa") {
-		nr <- eval(parse(text=paste("dim(",dudiname,"$l1)[1]",sep="")))	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$dls)[1]",sep="")))	
 		tclvalue(chvar) <- nr
-		nc <- eval(parse(text=paste("dim(",dudiname,"$l1)[2]",sep="")))	
+		nc <- eval(parse(text=paste("dim(",dudiname,"$dls)[2]",sep="")))	
 		tclvalue(chvar2) <- nc
-		tab.but <- tkbutton(frame4, text=paste(dudiname, "$l1", sep=""), anchor="w", command=function() labell1dpcoa())
+		tab.but <- tkbutton(frame4, text=paste(dudiname, "$dls", sep=""), anchor="w", command=function() labeldlsdpcoa())
 		tkgrid(tklabel(frame4,text="1:"), tab.but, tklabel(frame4,text=tclvalue(chvar)),
 			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="coordinates of the species"), sticky="w")
 	
-		nr <- eval(parse(text=paste("dim(",dudiname,"$l2)[1]",sep="")))	
+		nr <- eval(parse(text=paste("dim(",dudiname,"$li)[1]",sep="")))	
 		tclvalue(chvar) <- nr
-		nc <- eval(parse(text=paste("dim(",dudiname,"$l2)[2]",sep="")))	
+		nc <- eval(parse(text=paste("dim(",dudiname,"$li)[2]",sep="")))	
 		tclvalue(chvar2) <- nc
-		tab.but <- tkbutton(frame4, text=paste(dudiname, "$l2", sep=""), anchor="w", command=function() labell2dpcoa())
+		tab.but <- tkbutton(frame4, text=paste(dudiname, "$li", sep=""), anchor="w", command=function() labellidpcoa())
 		tkgrid(tklabel(frame4,text="2:"), tab.but, tklabel(frame4,text=tclvalue(chvar)),
 			tklabel(frame4,text=tclvalue(chvar2)), tklabel(frame4,text="coordinates of the communities"), sticky="w")
 	
@@ -1357,7 +1357,7 @@
 	} else if (dclass[1] == "pco") {
 		tkpack(OK.but, scatter.but, side="left", expand=1, fill = "x")	
 	} else if (dclass[1] == "fca") {
-		tkpack(OK.but, scatter.but, side="left", expand=1, fill = "x")	
+		tkpack(OK.but, plot.but, side="left", expand=1, fill = "x")	
 	} else if (dclass[1] == "fcpa") {
 		tkpack(OK.but, scatter.but, side="left", expand=1, fill = "x")	
 	} else if (dclass[1] == "mix") {
