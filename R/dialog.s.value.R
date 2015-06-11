@@ -9,20 +9,21 @@
 	tt <- tktoplevel()
 	tkwm.title(tt,"s.value")
   
-  frame1 <- tkframe(tt, relief="groove", borderwidth=2)
-  frame2 <- tkframe(tt, relief="groove", borderwidth=2)
-  frame3 <- tkframe(tt, relief="groove", borderwidth=2)
-  frame4 <- tkframe(tt, relief="groove", borderwidth=2)
-  xyframe <- tkframe(frame1, relief="groove", borderwidth=2)
-  symframe <- tkframe(frame1, relief="groove", borderwidth=2)
-  limframe <- tkframe(frame2, relief="groove", borderwidth=2)
-  posframe <- tkframe(frame2, relief="groove", borderwidth=2)
-  legframe <- tkframe(frame2, relief="groove", borderwidth=2)
-  optframe <- tkframe(frame3, relief="groove", borderwidth=2)
-  origframe <- tkframe(frame3, relief="groove", borderwidth=2)
-  gridframe <- tkframe(frame3, relief="groove", borderwidth=2)
-  miscframe <- tkframe(frame4, relief="groove", borderwidth=2)
-  methframe <- tkframe(frame4, relief="groove", borderwidth=2)
+	frame1 <- tkframe(tt, relief="groove", borderwidth=2)
+	frame2 <- tkframe(tt, relief="groove", borderwidth=2)
+	frame3 <- tkframe(tt, relief="groove", borderwidth=2)
+	frame4 <- tkframe(tt, relief="groove", borderwidth=2)
+	xyframe <- tkframe(frame1, relief="groove", borderwidth=2)
+	symframe <- tkframe(frame1, relief="groove", borderwidth=2)
+	methframe <- tkframe(frame1, relief="groove", borderwidth=2)
+	limframe <- tkframe(frame2, relief="groove", borderwidth=2)
+	posframe <- tkframe(frame2, relief="groove", borderwidth=2)
+	legframe <- tkframe(frame2, relief="groove", borderwidth=2)
+	optframe <- tkframe(frame3, relief="groove", borderwidth=2)
+	origframe <- tkframe(frame3, relief="groove", borderwidth=2)
+	gridframe <- tkframe(frame3, relief="groove", borderwidth=2)
+	miscframe <- tkframe(frame4, relief="groove", borderwidth=2)
+	valframe <- tkframe(frame4, relief="groove", borderwidth=2)
 #
 # Variables for text fields
 #
@@ -30,7 +31,7 @@
 	nxvar <- tclVar(1)
 	nyvar <- tclVar(2)
 	valvar <- tclVar()
-	pchvar <- tclVar(20)
+	pchvar <- tclVar(1)
 	cpvar <- tclVar(1)
 	clegendvar <- tclVar(1)
 	xl1var <- tclVar()
@@ -55,7 +56,6 @@
 	origvar <- tclVar(1)
 	posvar <- tclVar(1)
 	addvar <- tclVar(0)
-  zmaxvar <- tclVar(1)
 #
 # Title
 #
@@ -80,27 +80,32 @@
 #
 # Symbols frame
 #
-	pch.entry <- tkentry(symframe, textvariable=pchvar, width=10)
-	cp.entry <- tkentry(symframe, textvariable=cpvar, width=10)
-	clegend.entry <- tkentry(symframe, textvariable=clegendvar, width=10)
-	tkgrid(tklabel(symframe, text="- Symbols -", foreground="blue"), columnspan=3)
-	tkgrid(tklabel(symframe,text="Character #"), pch.entry)
-	tkgrid(tklabel(symframe,text="Char. size"), cp.entry)
-	tkgrid(tklabel(symframe,text="Legend size"), clegend.entry)
-
-	tkpack(xyframe, symframe, side="left")
-	tkpack(frame1)
+  tkpack(tklabel(symframe, text="- Symbols -", foreground="blue"))
+  tkpack(tkradiobutton(symframe, text="Square", value=1, variable=pchvar), anchor="w")
+  tkpack(tkradiobutton(symframe, text="Circle", value=2, variable=pchvar), anchor="w")
+  tkpack(tkradiobutton(symframe, text="Diamond", value=3, variable=pchvar), anchor="w")
+  tkpack(tkradiobutton(symframe, text="Up triangle", value=4, variable=pchvar), anchor="w")
+  tkpack(tkradiobutton(symframe, text="Down triangle", value=5, variable=pchvar), anchor="w")
+#
+# Method frame
+#
+  tkpack(tklabel(methframe, text="- Method -", foreground="blue"))
+  tkpack(tkradiobutton(methframe, text="B&W squares", value=1, variable=methvar), anchor="w")
+  tkpack(tkradiobutton(methframe, text="Grey levels", value=2, variable=methvar), anchor="w")
+	tkpack(xyframe, symframe, methframe, side="left")
+	tkpack(frame1, fill="x")
 #
 # Values frame
 #
-	tkgrid(tklabel(methframe, text="- Values -", foreground="blue"), columnspan=3)
-	chooseval.but <- tkbutton(methframe, text="Set", command=function() chooseval(tt, dfnr.label, val.entry))
-	val.entry <- tkentry(methframe, textvariable=valvar, width=10)
-	zmax.cbut <- tkcheckbutton(methframe, text="Same limits", variable=zmaxvar)
-	tkgrid(tklabel(methframe,text="Values"), val.entry, chooseval.but)
-	tkgrid(zmax.cbut)
-  tkgrid(tkradiobutton(methframe, text="B&W squares", value=1, variable=methvar), columnspan=3)
-  tkgrid(tkradiobutton(methframe, text="Grey levels", value=2, variable=methvar), columnspan=3)
+	tkgrid(tklabel(valframe, text="- Values -", foreground="blue"), columnspan=3)
+	chooseval.but <- tkbutton(valframe, text="Set", command=function() chooseval(tt, dfnr.label, val.entry))
+	val.entry <- tkentry(valframe, textvariable=valvar, width=10)
+  cp.entry <- tkentry(valframe, textvariable=cpvar, width=10)
+  clegend.entry <- tkentry(valframe, textvariable=clegendvar, width=10)
+	tkgrid(tklabel(valframe,text="Values"), val.entry, chooseval.but)
+  tkgrid(tklabel(valframe,text="Char. size"), cp.entry)
+  tkgrid(tklabel(valframe,text="Legend size"), clegend.entry)
+
 #
 # Misc frame
 #
@@ -119,7 +124,7 @@
 	#tkgrid(tklabel(miscframe,text="Pixmap"), pm.entry, choosepm.but)
 	tkgrid(tklabel(miscframe,text="Spatial object"), sp.entry, choosesp.but)
 
-	tkpack(methframe, miscframe, side="left", expand=1)
+	tkpack(valframe, miscframe, side="left", expand=1)
 	tkpack(frame4, fill="x")
 #
 # Limits frame
@@ -190,7 +195,6 @@
   l <- list(dfxy = .test1value(tclvalue(xyvar), ""),
     				xax = .test1value(tclvalue(nxvar), ""),
             yax = .test1value(tclvalue(nyvar), ""),
-            ppoints.pch = .test1value(tclvalue(pchvar), ""),
             ppoints.cex = .test1value(tclvalue(cpvar), ""),
             xlim = .test2values(tclvalue(xl1var), tclvalue(xl2var), ""),
             ylim = .test2values(tclvalue(yl1var), tclvalue(yl2var), ""),
@@ -206,7 +210,6 @@
             pnb.edge.lwd = .test1value(tclvalue(cneigvar), ""),
             Sp = .test1value(tclvalue(spvar), ""),
             plegend.size = .test1value(tclvalue(clegendvar), ""),
-            samelimits = as.logical(tclObj(zmaxvar)),
             z = .test1value(tclvalue(valvar), rep(1, as.numeric(tkcget(dfnr.label, "-text")))),
             plot = FALSE
           	)
@@ -218,7 +221,13 @@
 
 	if (tclvalue(methvar) == 1) l$method <- "size"
 	if (tclvalue(methvar) == 2) l$method <- "color"
-  
+
+  if (tclvalue(pchvar) == 1) l$symbol <- "square"
+  if (tclvalue(pchvar) == 2) l$symbol <- "circle"
+  if (tclvalue(pchvar) == 3) l$symbol <- "diamond"
+  if (tclvalue(pchvar) == 4) l$symbol <- "uptriangle"
+  if (tclvalue(pchvar) == 5) l$symbol <- "downtriangle"
+
   l <- l[which(l != "")]
   return(do.call("s.value", l))
 }
@@ -233,7 +242,7 @@
 		tclvalue(nyvar) <- "2"
 		tclvalue(valvar) <- ""
 		tclvalue(csizevar) <- "1"
-    tclvalue(pchvar) <- "20"
+    tclvalue(pchvar) <- "1"
 		tclvalue(cpvar) <- "1"
     tclvalue(clegendvar) <- "1"
 		tclvalue(xl1var) <- ""
@@ -257,7 +266,6 @@
 		tclvalue(origvar) <- "1"
 		tclvalue(posvar) <- "1"
 		tclvalue(addvar) <- "0"
-    tclvalue(zmaxvar) <- "1"
 	}
 	
 ################################
