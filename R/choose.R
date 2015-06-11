@@ -1249,7 +1249,7 @@
 #
 	flb <- function(x1) {
 		xobj <- get(x1, envir=globalenv())
-		if (class(xobj)=="between" || class(xobj)=="discrimin" || class(xobj)=="coinertia") {
+		if (class(xobj)=="between" || class(xobj)=="discrimin" || class(xobj)=="coinertia" || class(xobj)=="cca" || class(xobj)=="pcaiv" || class(xobj)=="pcaivortho") {
 			tkinsert(tlb, "end", x1)
 		}
 	}
