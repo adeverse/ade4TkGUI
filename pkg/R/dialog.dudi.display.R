@@ -190,27 +190,31 @@
 		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 
-	"dwplotfunc" <- function()
-	{
-		dotchart(eval(parse(text=paste(dudiname, "$dw", sep=""))))
-		cmd <- paste("dotchart(", parse(text=paste(dudiname, "$dw", sep="")),")",sep="")
-		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1, 2)
-			cat(cmd, "\n", pr1, sep="")
-		}
-		if (histCom) rewriteHistory(cmd)
-	}
+  "dwplotfunc" <- function()
+  {
+    ynames <- do.call("names", list(parse(text=paste(dudiname, "$dw", sep=""))[[1]]))
+    g <- do.call("s1d.dotplot", list(score = parse(text=paste(dudiname, "$dw", sep=""))[[1]], scales = list(y = list(labels = ynames)), 
+                                     paxes.draw = TRUE, paxes.y.draw =TRUE, porigin.include = FALSE))
+    assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
+    if (showCom) {
+      print(g@Call)
+      cat(substr(options("prompt")$prompt, 1, 2))
+    }
+    if (histCom) rewriteHistory(deparse(g@Call))
+  }
 
-	"lwplotfunc" <- function()
-	{
-		dotchart(eval(parse(text=paste(dudiname, "$lw", sep=""))))
-		cmd <- paste("dotchart(", parse(text=paste(dudiname, "$lw", sep="")),")",sep="")
-		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
-		}
-		if (histCom) rewriteHistory(cmd)
-	}
+  "lwplotfunc" <- function()
+  {
+    ynames <- do.call("names", list(parse(text=paste(dudiname, "$lw", sep=""))[[1]]))
+    g <- do.call("s1d.dotplot", list(score = parse(text=paste(dudiname, "$lw", sep=""))[[1]], scales = list(y = list(labels = ynames)), 
+                                     paxes.draw = TRUE, paxes.y.draw =TRUE, porigin.include = FALSE))
+    assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
+    if (showCom) {
+      print(g@Call)
+      cat(substr(options("prompt")$prompt, 1, 2))
+    }
+    if (histCom) rewriteHistory(deparse(g@Call))
+  }
 
 	"RaoDivplotfunc" <- function()
 	{
@@ -224,27 +228,17 @@
 		if (histCom) rewriteHistory(deparse(g@Call))
 	}
 	
-	"cwplotfunc" <- function()
-	{
-		dotchart(eval(parse(text=paste(dudiname, "$cw", sep=""))))
-		cmd <- paste("dotchart(", parse(text=paste(dudiname, "$cw", sep="")),")",sep="")
-		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
-		}
-		if (histCom) rewriteHistory(cmd)
-	}
-
-	"lwplotfunc" <- function()
-	{
-		dotchart(eval(parse(text=paste(dudiname, "$lw", sep=""))))
-		cmd <- paste("dotchart(", parse(text=paste(dudiname, "$lw", sep="")),")",sep="")
-		if (showCom) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(cmd, "\n", pr1, sep="")
-		}
-		if (histCom) rewriteHistory(cmd)
-	}
+  "cwplotfunc" <- function()
+  {
+    ynames <- do.call("names", list(parse(text=paste(dudiname, "$cw", sep=""))[[1]]))
+    g <- do.call("s1d.dotplot", list(score = parse(text=paste(dudiname, "$cw", sep=""))[[1]], scales = list(y = list(labels = ynames)), paxes.draw = TRUE, paxes.y.draw =TRUE, porigin.include = FALSE))
+    assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), g@Call), envir=.GlobalEnv)
+    if (showCom) {
+      print(g@Call)
+      cat(substr(options("prompt")$prompt, 1, 2))
+    }
+    if (histCom) rewriteHistory(deparse(g@Call))
+  }
 
 	"eigplotfunc" <- function()
 	{
