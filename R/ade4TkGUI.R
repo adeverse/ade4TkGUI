@@ -4,10 +4,11 @@
 
 "ade4TkGUI" <- function(show = FALSE, history = FALSE)
 {
-	assign("cmdlist", "cmdlist", envir=.GlobalEnv)
-	assign("winlist", 1, envir=.GlobalEnv)
+  G <- .GlobalEnv
+	assign("cmdlist", "cmdlist", envir=G)
+	assign("winlist", 1, envir=G)
 	
-	if (exists("ade4TkGUIFlag")) rm("ade4TkGUIFlag", envir=.GlobalEnv)
+	if (exists("ade4TkGUIFlag")) rm("ade4TkGUIFlag", envir=G)
 #
 # Main dialog window with title
 #

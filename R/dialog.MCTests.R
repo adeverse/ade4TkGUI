@@ -125,12 +125,12 @@
 	#
 	# Execute the command
 	#
-#		ade4TkGUIFlag <<- 1
-		assign("ade4TkGUIFlag", 1, envir=.GlobalEnv)
+		G <- .GlobalEnv
+		assign("ade4TkGUIFlag", 1, envir=G)
 		myObject <- eval.parent(cmd)
-		assign(eval(randtestname), myObject, pos=1)
+		assign(eval(randtestname), myObject, envir=G)
 		plot(myObject)
-		rm("ade4TkGUIFlag", envir=.GlobalEnv)
+		rm("ade4TkGUIFlag", envir=G)
 		if (history) {
 			commande = paste("plot(", eval(randtestname), " <- ", deparse(cmd, width.cutoff = 500), ")", sep = "")
 			rewriteHistory(commande)
