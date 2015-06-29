@@ -24,7 +24,7 @@
   #  tkpack(scr,side="right",fill="y")
   #  
   
-  
+  G <- .GlobalEnv
   
   #
   # Local variables
@@ -276,39 +276,40 @@
   # Ordination method
   #
   "doOrd" <- function() {
+    
     meth  <- as.numeric(tclvalue(ordvar))
     df1  <- tclvalue(dfvar)
     if (df1 == "") return()
     if (!is.null(ordiClust.dudi)) maxngr <<- min(maxngr1, nrow(ordiClust.dudi$li))
-    tab <- eval(parse(text=df1), envir=.GlobalEnv)
+    tab <- eval(parse(text=df1), envir=G)
     #
     # cPCA
     #
     if (meth == 1) {
       nax <<- r1 <<- dudi.pca(as.data.frame(tab), scale=FALSE, scannf=FALSE, nf=2)$rank
       ordiClust.dudi <<- dudi.pca(as.data.frame(tab), scale=FALSE, scannf=FALSE, nf=r1)
-      assign("ordiClust.dudi", ordiClust.dudi, globalenv())
+      assign("ordiClust.dudi", ordiClust.dudi, G)
       #
       # nPCA
       #
     } else if (meth == 2) {
       nax <<- r1 <<- dudi.pca(as.data.frame(tab), scannf=FALSE, nf=2)$rank
       ordiClust.dudi <<- dudi.pca(as.data.frame(tab), scannf=FALSE, nf=r1)
-      assign("ordiClust.dudi", ordiClust.dudi, globalenv())
+      assign("ordiClust.dudi", ordiClust.dudi, G)
       #
       # COA
       #
     } else if (meth == 3) {
       nax <<- r1 <<- dudi.coa(as.data.frame(tab), scannf=FALSE, nf=2)$rank
       ordiClust.dudi <<- dudi.coa(as.data.frame(tab), scannf=FALSE, nf=r1)
-      assign("ordiClust.dudi", ordiClust.dudi, globalenv())
+      assign("ordiClust.dudi", ordiClust.dudi, G)
       #
       # MCA
       #
     } else if (meth == 4) {
       nax <<- r1 <<- dudi.acm(as.data.frame(tab), scannf=FALSE, nf=2)$rank
       ordiClust.dudi <<- dudi.acm(as.data.frame(tab), scannf=FALSE, nf=r1)
-      assign("ordiClust.dudi", ordiClust.dudi, globalenv())
+      assign("ordiClust.dudi", ordiClust.dudi, G)
     }
     plotclass <<- 0
     plotrow <<- 0
@@ -322,40 +323,40 @@
   # and plot row scores
   #
   "doChooseAxes" <- function() {
-    
+
     meth  <- as.numeric(tclvalue(ordvar))
     df1  <- tclvalue(dfvar)
     if (df1 == "") return()
     naxloc  <- as.numeric(tclvalue(naxvar))
-    tab <- eval(parse(text=df1), envir=.GlobalEnv)
+    tab <- eval(parse(text=df1), envir=G)
     #
     # cPCA
     #
     if (meth == 1) {
       nax <<- naxloc
       ordiClust.dudi <<- dudi.pca(as.data.frame(tab), scale=FALSE, scannf=FALSE, nf=nax)
-      assign("ordiClust.dudi", ordiClust.dudi, globalenv())
+      assign("ordiClust.dudi", ordiClust.dudi, G)
       #
       # nPCA
       #
     } else if (meth == 2) {
       nax <<- naxloc
       ordiClust.dudi <<- dudi.pca(as.data.frame(tab), scannf=FALSE, nf=nax)
-      assign("ordiClust.dudi", ordiClust.dudi, globalenv())
+      assign("ordiClust.dudi", ordiClust.dudi, G)
       #
       # COA
       #
     } else if (meth == 3) {
       nax <<- naxloc
       ordiClust.dudi <<- dudi.coa(as.data.frame(tab), scannf=FALSE, nf=nax)
-      assign("ordiClust.dudi", ordiClust.dudi, globalenv())
+      assign("ordiClust.dudi", ordiClust.dudi, G)
       #
       # MCA
       #
     } else if (meth == 4) {
       nax <<- naxloc
       ordiClust.dudi <<- dudi.acm(as.data.frame(tab), scannf=FALSE, nf=nax)
-      assign("ordiClust.dudi", ordiClust.dudi, globalenv())
+      assign("ordiClust.dudi", ordiClust.dudi, G)
     }
     plotclass <<- 0
     plotrow <<- 1
@@ -400,7 +401,7 @@
     else h1 <<- hclust(dist.dudi(ordiClust.dudi), method=clustml[clustm])
     if (nlev > 1 && nlev <= nrow(ordiClust.dudi$li)) {
       ordiClust.factor <<- as.factor(cutree(h1, k=nlev))
-      assign("ordiClust.factor", ordiClust.factor, globalenv())
+      assign("ordiClust.factor", ordiClust.factor, G)
       doCutk()
       doCuth()
     }
@@ -423,7 +424,7 @@
       } else {
         if (nlev > 1 && nlev <= nrow(ordiClust.dudi$li)) {
           ordiClust.factor <<- as.factor(cutree(h1, k=nlev))
-          assign("ordiClust.factor", ordiClust.factor, globalenv())
+          assign("ordiClust.factor", ordiClust.factor, G)
         }
         hh <- cutree(h1, h=h1$height)
         for (i in 1:ncol(hh))
@@ -450,7 +451,7 @@
         return()
       } else {
         ordiClust.factor <<- as.factor(cutree(h1, h=hlevloc))
-        assign("ordiClust.factor", ordiClust.factor, globalenv())
+        assign("ordiClust.factor", ordiClust.factor, G)
         hlev <<- hlevloc
         tclvalue(nlevvar) <- nlevels(ordiClust.factor)
         nlev <<- as.numeric(tclvalue(nlevvar))
@@ -473,7 +474,7 @@
     } else {
       if (nlev > 1 && nlev <= nrow(ordiClust.dudi$li)) {
         ordiClust.factor <<- as.factor(cutree(h1, k=nlev))
-        assign("ordiClust.factor", ordiClust.factor, globalenv())
+        assign("ordiClust.factor", ordiClust.factor, G)
       }
       bet1 <- bca(ordiClust.dudi,as.factor(ordiClust.factor),scannf=FALSE)
       mc1 <- randtest(bet1)
@@ -539,7 +540,7 @@
     choosedudi(dudi.entry)
     if (tclvalue(dudivar) != "") {
       ordiClust.dudi <<- eval(parse(text=tclvalue(dudivar)))
-      assign("ordiClust.dudi", ordiClust.dudi, globalenv())
+      assign("ordiClust.dudi", ordiClust.dudi, G)
       tclvalue(naxvar) <<- as.character(ordiClust.dudi$nf)
       nax <<- ordiClust.dudi$nf
       plotrow <<- 0
@@ -659,7 +660,7 @@
       if (nlev >= 1 && nlev <= nrow(ordiClust.dudi$li)) {
         if (class(h1) == "hclust") {
           ordiClust.factor <<- as.factor(cutree(h1, k=nlev))
-          assign("ordiClust.factor", ordiClust.factor, globalenv())
+          assign("ordiClust.factor", ordiClust.factor, G)
         }
         else return(0)
         if (nlev >= 2 && nlev <= nrow(ordiClust.dudi$li)) {
@@ -710,7 +711,7 @@
     if (is.data.frame(datatab)) tclvalue(dfvar) <- as.character(substitute(datatab))
     if (is.dudi(datatab)) {
       ordiClust.dudi <- datatab
-      assign("ordiClust.dudi", ordiClust.dudi, globalenv())
+      assign("ordiClust.dudi", ordiClust.dudi, G)
       tclvalue(naxvar) <- as.character(ordiClust.dudi$nf)
       nax <- ordiClust.dudi$nf
       ploteig <- 1
@@ -729,7 +730,7 @@
       if (!is.null(ordiClust.dudi)) if (class(h1) == "hclust") {
         if (nlev >= 2 && nlev <= nrow(ordiClust.dudi$li)) {
           ordiClust.factor <<- as.factor(cutree(h1, k=nlev))
-          assign("ordiClust.factor", ordiClust.factor, globalenv())
+          assign("ordiClust.factor", ordiClust.factor, G)
           bet1 <- bca(ordiClust.dudi,as.factor(ordiClust.factor),scannf=FALSE)
           mc1 <- randtest(bet1)
           tkconfigure(bwg.label, text=paste(format(bet1$ratio*100, dig=2),"%",sep=""))
@@ -759,7 +760,7 @@
       if (!is.null(ordiClust.dudi)) if (class(h1) == "hclust") {
         if (nlev >= 2 && nlev <= nrow(ordiClust.dudi$li)) {
           ordiClust.factor <<- as.factor(cutree(h1, k=nlev))
-          assign("ordiClust.factor", ordiClust.factor, globalenv())
+          assign("ordiClust.factor", ordiClust.factor, G)
           bet1 <- bca(ordiClust.dudi,as.factor(ordiClust.factor),scannf=FALSE)
           mc1 <- randtest(bet1)
           tkconfigure(bwg.label, text=paste(format(bet1$ratio*100, dig=2),"%",sep=""))

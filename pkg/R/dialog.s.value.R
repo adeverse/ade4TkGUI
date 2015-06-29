@@ -295,7 +295,8 @@
 		#
 		eval.parent(cmd)
 		if (length(grep("expression", dcmd, fixed=TRUE)) == 0) {
-		  assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd@Call), envir=.GlobalEnv)
+		  G <- .GlobalEnv
+		  assign("cmdlist", c(get("cmdlist", envir=G), cmd@Call), envir=G)
 			if (history) rewriteHistory(deparse(cmd@Call, width.cutoff = 500))
 		} else {
 			if (history) rewriteHistory(tcmd)

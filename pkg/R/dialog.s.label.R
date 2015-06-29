@@ -265,7 +265,8 @@
 		# Execute the command
 		#
 		eval.parent(cmd)
-		assign("cmdlist", c(get("cmdlist", envir=.GlobalEnv), cmd@Call), envir=.GlobalEnv)
+		G <- .GlobalEnv
+		assign("cmdlist", c(get("cmdlist", envir=G), cmd@Call), envir=G)
 		if (history) rewriteHistory(deparse(cmd@Call, width.cutoff = 500))
 	}
 #
