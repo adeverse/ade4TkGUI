@@ -5,7 +5,7 @@ Title: 'ade4' Tcl/Tk Graphical User Interface
 Author: Jean Thioulouse <jean.thioulouse@univ-lyon1.fr>, Stéphane Dray <stephane.dray@univ-lyon1.fr>, Aurélie Siberchicot <aurelie.siberchicot@univ-lyon1.fr>
 Maintainer: Jean Thioulouse <jean.thioulouse@univ-lyon1.fr>
 Depends: ade4 (>= 1.4-3)
-Imports: tkrplot, lattice, adegraphics, tcltk
+Imports: adegraphics, graphics, grDevices, lattice, stats, tcltk, tkrplot, utils
 Suggests: pixmap
 Description: A Tcl/Tk GUI for some basic functions in the 'ade4' package.
 License: GPL (>=2)
