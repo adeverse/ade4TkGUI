@@ -143,12 +143,11 @@
 	#
 	# Execute the command
 	#
-		G <- .GlobalEnv
-		assign("ade4TkGUIFlag", 1, envir=G)
+		assign("ade4TkGUIFlag", 1, envir=env_ade4tkgui)
 		mydudi <- eval.parent(cmd)
-		assign(eval(dudiname), mydudi, envir=G)
+		assign(eval(dudiname), mydudi, envir=env_ade4tkgui)
 		dialog.dudi.display(show, history, eval(dudiname))
-		rm("ade4TkGUIFlag", envir=G)
+		rm("ade4TkGUIFlag", envir=env_ade4tkgui)
 		if (history) {
 			commande = paste(eval(dudiname), " <- ", deparse(cmd, width.cutoff = 500), sep = "")
 			rewriteHistory(commande)

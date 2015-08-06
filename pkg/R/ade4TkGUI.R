@@ -1,14 +1,15 @@
 ################################
 # GUI for ade4 functions 
 ################################
+env_ade4tkgui <- .GlobalEnv
 
 "ade4TkGUI" <- function(show = FALSE, history = FALSE)
 {
-  G <- .GlobalEnv
-	assign("cmdlist", "cmdlist", envir=G)
-	assign("winlist", 1, envir=G)
+  
+	assign("cmdlist", "cmdlist", envir=env_ade4tkgui)
+	assign("winlist", 1, envir=env_ade4tkgui)
 	
-	if (exists("ade4TkGUIFlag")) rm("ade4TkGUIFlag", envir=G)
+	if (exists("ade4TkGUIFlag")) rm("ade4TkGUIFlag", envir=env_ade4tkgui)
 #
 # Main dialog window with title
 #
