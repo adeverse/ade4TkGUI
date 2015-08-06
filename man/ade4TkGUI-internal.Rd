@@ -56,6 +56,8 @@
 \alias{askQuit}
 \alias{editdf}
 \alias{rewriteHistory}
+\alias{env_ade4tkgui}
+
 \title{Internal functions for the ade4TkGUI package.}
 \description{
 Internal functions for the ade4TkGUI package

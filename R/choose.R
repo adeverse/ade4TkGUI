@@ -827,9 +827,8 @@
 	tkpack(frame1, side="bottom")
 	tkpack(tlb, side="left", fill="both", expand=TRUE)
 	tkpack(scr, side="right", fill="y")
-	G <- .GlobalEnv
 	
-	lade4 <- data(package="ade4", envir=G)
+	lade4 <- data(package="ade4", envir=env_ade4tkgui)
 	for (i in seq(1, length(lade4$result)/4)) {
 		dsname <- lade4$result[i,3]
 		tkinsert(tlb, "end", dsname)
@@ -852,7 +851,7 @@
 	}
 	
 	choix <- tclvalue(tkget(tlb, numc))
-	data(list=choix, envir=G)
+	data(list=choix, envir=env_ade4tkgui)
 
 	if (show) {
 		pr1 <- substr(options("prompt")$prompt, 1,2)
@@ -1290,8 +1289,7 @@
 "exploregraph" <- function(show, history) {
 	tf <- tktoplevel()
 	tkwm.title(tf, "Graph exploration")
-	G <- .GlobalEnv
-	loclist <- get("cmdlist", envir = G)
+	loclist <- get("cmdlist", envir = env_ade4tkgui)
 	
 	"callexp" <- function()
 	{
@@ -1358,8 +1356,7 @@
 #
 # cmdlist contains the list of graphs that were drawn by the user.
 #
-	G <- .GlobalEnv
-	cmdlist1 <- get("cmdlist", envir=G)
+	cmdlist1 <- get("cmdlist", envir=env_ade4tkgui)
 	if (length(cmdlist1) > 1) {
 		for (i in 2:length(cmdlist1)) {
 			if (is.call(cmdlist1[[i]])) {
@@ -1855,7 +1852,6 @@
 ################################
 "newGr" <- function()
 {
-  G <- .GlobalEnv
 	if(.Platform$OS.type == "unix") {
 		if (capabilities("aqua")) {
 			# quartz()
@@ -1868,7 +1864,7 @@
 		# windows()
 		dev.new()
 	}
-	assign("winlist", get("winlist", envir=G)+1, envir=G)
+	assign("winlist", get("winlist", envir=env_ade4tkgui)+1, envir=env_ade4tkgui)
 }
 
 ################################
@@ -1876,9 +1872,8 @@
 ################################
 "resetgraph" <- function()
 {
-  G <- .GlobalEnv
-	if (exists("cmdlist")) rm("cmdlist", envir=G)
-	assign("cmdlist", "cmdlist", envir=G)
+	if (exists("cmdlist")) rm("cmdlist", envir=env_ade4tkgui)
+	assign("cmdlist", "cmdlist", envir=env_ade4tkgui)
 }
 
 ################################

@@ -23,10 +23,9 @@
   
   "tablevalue" <- function(val)
 	{
-    G <- .GlobalEnv
     g <- do.call("table.value",list(dftab = parse(text=paste(dudiname, val, sep=""))[[1]]))
     print(g@Call)
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -37,9 +36,8 @@
   
 	"scatterfunc" <- function()
 	{
-	  G <- .GlobalEnv
 	  g <- do.call("scatter", list(x = parse(text=dudiname)[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-    assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+    assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -50,9 +48,8 @@
 
 	"scorefunc" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("score", list(x = parse(text=dudiname)[[1]], xax = parse(text=tclvalue(xaxvar))[[1]]))
-    assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+    assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -62,9 +59,8 @@
 
 	"plotfunc" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("plot", list(x = parse(text=dudiname)[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -74,11 +70,10 @@
 
 	"tabvalue" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.value", list(dfxy = parse(text=paste(dudiname, "$li", sep=""))[[1]], z = parse(text=paste(dudiname, "$tab", sep=""))[[1]], 
         xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]],
         psub.text = eval(parse(text=paste("names(",dudiname, "$tab)", sep=""))), psub.cex = 1.5))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -88,9 +83,8 @@
 
 	"labelli" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$li", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -100,9 +94,8 @@
 
 	"labell1" <- function()
 	{
-	  G <- .GlobalEnv
 	  g <- do.call("s.arrow",list(dfxy = parse(text=paste(dudiname, "$l1", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -112,9 +105,8 @@
 
 	"labeldlsdpcoa" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$dls", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -124,9 +116,8 @@
 
 	"labellidpcoa" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$li", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -136,7 +127,6 @@
 
 	"labelco" <- function()
 	{
-	  G <- .GlobalEnv
 		if (dclass[1] == "pca") {
 			ncp <- names(dcall)
 			nf1 <- names(formals(dudi.pca))
@@ -159,7 +149,7 @@
     } else {
 			g <- do.call("s.label", list(dfxy = parse(text=paste(dudiname, "$co", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
 		}
-    assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+    assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -169,9 +159,8 @@
 
 	"labelc1" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.arrow", list(dfxy = parse(text=paste(dudiname, "$c1", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -181,9 +170,8 @@
 
 	"corcirclefunc" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.corcircle",list(dfxy = parse(text=paste(dudiname, "$co", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -193,9 +181,8 @@
 
 	"labelc1dpcoa" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.corcircle",list(dfxy = parse(text=paste(dudiname, "$c1", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -205,11 +192,10 @@
 
   "dwplotfunc" <- function()
   {
-    G <- .GlobalEnv
     ynames <- do.call("names", list(parse(text=paste(dudiname, "$dw", sep=""))[[1]]))
     g <- do.call("s1d.dotplot", list(score = parse(text=paste(dudiname, "$dw", sep=""))[[1]], scales = list(y = list(labels = ynames)), 
                                      paxes.draw = TRUE, paxes.y.draw =TRUE, porigin.include = FALSE))
-    assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+    assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
     if (showCom) {
       print(g@Call)
       cat(substr(options("prompt")$prompt, 1, 2))
@@ -219,11 +205,10 @@
 
   "lwplotfunc" <- function()
   {
-    G <- .GlobalEnv
     ynames <- do.call("names", list(parse(text=paste(dudiname, "$lw", sep=""))[[1]]))
     g <- do.call("s1d.dotplot", list(score = parse(text=paste(dudiname, "$lw", sep=""))[[1]], scales = list(y = list(labels = ynames)), 
                                      paxes.draw = TRUE, paxes.y.draw =TRUE, porigin.include = FALSE))
-    assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+    assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
     if (showCom) {
       print(g@Call)
       cat(substr(options("prompt")$prompt, 1, 2))
@@ -233,10 +218,9 @@
 
 	"RaoDivplotfunc" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.value",list(dfxy = parse(text=paste(dudiname, "$li", sep=""))[[1]], z = parse(text=paste(dudiname, "$RaoDiv", sep=""))[[1]], 
         xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]], maxsize = 2, psub.text = "Rao Divcs", psub.position = "topright", psub.cex = 1.5))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -246,10 +230,9 @@
 	
   "cwplotfunc" <- function()
   {
-    G <- .GlobalEnv
     ynames <- do.call("names", list(parse(text=paste(dudiname, "$cw", sep=""))[[1]]))
     g <- do.call("s1d.dotplot", list(score = parse(text=paste(dudiname, "$cw", sep=""))[[1]], scales = list(y = list(labels = ynames)), paxes.draw = TRUE, paxes.y.draw =TRUE, porigin.include = FALSE))
-    assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+    assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
     if (showCom) {
       print(g@Call)
       cat(substr(options("prompt")$prompt, 1, 2))
@@ -259,14 +242,13 @@
 
 	"eigplotfunc" <- function()
 	{
-	  G <- .GlobalEnv
     rank1 <- eval(parse(text=paste(dudiname,"$rank",sep=""))[[1]])
     eigvalue <- eval(parse(text = paste(dudiname, "$eig[1:", rank1, "]", sep="")))
     xax <- parse(text=tclvalue(xaxvar))[[1]]
     yax <- parse(text=tclvalue(yaxvar))[[1]]
     nf <- eval(parse(text=paste(dudiname,"$nf",sep=""))[[1]])
     g <- do.call("plotEig", list(eigvalue = eigvalue, nf = 1:nf, xax = xax, yax = yax, paxes.draw = TRUE, paxes.x.draw = FALSE))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -277,9 +259,8 @@
 
 	"dpcoaeigplotfunc" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("plotEig", list(eigvalue = eval(parse(text=paste(dudiname, "$eig", sep=""))), nf = 1:eval(parse(text=paste(dudiname, "$nf", sep="")))))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -289,9 +270,8 @@
 
 	"labells" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.class",list(dfxy = parse(text=paste(dudiname, "$ls", sep=""))[[1]], fac = parse(text=dcall[3])[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -301,9 +281,8 @@
 
 	"labelas" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.arrow",list(dfxy = parse(text=paste(dudiname, "$as", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -313,9 +292,8 @@
 
 	"labelfa" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.arrow",list(dfxy = parse(text=paste(dudiname, "$fa", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -325,9 +303,8 @@
 
 	"labellid" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.class",list(dfxy = parse(text=paste(dudiname, "$li", sep=""))[[1]], fac = parse(text=dcall[3])[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -337,9 +314,8 @@
 
 	"labelva" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.corcircle",list(dfxy = parse(text=paste(dudiname, "$va", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -349,9 +325,8 @@
 
 	"labelcp" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.corcircle",list(dfxy = parse(text=paste(dudiname, "$cp", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -361,9 +336,8 @@
 
 	"labelgc" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$gc", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -373,9 +347,8 @@
 
 	"labelaX" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.corcircle",list(dfxy = parse(text=paste(dudiname, "$aX", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -385,9 +358,8 @@
 
 	"labelaY" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.corcircle",list(dfxy = parse(text=paste(dudiname, "$aY", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -397,9 +369,8 @@
 
 	"labell1Y" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.arrow",list(dfxy = parse(text=paste(dudiname, "$l1", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -409,9 +380,8 @@
 
 	"labelc1X" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.arrow",list(dfxy = parse(text=paste(dudiname, "$c1", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -421,9 +391,8 @@
 
 	"labellX" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$lX", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -433,9 +402,8 @@
 
 	"labellY" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$lY", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -445,9 +413,8 @@
 
 	"labelmX" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.match",list(dfxy1 = parse(text=paste(dudiname, "$mY", sep=""))[[1]], dfxy2 = parse(text=paste(dudiname, "$mX", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -457,9 +424,8 @@
 
 	"labelmY" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.match",list(dfxy1 = parse(text=paste(dudiname, "$mX", sep=""))[[1]], dfxy2 = parse(text=paste(dudiname, "$mY", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -469,9 +435,8 @@
 
 	"tabvalueCA" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("table.value",list(dftab = parse(text=paste(dudiname, "$tab", sep=""))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -481,9 +446,8 @@
 
 	"tabvalueX" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("table.value",list(dftab = parse(text=paste(dudiname, "$X", sep=""))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -493,9 +457,8 @@
 
 	"tabvalueY" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("table.value",list(dftab = parse(text=paste(dudiname, "$Y", sep=""))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -505,9 +468,8 @@
 
 	"tabvalueRaoDecodiv" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("table.value",list(dftab = parse(text=paste(dudiname, "$RaoDecodiv", sep=""))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -517,9 +479,8 @@
 	
 	"tabvalueRaoDis" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("table.value",list(dftab = parse(text=paste(dudiname, "$RaoDis", sep=""))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -529,12 +490,11 @@
 	
 	"labellicca" <- function()
 	{
-	  G <- .GlobalEnv
     g11 <- do.call("s.match", list(dfxy1 = parse(text=paste(dudiname, "$li", sep=""))[[1]], dfxy2 = parse(text=paste(dudiname, "$ls", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]], plot = FALSE))
     g12 <- do.call("s.label", list(dfxy = parse(text=paste(dudiname, "$co", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]], plabels.cex = 0, ppoints.cex = 2, plot = FALSE))
     g <- do.call("superpose", list(g11, g12, plot = TRUE))
     g@Call <- call("superpose", g11@Call, g12@Call, plot = TRUE)
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -544,9 +504,8 @@
 
 	"labellic" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.match",list(dfxy1 = parse(text=paste(dudiname, "$li", sep=""))[[1]], dfxy2 = parse(text=paste(dudiname, "$ls", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -556,12 +515,11 @@
 
 	"labellscca" <- function()
 	{
-	  G <- .GlobalEnv
     g11 <- do.call("s.match", list(dfxy1 = parse(text=paste(dudiname, "$ls", sep=""))[[1]], dfxy2 = parse(text=paste(dudiname, "$li", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]], plot = FALSE))
     g12 <- do.call("s.label", list(dfxy = parse(text=paste(dudiname, "$co", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]], plabels.cex = 0, ppoints.cex = 2, plot = FALSE))
     g <- do.call("superpose", list(g12, g11, plot = TRUE))
     g@Call <- call("superpose", g11@Call, g12@Call, plot = TRUE)
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -571,9 +529,8 @@
 
 	"labellsc" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.match",list(dfxy1 = parse(text=paste(dudiname, "$ls", sep=""))[[1]], dfxy2 = parse(text=paste(dudiname, "$li", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -583,9 +540,8 @@
 
 	"labelcor" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.arrow",list(dfxy = parse(text=paste(dudiname, "$cor", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -595,9 +551,8 @@
 
 	"labelasc" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.corcircle",list(dfxy = parse(text=paste(dudiname, "$as", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -607,9 +562,8 @@
 
 	"labelcoc" <- function()
 	{
-	  G <- .GlobalEnv
 	  g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$co", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))
@@ -619,9 +573,8 @@
 
 	"labell1c" <- function()
 	{
-	  G <- .GlobalEnv
     g <- do.call("s.label",list(dfxy = parse(text=paste(dudiname, "$l1", sep=""))[[1]], xax = parse(text=tclvalue(xaxvar))[[1]], yax = parse(text=tclvalue(yaxvar))[[1]]))
-		assign("cmdlist", c(get("cmdlist", envir=G), g@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), g@Call), envir=env_ade4tkgui)
 		if (showCom) {
       print(g@Call)
 			cat(substr(options("prompt")$prompt, 1, 2))

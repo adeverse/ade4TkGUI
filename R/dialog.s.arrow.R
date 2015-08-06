@@ -260,9 +260,8 @@
 		#
 		# Execute the command
 		#
-		G <- .GlobalEnv
 		eval.parent(cmd)
-		assign("cmdlist", c(get("cmdlist", envir=G), cmd@Call), envir=G)
+		assign("cmdlist", c(get("cmdlist", envir=env_ade4tkgui), cmd@Call), envir=env_ade4tkgui)
 		if (history) rewriteHistory(deparse(cmd@Call, width.cutoff = 500))
 	}
 #
