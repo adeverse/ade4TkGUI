@@ -3,8 +3,7 @@
 
 
 # [ade4TkGUI]
-Analysis of Ecological Data : Exploratory and Euclidean Methods in Environmental Sciences
-
+A Tcl/Tk GUI for some basic functions in the 'ade4' package
 
 
 Installing *ade4TkGUI*
