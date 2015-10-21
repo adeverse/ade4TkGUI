@@ -6,7 +6,7 @@ importFrom("lattice", "xyplot", "panel.rect")
 importFrom("graphics", "abline", "lines")
 importFrom("grDevices", "dev.copy", "dev.cur", "dev.list", "dev.new", "dev.off", "dev.set", "jpeg", "pdf", "pictex", "png", "postscript", "rainbow", "xfig")
 importFrom("stats", "cutree", "dist", "hclust")
-importFrom("utils", "help", "help.start", "loadhistory", "savehistory")
+importFrom("utils", "data", "help", "help.start", "loadhistory", "savehistory")
 
 
 exportPattern(".")
