@@ -59,7 +59,7 @@ The core of the package is the `ade4TkGUI()` function which opens this main GUI 
 <br/>
 <br/>
 <p align="center">
-![](inst/mainGUIwindow.png)
+![](https://raw.githubusercontent.com/aursiber/ade4TkGUI/master/inst/mainGUIwindow.png)
 </p>
 <br/>
 <br/>
