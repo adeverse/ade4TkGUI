@@ -83,7 +83,7 @@ env_ade4tkgui <- .GlobalEnv
 	tkadd(graphMenu,"separator")
 	tkadd(graphMenu,"command",label="Display dudi",command=function() dudisp(show, history))
 	tkadd(graphMenu,"command",label="Monte-Carlo test",command=function() dialog.MCTests(show, history))
-	tkadd(graphMenu,"command",label="Explore graph",command=function() exploregraph(show, history))
+	# tkadd(graphMenu,"command",label="Explore graph",command=function() exploregraph(show, history))
 	tkadd(graphMenu,"command",label="ordiClust",command=function() ordiClust())
 	tkadd(graphMenu,"command",label="Reset graph list",command=function() resetgraph())
 
