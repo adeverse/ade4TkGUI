@@ -11,7 +11,6 @@ The `ade4` package contains Data Analysis functions to analyse Ecological and En
 
 The `ade4TkGUI` package mixes the advantages of a GUI (ease to use, no need to learn numerous commands) with the possibility to use R expressions in the dialog boxes, to generate understandable R commands, and to manage a session history file.
 
-***
 ## Installing `ade4TkGUI`
 
 To install the development version from github:
@@ -51,7 +50,6 @@ Once installed, the package can be loaded using:
 library("ade4TkGUI")
 ```
 
-***
 ## Start with `ade4TkGUI`
 
 The core of the package is the `ade4TkGUI()` function which opens this main GUI window :
