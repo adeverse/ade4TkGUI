@@ -58,9 +58,7 @@ The core of the package is the `ade4TkGUI()` function which opens this main GUI 
 <br/>
 <br/>
 <br/>
-<p align="center">
 ![fig-figure1](https://cloud.githubusercontent.com/assets/13218953/10664478/03bbcdcc-78c4-11e5-9ee5-2025e5a06242.png)
-</p>
 <br/>
 <br/>
 
