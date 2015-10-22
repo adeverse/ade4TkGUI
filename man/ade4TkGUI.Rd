@@ -13,21 +13,21 @@ ade4TkGUI(show = FALSE, history = FALSE)
 }
 
 \arguments{
-  \item{show}{a logical value. If \code{TRUE}, R commands executed in the GUI are echoed to the console.}
-  \item{history}{a logical value. If \code{TRUE}, R commands executed in the GUI are stored in the R
+  \item{show}{a logical value. If \code{TRUE}, \code{R} commands executed in the GUI are echoed to the console.}
+  \item{history}{a logical value. If \code{TRUE}, \code{R} commands executed in the GUI are stored in the \code{R}
   session history.}
 }
 
 \details{
-Right-click on ade4 function buttons to get help on these functions.
+Right-click on \code{ade4} function buttons to get help on these functions.
 You can also click on the questionhead icon in the dialog windows.
-This displays the R help for the corresponding function.\cr
+This displays the \code{R} help for the corresponding function.\cr
 
-In all dialog windows, entries can either be filled with a "\code{set}" button, or typed
-directly in the entry field. The "\code{set}" button displays a listbox with a list
+In all dialog windows, entries can either be filled with a \code{Set} button, or typed
+directly in the entry field. The \code{Set} button displays a listbox with a list
 of available objects in the global environment. This list is restricted to objects
-with an adequate type (dataframe, dudi, factor, etc). Entries can also be filled
-directly by typing the desired value. In this case, R expressions can also be entered,
+with an adequate type (dataframe, \code{dudi}, factor, etc). Entries can also be filled
+directly by typing the desired value. In this case, \code{R} expressions can also be entered,
 for example \code{c("red", "green", "blue")}, \code{doubs$mil[1:20,1:5]}, \code{meau$plan$dat}
 , or \code{1:20}.
 
@@ -60,24 +60,23 @@ launch the dialog windows for three basic graphic functions in \code{ade4} : \co
 (scatter diagram of a factor map), \code{s.class} (scatter diagram with groups), 
 \code{s.value} (scatter diagram with squares proportional to one variable).
 
-Other graphic functions are available in the \code{Graphics} menu : \code{s.corcircle}
-(correlation circle in normed pca), \code{s.chull} (scatter diagram with convex hulls),
-and \code{s.match} (scatter diagram of two paired clouds of points)
+Other graphic functions are available in the \code{Graphics} menu : \code{s.arrow} (scatter diagram with arrows), 
+\code{s.corcircle} (correlation circle in normed pca), \code{s.class} (scatter diagram with convex hulls, using the 
+\code{chullSize} argument), and \code{s.match} (scatter diagram of two paired clouds of points).
 
 The sixth block (\code{- Advanced graphics -}) can be used for several things:
 
-- \code{Display dudi} displays a dialog window grouping all the components of a \code{dudi}.
+- \code{dudi display} displays a dialog window grouping all the components of a \code{dudi}.
 Each of these components is represented by a button which action is to draw a graphical
 display of the corresponding component. The axes used to draw theses graphics can be set
 by the user. The last row of buttons gives access to particular graphic functions that
-can be used according to the dudi type.
+can be used according to the \code{dudi} type.
 
-- \code{Graph explore} is a dynamic graphic exploration of factor maps (it needs the
-\code{tkrplot} package). It allows dynamic operations like zooming, panning, and identifying
-points. This is particularly usefull when many points are superimposed.
-
-- \code{Monte-Carlo tests} displays a dialog window for computing Monte-Carlo tests
+- \code{MCTests} displays a dialog window for computing Monte-Carlo tests
 after (e.g.) a \code{between} or \code{coinertia} analysis.
+
+- \code{ordiClust} displays a dialog window for analysing cluster on ordination scores, 
+providing a dynamic exploration of the clusters on the factor maps.
 
 }
 
@@ -129,7 +128,7 @@ the commands which are echoed to the console) are stored in the R session histor
 command, the history buffer is written to a temporary disk file with \code{savehistory()}, the
 command is appended to this file, and the file is reread in memory with \code{loadhistory()}.
 
-The value (T/F) of both arguments is recalled in the title of the window (ade4TkGUI), so that
+The value (\code{TRUE} or \code{FALSE}) of both arguments is recalled in the title of the window (ade4TkGUI), so that
 different instances of the GUI launched simultaneously with different values for these arguments
 can be easily recognized.
 }
