@@ -1,9 +1,10 @@
 [![Travis-CI Build Status](https://travis-ci.org/aursiber/ade4TkGUI.svg?branch=master)](https://travis-ci.org/aursiber/ade4TkGUI)
+[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/y3771xk9a4obepas/branch/master?svg=true)](https://ci.appveyor.com/project/aursiber/ade4TkGUI/branch/master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ade4TkGUI)](http://cran.r-project.org/package=ade4TkGUI)
 
 
-# [ade4TkGUI]
-A Tcl/Tk GUI for some basic functions in the 'ade4' package
+# ade4TkGUI
+*ade4TkGUI* is a Tcl/Tk GUI for some basic functions in the *ade4 package
 
 
 Installing *ade4TkGUI*
