@@ -200,9 +200,9 @@ env_ade4tkgui <- .GlobalEnv
 	tkpack(s.label.but, s.class.but, s.value.but, ipadx=20, side="left", expand="TRUE", fill="x")
 	tkpack(frame3, expand="TRUE", fill="x")
 
-	tkbind(s.label.but, "<Button-3>", function() print(help("s.label")))
-	tkbind(s.value.but, "<Button-3>", function() print(help("s.value")))
-	tkbind(s.class.but, "<Button-3>", function() print(help("s.class")))
+	tkbind(s.label.but, "<Button-3>", function() print(help("s.label", package = "adegraphics")))
+	tkbind(s.value.but, "<Button-3>", function() print(help("s.value", package = "adegraphics")))
+	tkbind(s.class.but, "<Button-3>", function() print(help("s.class", package = "adegraphics")))
 #
 # Advanced graphics
 #
