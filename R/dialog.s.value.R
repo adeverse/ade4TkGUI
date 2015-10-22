@@ -62,7 +62,7 @@
 	TFrame <- tkframe(tt, relief="groove")
 	labh <- tklabel(TFrame, bitmap="questhead")
 	tkgrid(tklabel(TFrame,text="Values", font="Times 18", foreground="red"), labh)
-	tkbind(labh, "<Button-1>", function() print(help("s.value")))
+	tkbind(labh, "<Button-1>", function() print(help("s.value", package = "adegraphics")))
 	tkpack(TFrame)
 #
 # Coordinates frame

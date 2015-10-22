@@ -58,7 +58,7 @@
 	TFrame <- tkframe(tt, relief="groove")
 	labh <- tklabel(TFrame, bitmap="questhead")
 	tkgrid(tklabel(TFrame,text="Match two scatters", font="Times 18", foreground="red"), labh)
-	tkbind(labh, "<Button-1>", function() print(help("s.match")))
+	tkbind(labh, "<Button-1>", function() print(help("s.match", package = "adegraphics")))
 	tkpack(TFrame)
 #
 # Coordinates frame

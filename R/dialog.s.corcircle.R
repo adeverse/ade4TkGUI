@@ -45,7 +45,7 @@
 	TFrame <- tkframe(tt, relief="groove")
 	labh <- tklabel(TFrame, bitmap="questhead")
 	tkgrid(tklabel(TFrame,text="Correlation circle", font="Times 18", foreground="red"), labh)
-	tkbind(labh, "<Button-1>", function() print(help("s.corcircle")))
+	tkbind(labh, "<Button-1>", function() print(help("s.corcircle", package = "adegraphics")))
 	tkpack(TFrame)
 #
 # Coordinates frame
