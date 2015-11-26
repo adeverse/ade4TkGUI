@@ -173,7 +173,7 @@ env_ade4tkgui <- .GlobalEnv
 	tkpack(frame2b, expand="TRUE", fill="x")
 
 	tkbind(between.but, "<Button-3>", function() print(help("bca")))
-	tkbind(within.but, "<Button-3>", function() print(help("within")))
+	tkbind(within.but, "<Button-3>", function() print(help("within", package = "ade4")))
 	tkbind(discrimin.but, "<Button-3>", function() print(help("discrimin")))
 #
 # Two tables analyses

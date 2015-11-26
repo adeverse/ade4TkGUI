@@ -25,7 +25,7 @@
 	TFrame <- tkframe(tt, relief="groove")
 	labh <- tklabel(TFrame, bitmap="questhead")
 	tkgrid(tklabel(TFrame,text="Within analysis", font="Times 18", foreground="red"), labh)
-	tkbind(labh, "<Button-1>", function() print(help("within")))
+	tkbind(labh, "<Button-1>", function() print(help("within", package = "ade4")))
 	tkgrid(TFrame)
 #
 # Input and output dudis
