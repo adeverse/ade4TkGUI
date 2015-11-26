@@ -50,6 +50,19 @@ Once installed, the package can be loaded using:
 library("ade4TkGUI")
 ```
 
+If you do not wish to install the development environments Rtools (Windows) / XCode (Mac), you can download and install the pre-compiled binary packages from this repository:
+
+* **Windows**:
+```r
+install.packages("https://github.com/aursiber/ade4TkGUI/releases/download/v0.2-9/ade4TkGUI_0.2-9.zip")
+```
+
+* **Mac**:
+```r
+install.packages("https://github.com/aursiber/ade4TkGUI/releases/download/v0.2-9/ade4TkGUI_0.2-9.tgz")
+```
+
+
 ## Start with `ade4TkGUI`
 
 The core of the package is the `ade4TkGUI()` function which opens this main GUI window :
