@@ -33,7 +33,7 @@ The stable version can be installed from CRAN using:
 install.packages("ade4TkGUI")
 ```
 
-You also must install tte `ade4` and `adegraphics` packages in a stable version from CRAN or in a development one from GitHub.
+You also must install the `ade4` and `adegraphics` packages in a stable version from CRAN or in a development one from GitHub.
 ```r
 install_github("sdray/ade4")
 install_github("sdray/adegraphics")
