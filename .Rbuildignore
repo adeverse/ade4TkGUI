@@ -5,4 +5,4 @@
 ^README-.*\.png$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^appveyor\.yml$
+appveyor.yml
