@@ -5,6 +5,9 @@ warnings_are_errors: false
 sudo: required
 
 r_binary_packages:
+ - ade4
+ - adegraphics
+ - pixmap
  - tkrplot
  
 env:
