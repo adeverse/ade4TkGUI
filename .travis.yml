@@ -5,9 +5,6 @@ warnings_are_errors: false
 sudo: required
 
 r_binary_packages:
- - ade4
- - adegraphics
- - pixmap
  - tkrplot
  
 env:
@@ -16,6 +13,10 @@ env:
 
 install:
  - sh -e /etc/init.d/xvfb start
+ - ./travis-tool.sh install_r ade4
+ - ./travis-tool.sh install_r adegraphics
+ - ./travis-tool.sh install_r pixmap
+ - ./travis-tool.sh install_r tkrplot
 
 notifications:
   email:
