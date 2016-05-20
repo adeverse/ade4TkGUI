@@ -1,5 +1,5 @@
 [![Travis-CI Build Status](https://travis-ci.org/aursiber/ade4TkGUI.svg?branch=master)](https://travis-ci.org/aursiber/ade4TkGUI)
-[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/y3771xk9a4obepas/branch/master?svg=true)](https://ci.appveyor.com/project/aursiber/ade4TkGUI/branch/master)
+[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/10pt4g0fvlg96djm/branch/master?svg=true)](https://ci.appveyor.com/project/aursiber/ade4TkGUI/branch/master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ade4TkGUI)](http://cran.r-project.org/package=ade4TkGUI)
 
 
