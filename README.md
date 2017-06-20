@@ -55,12 +55,12 @@ If you do not wish to install the development environments Rtools (Windows) / XC
 
 * **Windows**:
 ```r
-install.packages("https://github.com/aursiber/ade4TkGUI/releases/download/v0.2-9/ade4TkGUI_0.2-9.zip")
+install.packages("http://pbil.univ-lyon1.fr/members/thioulouse/bin/windows")
 ```
 
 * **Mac**:
 ```r
-install.packages("https://github.com/aursiber/ade4TkGUI/releases/download/v0.2-9/ade4TkGUI_0.2-9.tgz")
+install.packages("http://pbil.univ-lyon1.fr/members/thioulouse/bin/mac")
 ```
 
 
