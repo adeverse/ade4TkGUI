@@ -8,22 +8,22 @@ sudo: required
 
 env:
  global:
-   - CRAN: http://cran.rstudio.com
+  - CRAN: http://cran.rstudio.com
 
 apt_packages:
  - r-cran-tkrplot
 
 before_install:
-  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
-  - chmod 755 ./travis-tool.sh
-  - ./travis-tool.sh bootstrap
-  - sudo apt-get update -qq
-  - sudo apt-get install -y tk-dev r-cran-tkrplot
+ - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+ - chmod 755 ./travis-tool.sh
+ - ./travis-tool.sh bootstrap
+ - sudo apt-get update -qq
+ - sudo apt-get install -y tk-dev r-cran-tkrplot
 
 notifications:
-  email:
-    on_success: change
-    on_failure: change
+ email:
+  on_success: change
+  on_failure: change
 
 
 # r_binary_packages:
