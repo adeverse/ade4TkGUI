@@ -6,20 +6,19 @@ r_check_args: "--as-cran"
 warnings_are_errors: false
 sudo: required
 
-addons:
-  apt:
-    packages:
-      - tcl8.5-dev
-      - tk8.5-dev
-      - r-cran-tkrplot
-      - tk-dev
-
-r_binary_packages:
-  - tkrplot
-  
 env:
  global:
    - CRAN: http://cran.rstudio.com
+
+apt_packages:
+ - r-cran-tkrplot
+
+before_install:
+  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+  - chmod 755 ./travis-tool.sh
+  - ./travis-tool.sh bootstrap
+  - sudo apt-get update -qq
+  - sudo apt-get install -y tk-dev r-cran-tkrplot
 
 notifications:
   email:
