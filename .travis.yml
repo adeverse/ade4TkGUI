@@ -11,7 +11,12 @@ addons:
     packages:
       - tcl8.5-dev
       - tk8.5-dev
+      - r-cran-tkrplot
+      - tk-dev
 
+r_binary_packages:
+  - tkrplot
+  
 env:
  global:
    - CRAN: http://cran.rstudio.com
