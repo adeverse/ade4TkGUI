@@ -1,58 +1,5 @@
-# Sample .travis.yml for R projects
-
 language: r
 r: devel
 r_check_args: "--as-cran"
 warnings_are_errors: false
 sudo: required
-
-env:
- global:
-  - CRAN: http://cran.rstudio.com
-
-#apt_packages:
-# - r-cran-tkrplot
-# - tk-dev
-
-addons:
- apt:
-  packages:
-   - tk 
-   - tk-dev
-   - tcl 
-   - tcl-dev
-    
-#before_install:
-# - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
-# - chmod 755 ./travis-tool.sh
-# - ./travis-tool.sh bootstrap
-# - sudo apt-get update -qq
-# - sudo apt-get install -y tk-dev r-cran-tkrplot
-
-notifications:
- email:
-  on_success: change
-  on_failure: change
-
-
-# r_binary_packages:
-#  - tkrplot
- 
-# before_install:
-#  - sudo apt-get update -qq
-#  - sudo apt-get install -y
-#  - curl -OL http://raw.github.com/lcolladotor/r-travis/master/scripts/travis-tool.sh
-#  - chmod 755 ./travis-tool.sh
-#  - ./travis-tool.sh bootstrap
-  
-# install:
-#  - sh -e /etc/init.d/xvfb start
-#  - ./travis-tool.sh install_r ade4
-#  - ./travis-tool.sh install_r adegraphics
-#  - ./travis-tool.sh install_r pixmap
-#  - ./travis-tool.sh install_r tkrplot
-
-# Sample .travis.yml for R projects
-# cache: packages
-# r_packages:
-#   - devtools
