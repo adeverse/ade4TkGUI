@@ -1,5 +1,13 @@
 language: r
-r: devel
+
+r: 
+ - devel
+
+addons:
+ apt:
+  packages:
+   - r-cran-tkrplot
+   - tk-dev
+
 r_check_args: "--as-cran"
 warnings_are_errors: false
-sudo: required
