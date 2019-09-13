@@ -1284,54 +1284,6 @@
 }
 
 ################################
-# dialog box to launch the explore function
-################################
-"exploregraph" <- function(show, history) {
-	tf <- tktoplevel()
-	tkwm.title(tf, "Graph exploration")
-	loclist <- get("cmdlist", envir = env_ade4tkgui)
-	
-	"callexp" <- function()
-	{
-		appel <- tclvalue(callvar)[[1]]
-		plotcmd <- parse(text = loclist[as.numeric(appel) + 1])		
-		explorecmd <- parse(text = paste("explore(", plotcmd, ")", sep=""))		
-		if (show) {
-			pr1 <- substr(options("prompt")$prompt, 1,2)
-			cat(paste("explore(", plotcmd, ")", sep=""), "\n", pr1, sep="")
-		}
-		if (history) rewriteHistory(paste("explore(", plotcmd, ")", sep=""))
-		eval.parent(explorecmd)
-		tkdestroy(tf)
-	}
-	
-	done <- tclVar(0)
-	callvar <- tclVar()
-
-	frame1 <- tkframe(tf, relief="groove", borderwidth=2)	
-	tkgrid(tklabel(frame1,text="Graph exploration", font="Times 18", foreground="red"), columnspan=2)
-	tkpack(frame1, fill = "x")
-
-	frame2 <- tkframe(tf, relief="groove", borderwidth=2)	
-	call.entry <- tkentry(frame2, textvariable=callvar)
-	choosegraph.but <- tkbutton(frame2, text="Set", command=function() choosegraph(call.entry))
-	tkgrid(tklabel(frame2,text="Graph function : "), call.entry, choosegraph.but)
-	tkpack(frame2, fill = "x")
-
-	explore.but <- tkbutton(tf, text="Submit", command=function() callexp())
-	cancel.but <- tkbutton(tf, text="Dismiss", command=function() tkdestroy(tf))
-	tkpack(cancel.but, explore.but, expand=1, fill="x", side="left")
-
-	tkbind(tf, "<Destroy>", function() tclvalue(done) <- 2)
-	tkbind(tf, "<KeyPress-Return>", function() callexp())
-	tkbind(tf, "<KeyPress-Escape>", function() tkdestroy(tf))
-
-	tkwait.variable(done)
-	if(tclvalue(done) == "2") return(0)
-	tkdestroy(tf)
-}
-
-################################
 # Function to choose the graph
 ################################
 "choosegraph" <- function(graph.entry)

@@ -47,7 +47,6 @@
 \alias{dialog.within}
 \alias{displaytable}
 \alias{dudisp}
-\alias{exploregraph}
 \alias{newGr}
 \alias{resetgraph}
 \alias{outgraph}

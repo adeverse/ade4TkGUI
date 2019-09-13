@@ -83,7 +83,6 @@ env_ade4tkgui <- .GlobalEnv
 	tkadd(graphMenu,"separator")
 	tkadd(graphMenu,"command",label="Display dudi",command=function() dudisp(show, history))
 	tkadd(graphMenu,"command",label="Monte-Carlo test",command=function() dialog.MCTests(show, history))
-	# tkadd(graphMenu,"command",label="Explore graph",command=function() exploregraph(show, history))
 	tkadd(graphMenu,"command",label="ordiClust",command=function() ordiClust())
 	tkadd(graphMenu,"command",label="Reset graph list",command=function() resetgraph())
 
@@ -209,16 +208,13 @@ env_ade4tkgui <- .GlobalEnv
 	frame4 <- tkframe(tt, relief="groove", borderwidth=2, background="white")
 	tkpack(tklabel(frame4,text="- Advanced graphics -", font="Times 14", foreground="blue", background="white"))
 	dudisp.but <- tkbutton(frame4, text="dudi display", command=function() dudisp(show, history))
-	#explore.but <- tkbutton(frame4, text="Explore", state="disabled", command=function() exploregraph(show, history)) ## bouton pour explore
   MC.but <- tkbutton(frame4, text="MCTests", command=function() dialog.MCTests(show, history))
 	OC.but <- tkbutton(frame4, text="ordiClust", command=function() ordiClust())
-	#tkpack(dudisp.but, MC.but, explore.but, OC.but, ipadx=5, side="left", expand="TRUE", fill="x")
   tkpack(dudisp.but, MC.but, OC.but, ipadx=5, side="left", expand="TRUE", fill="x")
 	tkpack(frame4, expand="TRUE", fill="x")
 
 	tkbind(dudisp.but, "<Button-3>", function() print(help("dudi")))
 	tkbind(MC.but, "<Button-3>", function() print(help("randtest")))
-	#tkbind(explore.but, "<Button-3>", function() print(help("explore")))
 	tkbind(OC.but, "<Button-3>", function() print(help("ordiClust")))
 #
 # Quit
