@@ -2,17 +2,37 @@ citHeader("To cite ade4TkGUI in publications use this reference:")
 
 citEntry(entry="Article",
 	title = "Interactive Multivariate Data Analysis in R with the ade4 and ade4TkGUI Packages",
-        author = personList(as.person("J. Thioulouse"), as.person("S. Dray")),
+  author = personList(as.person("Jean Thioulouse"),
+                      as.person("Stéphane Dray")),
 	journal = "Journal of Statistical Software",
-  	year = "2007",
+  year = "2007",
 	volume = "22",
 	pages = "1-14",
 	number = "5",         
-        textVersion = 
-        paste("Thioulouse, J. and Dray, S. ",
-	       "(2007): ", 
-               "Interactive Multivariate Data Analysis in R with the ade4 and ade4TkGUI Packages. ",
-               "Journal of Statistical Software. ",
-               "22(5): 1-14.",
-               sep="")
-         )
+  textVersion = 
+        paste("Jean Thioulouse and Stéphane Dray",
+	            "(2007).", 
+              "Interactive Multivariate Data Analysis in R with the ade4 and ade4TkGUI Packages.",
+               "Journal of Statistical Software.",
+               "22(5): 1-14.")
+)
+
+citEntry(entry="Book",
+  title = "Multivariate Analysis of Ecological Data with {ade4}",
+  author =  personList(as.person("Jean Thioulouse"),
+                       as.person("Stéphane Dray"),
+                       as.person("Anne-Béatrice Dufour"),
+                       as.person("Aurélie Siberchicot"),
+                       as.person("Thibaut Jombart"),
+                       as.person("Sandrine Pavoine")
+                      ),
+  year = "2018",
+  publisher = "Springer",
+  doi = "10.1007/978-1-4939-8850-1",
+  textVersion = 
+        paste("Jean Thioulouse, Stéphane Dray, Anne-Béatrice Dufour, Aurélie Siberchicot, Thibaut Jombart and Sandrine Pavoine",
+              "(2018).",
+              "Multivariate Analysis of Ecological Data with ade4.",
+              "Springer.",
+              "https://doi.org/10.1007/978-1-4939-8850-1")
+) 
