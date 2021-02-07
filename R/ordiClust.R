@@ -3,9 +3,6 @@
 ################################
 "ordiClust" <- function(datatab=NULL, hscalef=1.2, vscalef=1.2, maxgr=20) {
   
-  if (!requireNamespace("tkrplot", quietly = TRUE)) 
-    stop("You need to install the 'tkrplot' package to use this function.")
-  
   if (.Platform$OS.type == "windows") {
     hscale <- hscalef + 0.2
     vscale <- vscalef + 0.2
@@ -271,7 +268,7 @@
   # tkrplot init
   #
   plotFrame <- tkframe(tt, relief="groove", borderwidth=2)
-  img <- tkrplot::tkrplot(plotFrame, fplot, hscale=hscale, vscale=vscale)
+  img <- tkrplot(plotFrame, fplot, hscale=hscale, vscale=vscale)
   
   #
   # Ordination method
@@ -551,7 +548,7 @@
       plotlev <<- 0
       plotclass <<- 0
       plotcurve <<- 0
-      tkrplot::tkrreplot(img)
+      tkrreplot(img)
     }
     tclvalue(dfvar) <- ""
   })
@@ -569,9 +566,9 @@
   tkgrid(tkradiobutton(ordMethFrame, text="nPCA", value=2, variable=ordvar))
   tkgrid(tkradiobutton(ordMethFrame, text="COA", value=3, variable=ordvar))
   tkgrid(tkradiobutton(ordMethFrame, text="MCA", value=4, variable=ordvar))
-  ord.but <- tkbutton(ordMethFrame, text="Submit", default="active", command=function() {doOrd(); tkrplot::tkrreplot(img)})
+  ord.but <- tkbutton(ordMethFrame, text="Submit", default="active", command=function() {doOrd(); tkrreplot(img)})
   tkgrid(ord.but)
-  nax.but <- tkbutton(ordMethFrame, text="Set", default="active", command=function() {doChooseAxes(); tkrplot::tkrreplot(img)})
+  nax.but <- tkbutton(ordMethFrame, text="Set", default="active", command=function() {doChooseAxes(); tkrreplot(img)})
   nax.entry <- tkentry(ordMethFrame, textvariable=naxvar, width=4)
   tkgrid(tklabel(ordMethFrame,text="Number of axes : "), nax.entry, nax.but, sticky="w")
   #
@@ -583,8 +580,8 @@
   tkgrid(tklabel(ordGrFrame,text="X-axis : "), xax.entry, sticky="w")
   yax.entry <- tkentry(ordGrFrame, textvariable=yaxvar, width=4)
   tkgrid(tklabel(ordGrFrame,text="Y-axis : "), yax.entry, sticky="w")
-  plotrow.but <- tkbutton(ordGrFrame, text="Plot rows", default="active", command=function() {plotr(); tkrplot::tkrreplot(img)})
-  plotcol.but <- tkbutton(ordGrFrame, text="Plot columns", default="active", command=function() {plotc(); tkrplot::tkrreplot(img)})
+  plotrow.but <- tkbutton(ordGrFrame, text="Plot rows", default="active", command=function() {plotr(); tkrreplot(img)})
+  plotcol.but <- tkbutton(ordGrFrame, text="Plot columns", default="active", command=function() {plotc(); tkrreplot(img)})
   tkgrid(plotrow.but, columnspan=2)
   tkgrid(plotcol.but, columnspan=2)
   
@@ -599,44 +596,44 @@
   
   clustDistFrame <- tkframe(clustFrame, relief="groove", borderwidth=2)
   tkgrid(tklabel(clustDistFrame, text="- Distance -", foreground="blue"))
-  tkgrid(tkradiobutton(clustDistFrame, text="Euclidean", value=1, variable=distvar, command=function() {doClust(); tkrplot::tkrreplot(img)}), sticky="w")
-  tkgrid(tkradiobutton(clustDistFrame, text="maximum", value=2, variable=distvar, command=function() {doClust(); tkrplot::tkrreplot(img)}), sticky="w")
-  tkgrid(tkradiobutton(clustDistFrame, text="manhattan", value=3, variable=distvar, command=function() {doClust(); tkrplot::tkrreplot(img)}), sticky="w")
-  tkgrid(tkradiobutton(clustDistFrame, text="canberra", value=4, variable=distvar, command=function() {doClust(); tkrplot::tkrreplot(img)}), sticky="w")
-  tkgrid(tkradiobutton(clustDistFrame, text="binary", value=5, variable=distvar, command=function() {doClust(); tkrplot::tkrreplot(img)}), sticky="w")
-  tkgrid(tkradiobutton(clustDistFrame, text="minkowski", value=6, variable=distvar, command=function() {doClust(); tkrplot::tkrreplot(img)}), sticky="w")
-  tkgrid(tkradiobutton(clustDistFrame, text="dudi (ade4)", value=7, variable=distvar, command=function() {doClust(); tkrplot::tkrreplot(img)}), sticky="w")
+  tkgrid(tkradiobutton(clustDistFrame, text="Euclidean", value=1, variable=distvar, command=function() {doClust(); tkrreplot(img)}), sticky="w")
+  tkgrid(tkradiobutton(clustDistFrame, text="maximum", value=2, variable=distvar, command=function() {doClust(); tkrreplot(img)}), sticky="w")
+  tkgrid(tkradiobutton(clustDistFrame, text="manhattan", value=3, variable=distvar, command=function() {doClust(); tkrreplot(img)}), sticky="w")
+  tkgrid(tkradiobutton(clustDistFrame, text="canberra", value=4, variable=distvar, command=function() {doClust(); tkrreplot(img)}), sticky="w")
+  tkgrid(tkradiobutton(clustDistFrame, text="binary", value=5, variable=distvar, command=function() {doClust(); tkrreplot(img)}), sticky="w")
+  tkgrid(tkradiobutton(clustDistFrame, text="minkowski", value=6, variable=distvar, command=function() {doClust(); tkrreplot(img)}), sticky="w")
+  tkgrid(tkradiobutton(clustDistFrame, text="dudi (ade4)", value=7, variable=distvar, command=function() {doClust(); tkrreplot(img)}), sticky="w")
   #
   # Cluster method
   #	
   clustMethFrame <- tkframe(clustFrame, relief="groove", borderwidth=2)
   tkgrid(tklabel(clustMethFrame, text="- Cluster method -", foreground="blue"))
-  tkgrid(tkradiobutton(clustMethFrame, text="ward", value=1, variable=clustvar, command=function() {doClust(); tkrplot::tkrreplot(img)}), sticky="w")
-  tkgrid(tkradiobutton(clustMethFrame, text="single", value=2, variable=clustvar, command=function() {doClust(); tkrplot::tkrreplot(img)}), sticky="w")
-  tkgrid(tkradiobutton(clustMethFrame, text="complete", value=3, variable=clustvar, command=function() {doClust(); tkrplot::tkrreplot(img)}), sticky="w")
-  tkgrid(tkradiobutton(clustMethFrame, text="average", value=4, variable=clustvar, command=function() {doClust(); tkrplot::tkrreplot(img)}), sticky="w")
-  tkgrid(tkradiobutton(clustMethFrame, text="mcquitty", value=5, variable=clustvar, command=function() {doClust(); tkrplot::tkrreplot(img)}), sticky="w")
-  tkgrid(tkradiobutton(clustMethFrame, text="median", value=6, variable=clustvar, command=function() {doClust(); tkrplot::tkrreplot(img)}), sticky="w")
-  tkgrid(tkradiobutton(clustMethFrame, text="centroid", value=7, variable=clustvar, command=function() {doClust(); tkrplot::tkrreplot(img)}), sticky="w")
+  tkgrid(tkradiobutton(clustMethFrame, text="ward", value=1, variable=clustvar, command=function() {doClust(); tkrreplot(img)}), sticky="w")
+  tkgrid(tkradiobutton(clustMethFrame, text="single", value=2, variable=clustvar, command=function() {doClust(); tkrreplot(img)}), sticky="w")
+  tkgrid(tkradiobutton(clustMethFrame, text="complete", value=3, variable=clustvar, command=function() {doClust(); tkrreplot(img)}), sticky="w")
+  tkgrid(tkradiobutton(clustMethFrame, text="average", value=4, variable=clustvar, command=function() {doClust(); tkrreplot(img)}), sticky="w")
+  tkgrid(tkradiobutton(clustMethFrame, text="mcquitty", value=5, variable=clustvar, command=function() {doClust(); tkrreplot(img)}), sticky="w")
+  tkgrid(tkradiobutton(clustMethFrame, text="median", value=6, variable=clustvar, command=function() {doClust(); tkrreplot(img)}), sticky="w")
+  tkgrid(tkradiobutton(clustMethFrame, text="centroid", value=7, variable=clustvar, command=function() {doClust(); tkrreplot(img)}), sticky="w")
   clust.but <- tkbutton(clustMethFrame, text="Submit", default="active", command=function() {
     plotclust <<- 1;
     plotcurve <<- 0;
     plotclass <<- 0;
     doClust();
-    tkrplot::tkrreplot(img)})
+    tkrreplot(img)})
   tkgrid(clust.but)
   #
   # Cut level
   #	
   cutFrame <- tkframe(compFrame, relief="groove", borderwidth=2)
   tkgrid(tklabel(cutFrame,text="Number of groups", font="Times 18", foreground="red"), columnspan=3)
-  cutk.but <- tkbutton(cutFrame, text="Cut tree", default="active", command=function() {doCutk(); tkrplot::tkrreplot(img)})
+  cutk.but <- tkbutton(cutFrame, text="Cut tree", default="active", command=function() {doCutk(); tkrreplot(img)})
   nlev.entry <- tkentry(cutFrame, textvariable=nlevvar, width=6)
   tkgrid(tklabel(cutFrame,text="Number of groups : "), nlev.entry, cutk.but, sticky="w")
-  cuth.but <- tkbutton(cutFrame, text="Cut tree", default="active", command=function() {doCuth(); tkrplot::tkrreplot(img)})
+  cuth.but <- tkbutton(cutFrame, text="Cut tree", default="active", command=function() {doCuth(); tkrreplot(img)})
   hlev.entry <- tkentry(cutFrame, textvariable=hlevvar, width=6)
   tkgrid(tklabel(cutFrame,text="Level height : "), hlev.entry, cuth.but, sticky="w")
-  bwg.but <- tkbutton(cutFrame, text="Draw curve", default="active", command=function() {doDraw(); tkrplot::tkrreplot(img)})
+  bwg.but <- tkbutton(cutFrame, text="Draw curve", default="active", command=function() {doDraw(); tkrreplot(img)})
   bwg.label <- tklabel(cutFrame, width=4)
   tkgrid(tklabel(cutFrame,text="Inertia ratio : "), bwg.label, bwg.but, sticky="w")
   proba.label <- tklabel(cutFrame, width=4)
@@ -679,7 +676,7 @@
           hlev <<- hlev1
           tclvalue(hlevvar) <- hlev1				
         }
-        tkrplot::tkrreplot(img)
+        tkrreplot(img)
         return(1)
       } else return(0)
   }
@@ -690,9 +687,9 @@
   s <- tkscale(plotFrame, command=f, from=0, to=maxngr, variable=nlevvar, showvalue=TRUE, resolution=1, tickinterval=5, length=500, orient="horiz")
   tkgrid(img, columnspan=2)
   plotParFrame <- tkframe(plotFrame, relief="groove", borderwidth=2)
-  color.but <- tkcheckbutton(plotParFrame,text="Colors", variable=colorvar, command=function() tkrplot::tkrreplot(img))
-  ell.rbut <- tkradiobutton(plotParFrame, text="Ellipses", value=1, variable=mgrvar, command=function() tkrplot::tkrreplot(img))
-  chul.rbut <- tkradiobutton(plotParFrame, text="Conv. hulls", value=2, variable=mgrvar, command=function() tkrplot::tkrreplot(img))
+  color.but <- tkcheckbutton(plotParFrame,text="Colors", variable=colorvar, command=function() tkrreplot(img))
+  ell.rbut <- tkradiobutton(plotParFrame, text="Ellipses", value=1, variable=mgrvar, command=function() tkrreplot(img))
+  chul.rbut <- tkradiobutton(plotParFrame, text="Conv. hulls", value=2, variable=mgrvar, command=function() tkrreplot(img))
   tkgrid(color.but)
   tkgrid(ell.rbut)
   tkgrid(chul.rbut)
@@ -700,7 +697,7 @@
   
   RCSFrame <- tkframe(plotFrame, relief="groove")
   cancel.but <- tkbutton(RCSFrame, text="Dismiss", command=function() tkdestroy(tt))
-  submit.but <- tkbutton(RCSFrame, text="Submit", default="active", command=function() {doClass(); tkrplot::tkrreplot(img)})
+  submit.but <- tkbutton(RCSFrame, text="Submit", default="active", command=function() {doClass(); tkrreplot(img)})
   save.but <- tkbutton(RCSFrame, text="Save", default="active", command=function() {outgraphOrdiClust()})
   tkgrid(cancel.but, submit.but, save.but, ipadx=20)	
   tkgrid(RCSFrame, columnspan=2)
@@ -716,7 +713,7 @@
       tclvalue(naxvar) <- as.character(ordiClust.dudi$nf)
       nax <- ordiClust.dudi$nf
       ploteig <- 1
-      tkrplot::tkrreplot(img)
+      tkrreplot(img)
     }
   }
   
@@ -747,7 +744,7 @@
           tclvalue(hlevvar) <- hlev1				
         }
       }
-      tkrplot::tkrreplot(img)
+      tkrreplot(img)
     }
   }
   #
@@ -780,7 +777,7 @@
           tclvalue(hlevvar) <- hlev1				
         }
       }
-      tkrplot::tkrreplot(img)
+      tkrreplot(img)
     } else {
       tkconfigure(bwg.label, text=paste(format(0, dig=2),"%",sep=""))
       tkconfigure(proba.label, text=format(NA, dig=3))
@@ -791,7 +788,7 @@
   #
   kret <- function() {
     doClass()
-    tkrplot::tkrreplot(img)
+    tkrreplot(img)
   }
   
   tkbind(tt, "<KeyPress-Up>", keyup)
