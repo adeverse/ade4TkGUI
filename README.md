@@ -2,7 +2,7 @@
 [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/10pt4g0fvlg96djm/branch/master?svg=true)](https://ci.appveyor.com/project/aursiber/ade4TkGUI/branch/master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ade4TkGUI)](http://cran.r-project.org/package=ade4TkGUI)
 [![CRAN Downloads](https://cranlogs.r-pkg.org/badges/ade4TkGUI)](https://cran.r-project.org/package=ade4TkGUI)
-
+[![R-CMD-check](https://github.com/aursiber/ade4TkGUI/workflows/R-CMD-check/badge.svg)](https://github.com/aursiber/ade4TkGUI/actions)
 
 # [ade4TkGUI](http://pbil.univ-lyon1.fr/ade4TkGUI/)
 
