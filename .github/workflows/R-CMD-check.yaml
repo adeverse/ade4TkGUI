@@ -65,10 +65,6 @@ jobs:
             eval sudo $cmd
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
           
-      - name: Install tkrplot
-        if: runner.os == 'Linux'
-        run: sudo apt-get update; sudo apt-get install r-cran-tkrplot; sudo apt-get install tk-dev
-
       - name: Install brew Mac packages
         if: runner.os == 'MacOS'
         run: brew install xquartz
