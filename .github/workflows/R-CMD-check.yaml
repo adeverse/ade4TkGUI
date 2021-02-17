@@ -42,6 +42,11 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
+      - name: Install texlive and tkrplot
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get install tcl8.6-dev tk8.6-dev
+          
       - name: Query dependencies
         run: |
           install.packages('remotes')
