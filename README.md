@@ -1,4 +1,4 @@
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ade4TkGUI)](http://cran.r-project.org/package=ade4TkGUI)
+[![CRAN_Release_Badge](http://www.r-pkg.org/badges/version-ago/ade4TkGUI)](http://cran.r-project.org/package=ade4TkGUI)
 [![CRAN Downloads](https://cranlogs.r-pkg.org/badges/ade4TkGUI)](https://cran.r-project.org/package=ade4TkGUI)
 [![R-CMD-check](https://github.com/aursiber/ade4TkGUI/workflows/R-CMD-check/badge.svg)](https://github.com/aursiber/ade4TkGUI/actions)
 
