@@ -128,7 +128,7 @@
           s.label(dfxy=ordiClust.dudi$co, xax=xax, yax=yax, plabels.boxes.draw=FALSE)
       }
     } else if (plotclust) {
-      if (class(h1) == "hclust") {
+      if (inherits(h1, "hclust")) {
         plot(h1, hang=-1)
         if (plotlev) {
           if (as.logical(tclObj(colorvar))) abline(h=hlev, col="red", lwd=2)
@@ -419,7 +419,7 @@
   #
   "doCutk" <- function() {
     nlev <<- as.numeric(tclvalue(nlevvar))
-    if (class(h1) == "hclust")
+    if (inherits(h1, "hclust"))
       if (is.na(nlev)) {
         return()
       } else {
@@ -447,7 +447,7 @@
   #
   "doCuth" <- function() {
     hlevloc <- as.numeric(tclvalue(hlevvar))
-    if (class(h1) == "hclust")
+    if (inherits(h1, "hclust"))
       if (is.na(hlevloc)) {
         return()
       } else {
@@ -500,7 +500,7 @@
   # Draw the curve of Bet/Tot inertia ratio
   #
   "doDraw" <- function() {
-    if (class(h1) == "hclust") {
+    if (inherits(h1, "hclust")) {
       hhloc <- cutree(h1, h=h1$height[(length(h1$height)-(maxngr-2)):length(h1$height)])
       nchh <- ncol(hhloc)
       betrat <<- vector("numeric", nchh)
@@ -659,7 +659,7 @@
     nlev <<- as.numeric(tclvalue(nlevvar))
     if (!is.null(ordiClust.dudi))
       if (nlev >= 1 && nlev <= nrow(ordiClust.dudi$li)) {
-        if (class(h1) == "hclust") {
+        if (inherits(h1, "hclust")) {
           ordiClust.factor <<- as.factor(cutree(h1, k=nlev))
           assign("ordiClust.factor", ordiClust.factor, env_ade4tkgui)
         }
@@ -728,7 +728,7 @@
     if (nlev < maxngr) {
       nlev <<- nlev + 1
       tclvalue(nlevvar) <- nlev
-      if (!is.null(ordiClust.dudi)) if (class(h1) == "hclust") {
+      if (!is.null(ordiClust.dudi)) if (inherits(h1, "hclust")) {
         if (nlev >= 2 && nlev <= nrow(ordiClust.dudi$li)) {
           ordiClust.factor <<- as.factor(cutree(h1, k=nlev))
           assign("ordiClust.factor", ordiClust.factor, env_ade4tkgui)
@@ -758,7 +758,7 @@
     if (nlev > 1) {
       nlev <<- nlev - 1
       tclvalue(nlevvar) <- nlev
-      if (!is.null(ordiClust.dudi)) if (class(h1) == "hclust") {
+      if (!is.null(ordiClust.dudi)) if (inherits(h1, "hclust")) {
         if (nlev >= 2 && nlev <= nrow(ordiClust.dudi$li)) {
           ordiClust.factor <<- as.factor(cutree(h1, k=nlev))
           assign("ordiClust.factor", ordiClust.factor, env_ade4tkgui)

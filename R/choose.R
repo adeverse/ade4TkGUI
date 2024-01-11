@@ -264,7 +264,7 @@
 #
 	flb <- function(x1) {
 		xobj <- get(x1, envir=globalenv())
-		if (class(xobj) == "pixmapIndexed") {
+		if (inherits(xobj, "pixmapIndexed")) {
 			tkinsert(tlb, "end", x1)
 			cbind(nrow(xobj),ncol(xobj))
 		} else if (is.list(xobj)) {
@@ -272,7 +272,7 @@
 				fn1 <- function(x) {
 					sobjn <- paste(x1,"$",x,sep="")
 					sobj <- try(eval(parse(text=sobjn)), silent=TRUE)
-					if (class(xobj) == "pixmapIndexed") {
+					if (inherits(xobj, "pixmapIndexed")) {
 						tkinsert(tlb, "end", sobjn)
 					}
 				}
@@ -280,7 +280,7 @@
 				fn2 <- function(x) {
 					sobjn <- paste(x1,"$",x,sep="")
 					sobj <- try(eval(parse(text=sobjn)), silent=TRUE)
-					if (class(xobj) == "pixmapIndexed") {
+					if (inherits(xobj, "pixmapIndexed")) {
 						cbind(nrow(sobj), ncol(sobj))
 					}
 				}
@@ -1107,7 +1107,7 @@
 #
 	flb <- function(x1) {
 		xobj <- get(x1, envir=globalenv())
-		if (is.dudi(xobj) || class(xobj)=="discrimin" || class(xobj)=="dpcoa") {
+		if (is.dudi(xobj) || inherits(xobj, "discrimin") || inherits(xobj, "dpcoa")) {
 			tkinsert(tlb, "end", x1)
 		}
 	}
@@ -1249,7 +1249,7 @@
 #
 	flb <- function(x1) {
 		xobj <- get(x1, envir=globalenv())
-		if (class(xobj)=="between" || class(xobj)=="discrimin" || class(xobj)=="coinertia" || class(xobj)=="cca" || class(xobj)=="pcaiv" || class(xobj)=="pcaivortho") {
+		if (inherits(xobj, "between") || inherits(xobj, "discrimin") || inherits(xobj, "coinertia") || inherits(xobj, "cca") || inherits(xobj, "pcaiv") || inherits(xobj, "pcaivortho")) {
 			tkinsert(tlb, "end", x1)
 		}
 	}
