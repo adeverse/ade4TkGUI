@@ -10,4 +10,4 @@ Description: A Tcl/Tk GUI for some basic functions in the 'ade4' package.
 License: GPL (>=2)
 URL: http://pbil.univ-lyon1.fr/ade4TkGUI/, Mailing list: https://listes.univ-lyon1.fr/sympa/info/adelist
 Encoding: UTF-8
-BugReports: https://github.com/aursiber/ade4TkGUI/issues
+BugReports: https://github.com/adeverse/ade4TkGUI/issues

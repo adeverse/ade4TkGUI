@@ -1,6 +1,6 @@
 [![CRAN_Release_Badge](http://www.r-pkg.org/badges/version-ago/ade4TkGUI)](http://cran.r-project.org/package=ade4TkGUI)
 [![CRAN Downloads](https://cranlogs.r-pkg.org/badges/ade4TkGUI)](https://cran.r-project.org/package=ade4TkGUI)
-[![R-CMD-check](https://github.com/aursiber/ade4TkGUI/workflows/R-CMD-check/badge.svg)](https://github.com/aursiber/ade4TkGUI/actions)
+[![R-CMD-check](https://github.com/adeverse/ade4TkGUI/workflows/R-CMD-check/badge.svg)](https://github.com/adeverse/ade4TkGUI/actions)
 
 # [ade4TkGUI](http://pbil.univ-lyon1.fr/ade4TkGUI/)
 
@@ -24,7 +24,7 @@ To install the development version from github:
 3. In a R console :
 ```r
 library(devtools)
-install_github("aursiber/ade4TkGUI")
+install_github("adeverse/ade4TkGUI")
 ```
 
 The stable version can be installed from CRAN using:
