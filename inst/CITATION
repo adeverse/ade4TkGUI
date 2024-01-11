@@ -1,15 +1,15 @@
 citHeader("To cite ade4TkGUI in publications use this reference:")
 
-citEntry(entry="Article",
+bibentry(bibtype="Article",
 	title = "Interactive Multivariate Data Analysis in R with the ade4 and ade4TkGUI Packages",
-  author = personList(as.person("Jean Thioulouse"),
-                      as.person("Stéphane Dray")),
+    author = c(person(given = "Jean", family = "Thioulouse"),
+               person(given = "St\\'ephane", family = "Dray")),
 	journal = "Journal of Statistical Software",
-  year = "2007",
+    year = "2007",
 	volume = "22",
 	pages = "1-14",
 	number = "5",         
-  textVersion = 
+    textVersion = 
         paste("Jean Thioulouse and Stéphane Dray",
 	            "(2007).", 
               "Interactive Multivariate Data Analysis in R with the ade4 and ade4TkGUI Packages.",
@@ -17,22 +17,15 @@ citEntry(entry="Article",
                "22(5): 1-14.")
 )
 
-citEntry(entry="Book",
-  title = "Multivariate Analysis of Ecological Data with {ade4}",
-  author =  personList(as.person("Jean Thioulouse"),
-                       as.person("Stéphane Dray"),
-                       as.person("Anne-Béatrice Dufour"),
-                       as.person("Aurélie Siberchicot"),
-                       as.person("Thibaut Jombart"),
-                       as.person("Sandrine Pavoine")
-                      ),
-  year = "2018",
-  publisher = "Springer",
-  doi = "10.1007/978-1-4939-8850-1",
-  textVersion = 
-        paste("Jean Thioulouse, Stéphane Dray, Anne-Béatrice Dufour, Aurélie Siberchicot, Thibaut Jombart and Sandrine Pavoine",
-              "(2018).",
-              "Multivariate Analysis of Ecological Data with ade4.",
-              "Springer.",
-              "https://doi.org/10.1007/978-1-4939-8850-1")
-) 
+bibentry(bibtype = "Book",
+  title          = "Multivariate Analysis of Ecological Data with {ade4}",
+  author         = c(person(given = "Jean", family = "Thioulouse"),
+                     person(given = "St\\'ephane", family = "Dray"),
+                     person(given = "Anne--B\\'eatrice", family = "Dufour"),
+                     person(given = "Aur\\'elie", family = "Siberchicot"),
+                     person(given = "Thibaut", family = "Jombart"),
+                     person(given = "Sandrine", family = "Pavoine")),
+  year           = "2018",
+  publisher      = "Springer",
+  doi            = "10.1007/978-1-4939-8850-1"
+)
