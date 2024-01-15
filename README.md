@@ -1,14 +1,30 @@
+# [ade4TkGUI](http://pbil.univ-lyon1.fr/ade4TkGUI/)
+
 [![CRAN_Release_Badge](http://www.r-pkg.org/badges/version-ago/ade4TkGUI)](http://cran.r-project.org/package=ade4TkGUI)
 [![CRAN Downloads](https://cranlogs.r-pkg.org/badges/ade4TkGUI)](https://cran.r-project.org/package=ade4TkGUI)
 [![R-CMD-check](https://github.com/adeverse/ade4TkGUI/workflows/R-CMD-check/badge.svg)](https://github.com/adeverse/ade4TkGUI/actions)
 
-# [ade4TkGUI](http://pbil.univ-lyon1.fr/ade4TkGUI/)
 
 `ade4TkGUI` is a Tcl/Tk GUI for some statistical functions of the `ade4` package and uses the graphical functions of the `adegraphics` package.
 
 The `ade4` package contains Data Analysis functions to analyse Ecological and Environmental data in the framework of Euclidean Exploratory methods. To learn more about `ade4`, see [the web site](http://pbil.univ-lyon1.fr/ADE-4/) and the [GitHub page](https://github.com/sdray/ade4), and for `adegraphics`, see the [GitHub page](https://github.com/sdray/adegraphics).
 
 The `ade4TkGUI` package mixes the advantages of a GUI (ease to use, no need to learn numerous commands) with the possibility to use R expressions in the dialog boxes, to generate understandable R commands, and to manage a session history file.
+
+---------------------------
+
+**Please note! Since January 2024, this repository has belonged to the *adeverse* organization.**
+To avoid confusion, we strongly recommend updating any existing local clones to point to the new 
+repository URL. You can do this by using `git remote` on the command line:
+
+`git remote set-url origin git@github.com:adeverse/ade4TkGUI.git`
+
+or 
+
+`git remote set-url origin https://github.com/adeverse/ade4TkGUI.git`
+
+---------------------------
+
 
 ## Installing `ade4TkGUI`
 
