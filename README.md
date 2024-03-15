@@ -65,7 +65,7 @@ Once installed, the package can be loaded using:
 library("ade4TkGUI")
 ```
 
-If you do not wish to install the development environments Rtools (Windows) / XCode (Mac), you can get the binary packages here:
+If you do not wish to install the development environments Rtools (Windows) / XCode (Mac), you can get the compiled binary packages here:
 
 * [**Windows**](http://pbil.univ-lyon1.fr/members/thioulouse/bin/windows/)
 
