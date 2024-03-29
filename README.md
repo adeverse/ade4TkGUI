@@ -2,7 +2,8 @@
 
 [![CRAN_Release_Badge](http://www.r-pkg.org/badges/version-ago/ade4TkGUI)](http://cran.r-project.org/package=ade4TkGUI)
 [![CRAN Downloads](https://cranlogs.r-pkg.org/badges/ade4TkGUI)](https://cran.r-project.org/package=ade4TkGUI)
-[![R-CMD-check](https://github.com/adeverse/ade4TkGUI/workflows/R-CMD-check/badge.svg)](https://github.com/adeverse/ade4TkGUI/actions)
+[![R-CMD-check](https://github.com/adeverse/ade4TkGUI/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/adeverse/ade4TkGUI/actions/workflows/R-CMD-check.yaml)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 
 `ade4TkGUI` is a Tcl/Tk GUI for some statistical functions of the `ade4` package and uses the graphical functions of the `adegraphics` package.
@@ -26,50 +27,60 @@ or
 ---------------------------
 
 
-## Installing `ade4TkGUI`
+Installing some dependencies
+-------------
 
-To install the development version from github:
+You must install the `ade4` and `adegraphics` packages in a stable version from CRAN or in a development one from GitHub.
 
-1. Install the release version of `devtools` from CRAN with `install.packages("devtools")`.
-
-2. Make sure you have a working development environment.
-    * **Windows**: Install [Rtools](http://cran.r-project.org/bin/windows/Rtools/).
-    * **Mac**: Install Xcode from the Mac App Store.
-    * **Linux**: Install a compiler and various development libraries (details vary across different flavors of Linux).
-    
-3. In a R console :
 ```r
-library(devtools)
-install_github("adeverse/ade4TkGUI")
+install_github("adeverse/ade4")
+install_github("adeverse/adegraphics")
 ```
 
-The stable version can be installed from CRAN using:
-```r
-install.packages("ade4TkGUI")
-```
-
-You also must install the `ade4` and `adegraphics` packages in a stable version from CRAN or in a development one from GitHub.
-```r
-install_github("sdray/ade4")
-install_github("sdray/adegraphics")
-```
 or
+
 ```r
 install.packages("ade4")
 install.packages("adegraphics")
 ```
 
 
-Once installed, the package can be loaded using:
+
+Installing the development version of `ade4TkGUI`
+-------------
+
+- Install the release version of `remotes` from CRAN with `install.packages("remotes")`.
+
+- Make sure you have a working development environment.
+    * **Windows**: Install [Rtools](http://cran.r-project.org/bin/windows/Rtools/).
+    * **Mac**: Install Xcode from the Mac App Store.
+    * **Linux**: Install a compiler and various development libraries (details vary across different flavors of Linux).
+    
+Then:
+
+```r
+remotes::install_github("adeverse/ade4TkGUI")
+```
+
+
+If you do not wish to install the development environments Rtools (Windows) / XCode (Mac), we can supply binary packages of the development version of `ade4TkGUI` on request. 
+
+
+
+Installing the stable version of `ade4TkGUI`
+-------------
+
+```r
+install.packages("ade4TkGUI")
+```
+
+
+Loading `ade4TkGUI`
+-------------
+
 ```r
 library("ade4TkGUI")
 ```
-
-If you do not wish to install the development environments Rtools (Windows) / XCode (Mac), you can get the compiled binary packages here:
-
-* [**Windows**](http://pbil.univ-lyon1.fr/members/thioulouse/bin/windows/)
-
-* [**macOS**](http://pbil.univ-lyon1.fr/members/thioulouse/bin/macosx/)
 
 
 ## Start with `ade4TkGUI`
