@@ -8,7 +8,7 @@
 
 `ade4TkGUI` is a Tcl/Tk GUI for some statistical functions of the `ade4` package and uses the graphical functions of the `adegraphics` package.
 
-The `ade4` package contains Data Analysis functions to analyse Ecological and Environmental data in the framework of Euclidean Exploratory methods. To learn more about `ade4`, see [the web site](http://pbil.univ-lyon1.fr/ADE-4/) and the [GitHub page](https://github.com/sdray/ade4), and for `adegraphics`, see the [GitHub page](https://github.com/sdray/adegraphics).
+The `ade4` package contains Data Analysis functions to analyse Ecological and Environmental data in the framework of Euclidean Exploratory methods. To learn more about `ade4`, see [the web site](http://pbil.univ-lyon1.fr/ADE-4/) and the [GitHub page](https://github.com/adeverse/ade4), and for `adegraphics`, see the [GitHub page](https://github.com/adeverse/adegraphics).
 
 The `ade4TkGUI` package mixes the advantages of a GUI (ease to use, no need to learn numerous commands) with the possibility to use R expressions in the dialog boxes, to generate understandable R commands, and to manage a session history file.
 
