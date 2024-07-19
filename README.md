@@ -1,6 +1,6 @@
 # [ade4TkGUI](http://pbil.univ-lyon1.fr/ade4TkGUI/)
 
-[![CRAN_Release_Badge](http://www.r-pkg.org/badges/version-ago/ade4TkGUI)](http://cran.r-project.org/package=ade4TkGUI)
+[![CRAN_Release_Badge](https://www.r-pkg.org/badges/version-ago/ade4TkGUI)](http://cran.r-project.org/package=ade4TkGUI)
 [![CRAN Downloads](https://cranlogs.r-pkg.org/badges/ade4TkGUI)](https://cran.r-project.org/package=ade4TkGUI)
 [![R-CMD-check](https://github.com/adeverse/ade4TkGUI/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/adeverse/ade4TkGUI/actions/workflows/R-CMD-check.yaml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
