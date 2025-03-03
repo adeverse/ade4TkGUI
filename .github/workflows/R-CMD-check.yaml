@@ -44,8 +44,7 @@ jobs:
       - name: Install libraries for Linux
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get install libcurl4-openssl-dev texlive tcl8.6-dev tk8.6-dev
-      
+          sudo apt-get install libcurl4-openssl-dev texlive tcl8.6-dev libtk8.6
       
       - name: Install brew Mac packages
         if: runner.os == 'MacOS'
