@@ -8,7 +8,6 @@ importFrom("stats", "cutree", "dist", "hclust")
 importFrom("utils", "data", "help", "help.start", "loadhistory", "savehistory")
 
 export("ade4TkGUI")
-export("choose")
 export("dialog.between",
        "dialog.cca",
        "dialog.coinertia",
