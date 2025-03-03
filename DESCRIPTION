@@ -1,5 +1,5 @@
 Package: ade4TkGUI
-Version: 0.3.2
+Version: 0.3.3
 Title: 'ade4' Tcl/Tk Graphical User Interface
 Authors@R: c(
    person("Jean", "Thioulouse", role = "aut", email = "jean.thioulouse@univ-lyon1.fr", 
