@@ -14,6 +14,6 @@ Imports: graphics, grDevices, lattice, stats, tcltk, utils
 Suggests: pixmap, tkrplot
 Description: A Tcl/Tk GUI for some basic functions in the 'ade4' package.
 License: GPL (>=2)
-URL: https://adeverse.github.io/ade4TkGUI/, http://pbil.univ-lyon1.fr/ade4TkGUI/
+URL: https://github.com/adeverse/ade4TkGUI, http://pbil.univ-lyon1.fr/ade4TkGUI/
 BugReports: https://github.com/adeverse/ade4TkGUI/issues
 Encoding: UTF-8
