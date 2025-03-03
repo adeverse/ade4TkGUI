@@ -30,6 +30,8 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: tk
       
       - uses: r-lib/actions/setup-pandoc@v2
 
