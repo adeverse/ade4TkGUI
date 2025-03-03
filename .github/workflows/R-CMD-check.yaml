@@ -29,7 +29,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -44,8 +44,7 @@ jobs:
       - name: Install libraries for Linux
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get install libcurl4-openssl-dev texlive tcl8.6-dev libtk8.6
-          export DISPLAY=:99.0
+          sudo apt-get install libcurl4-openssl-dev texlive tcl8.6-dev tk8.6-dev
       
       - name: Install brew Mac packages
         if: runner.os == 'MacOS'
