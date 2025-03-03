@@ -7,4 +7,33 @@ importFrom("grDevices", "dev.copy", "dev.cur", "dev.list", "dev.new", "dev.off",
 importFrom("stats", "cutree", "dist", "hclust")
 importFrom("utils", "data", "help", "help.start", "loadhistory", "savehistory")
 
-exportPattern(".")
+export("ade4TkGUI")
+export("choose")
+export("dialog.between",
+       "dialog.cca",
+       "dialog.coinertia",
+       "dialog.discrimin",
+       "dialog.dpcoa",
+       "dialog.dudi.acm",
+       "dialog.dudi.coa",
+       "dialog.dudi.dec",
+       "dialog.dudi.display",
+       "dialog.dudi.fca",
+       "dialog.fpca",
+       "dialog.mix",
+       "dialog.nsc",
+       "dialog.dudi.pca",
+       "dialog.dudi.pco",
+       "dialog.MCTests",
+       "dialog.pcaiv",
+       "dialog.pcaivortho"
+       )
+export("dialog.s.arrow",
+       "dialog.s.chull",
+       "dialog.s.class",
+       "dialog.s.corcircle",
+       "dialog.s.label",
+       "dialog.s.match",
+       "dialog.s.value",
+       "dialog.within",
+       "ordiClust")
