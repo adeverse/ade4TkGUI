@@ -45,7 +45,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get install libcurl4-openssl-dev texlive tcl8.6-dev libtk8.6
-          export DISPLAY=:0
+          export DISPLAY=:99.0
       
       - name: Install brew Mac packages
         if: runner.os == 'MacOS'
