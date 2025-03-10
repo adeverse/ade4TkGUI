@@ -36,3 +36,4 @@ export("dialog.s.arrow",
        "dialog.s.value",
        "dialog.within",
        "ordiClust")
+export("chooseaxes")
